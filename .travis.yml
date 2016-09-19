@@ -1,0 +1,86 @@
+language: objective-c
+
+osx_image: xcode7.3
+xcode_sdk: iphonesimulator9.3
+xcode_project: Allihoopa.xcodeproj
+xcode_scheme: Allihoopa SDK
+env:
+  matrix:
+    - XCODE_ACTION=test XCODE_DESTINATION="name=iPhone 6s"
+  global:
+    - secure: "Mmi927M9+FMdSD+r4jNxcVHYBIDSgOxgknmTpkeIKmGq1f+4JgqyZu/VJCZmwazs4qFHmscuqCiubr3mMa7MWXkr4xfTlgq68VaDZVur6cNr0jLt3H1rmaPN9tPjx7ZFi1pPWeAlu2heIKOfX6HG3J+ToHvEY2RMPpcLSE9xGtB8+OPreaEbk2s+qFZoR3N+l79pB7jlTknfROzhr+tFQ6rLRUTJ992bhrKk8Fvlepw1wsNFkn4DENaFgmNT2hY1IalxfkmHEGBVGZZ4Jkp6eXmDo9jAzrWxRmftfh0IzLWaLxEsKJ61l/l2dKtR87JjFvTiaL3Bl8EWi26ECmFCYY9e1guMkaxdO76pJxw8GsSTstRf2NUmF4rvJuxejqI9J5Gj5dhXaJdx5+M5s6mnvN0nl6FRg0BTEEH9PWZkbHPjJ7BnMdYN9sjr0ULzB/v6bBbdAJ2Bs4ABi1Z9n5lbR4GFs857f79826O0eRF2YA/7DoZUVe/yw3YYlr/7p5zzYtNCurJTOuMW35p4Su6FooJp7wnuu82ZmP7fEFUhp4ZjIMUTafuTlFXV1Wz5IZfXq15/e77bD5TnkjU97/qF/IA6QK/LsSh/QZYlwTGSOuVWq/HU+gP55vtnMyqiPc+RfT6uj/5i7pVv/3J3uoTbdDxOFVq2VkfFBgSQHAJZxBM="
+
+matrix:
+  include:
+    - osx_image: xcode8
+      xcode_sdk: iphonesimulator10.0
+      env:
+        - XCODE_ACTION=test XCODE_DESTINATION="name=iPhone 6s"
+
+    - osx_image: xcode8
+      xcode_sdk: iphoneos10.0
+      env:
+        - XCODE_ACTION=build XCODE_DESTINATION="name=iPhone 6s"
+
+    - osx_image: xcode7.3
+      xcode_sdk: iphoneos9.3
+      env:
+        - XCODE_ACTION=build XCODE_DESTINATION="name=iPhone 6s"
+
+
+before_install:
+  - brew update
+  - brew outdated carthage || brew upgrade carthage
+
+before_script:
+  - carthage bootstrap
+
+script:
+  - set -o pipefail
+  - |
+    xcodebuild $XCODE_ACTION \
+      -project "$TRAVIS_XCODE_PROJECT" \
+      -scheme "$TRAVIS_XCODE_SCHEME" \
+      -sdk "$TRAVIS_XCODE_SDK" \
+      -destination "$XCODE_DESTINATION" \
+      | xcpretty
+  - if [[ "$TRAVIS_JOB_NUMBER" == *.1 ]]; then export BUILD_LEADER=yes; else export BUILD_LEADER=no; fi
+
+before_deploy:
+  - carthage build --no-skip-current
+  - carthage archive Allihoopa
+  - mkdir -p dist && cp -f Allihoopa.framework.zip dist/Allihoopa-iOS-${TRAVIS_TAG/v/}.framework.zip
+
+deploy:
+  - provider: s3
+    access_key_id:
+      secure: "H4GHkapdiSuhPfv83ypsgxUVgopLD0evuGcP3J2W7aEq4lgsUPbv4DC74DozYGgHuAF3ZXVqN9ojkN8bi0EPO4Dht8v3Xoq2aPucOAHG6oINAcNYWPnc6VU7ZGEmbQnPX2H9hosyscuZUM/mOQQctcUtKu6L79mVzZjaK4zx+NQ0sUr0Cu87ddE5BFR0UldSgx6kyowYHWOzka7poom2GJK/dSt8a2v8vwkVAKS0W2zhQBJm2W7B+uOt1knx88ZRsjEAlOpTqxBX1Tf5rYfDnVyfhZfTpTXmFbLg+wGUWBq1+0msLktlU5P5hteu9ZSJI/LFodqFYAh7bwB017LmKqm5OYP4PevXTS/df6aqYvSBVCTVwOsXJbqr3m5uinK80SorrBkt1SBpoWoH4Kclpq5UxxU1Fd/pStevBob0DTCJSc+UqCplIBOCvYzuXDugqNKa0h9RUk9I+Rq8sAJTrztNrRcvk0kJ/r4HoK2V0rbeFvan5kwsGH/nRQgn222SrAjSambh0yMzDeTIE6PpfoYJIZ3z5UPcRrvjKe0Gpz6wJWR29+4D4TPgfGJDN4SvsC8ZyPBqHwP+DFZQTQv1Qs9Y/IG8laP87WCXfZZ2Gab4Jj9LbbsoH0qatUyd8mjejS072u/OYaOy/tcVwW/yYwNtiev6UVUBDwBvHGi4K3g="
+    secret_access_key:
+      secure: "SYL8NweWsCkdzQ3hyUEHzgCvsbmfMYc6Hsa4eTyc+uWoBf21WNAd0GsHUOrkLZ7ChUG1jDPnIjqPX3WtA7eVYfDegLx8411aDfcFnup2oD1e1P0SwFeWCtER9K3Jvb1LFLDW/ir46SP/J4IlNmaCjLQ7CGklKErWFz6rMb7OWwe3dfU1/bYxBFoUG0iKb67GwZEXRkV/SsWRdBOuq6cNP6rn0PugYlCufZaysLJTgprTzwWtzGAAPkoLsKg3iZq+pq2pPTaowHHdXfBsmeaIPE6wI/nRqOi4NpiBtDTQwiP0zA6C7Qh9QQiVzEMLx1kJkOnuOvIV/dJSj7IsF2qWHTZEd1GUnh5J+3BvZpeDs5QQeTKL/IRapCeIVVQ6OXsG1TYq1HEN13IE+s6a0QMVepApq81XqIy7JX39D28iSjbPPpCo+/eMSNcA4p7mkV6I6mI3DrSTEDIUoJQGDKIoJJx9BSbzubhf6IPM3KlvxUB7Z3qj8NkiShJJvlLwZ7eTJyhq7D4Q4v2OYFMmz4ZqROZK8nYJZaj/GZEmky/TysOvQ1odJOfkR0RUcDnrNiQrG11m9kuFu2LyooIGsls1UfANZbXSBve1ZlgOaCzG24i6/WZf46taXd0HcTsg6KnSQ+Z1K0pPYMaVgtQrdcwBFpgYlPdlyg22BvDZog/8iF4="
+    bucket: ah-web-live-cdn
+    local_dir: dist
+    upload-dir: sdk-dist
+    acl: public_read
+    skip_cleanup: true
+    on:
+      tags: true
+      branch: master
+      condition: "$BUILD_LEADER == yes"
+
+  - provider: releases
+    api_key:
+      secure: "NOAv9wWCBuI1IAG/3yzJScPKgZw4/J2zYMnoijAWr5BtxUC50n7R+a9I8maHEvStQlNbEHe08KyZyAJHziA1kcaTjxJnwx1e5C8fhuJtPz+aiWb15GhUSqZJMx9fyRuPWEdcG19qNr9jFqpS70zApdDgDqEuJbpzPrCmvH09fxVotiWkb9SNdogPp8kPc2VOIyEd6lQtLJLYfyzxGEczv+jlWOU40zHL/WqYk/1mIeqQpo/7elspT5OfYfwzhOnOV5T3kitL+tp35UKTNrixRIcNVMnFUyizLuLwmTRvNHLegOQWXq5VnvuECgkHGX24JYMnINMdL4gtdNEs4ynhFVxHsYt0rH1YoVLD9YJdPmcn1z8MhMyl0Bsq0m3NCLwHk/2VLSxVb1To9Fi9qljkEEtNuo6f7E5v0MJfyfKIL2GYMShreaHZtkoqI1qup5NsGApXcCPVO/6QfJOGHWNkGevU3zYpmbbGvVnqWdO28UN7pXGNKu/yJEAF85QGXEZhuNfPPwxDQ9+ytDmUMPGSTtfFHcZ0Uo8Nk8AHpJK2V/WQ9ncEBqWQgep631sC//sdBqpT89PcV9q2/tJDjb3cCxBwLrVwrVGmNjFB14yuXRDEhBbBVY9UZqechrqPJwmDQtOif7vR4/jSEWGOlKAqLXy+JjHf/dbZWaL84JBnW74="
+    file: Allihoopa.framework.zip
+    skip_cleanup: true
+    on:
+      tags: true
+      branch: master
+      condition: "$BUILD_LEADER == yes"
+
+  - provider: script
+    script: ./scripts/pod_deploy.sh
+    skip_cleanup: true
+    on:
+      tags: true
+      branch: master
+      condition: "$BUILD_LEADER == yes"

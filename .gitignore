@@ -1,0 +1,4 @@
+/Carthage
+/dist
+
+*.framework.zip

@@ -1,0 +1,2 @@
+Allihoopa SDK for iOS
+=====================
