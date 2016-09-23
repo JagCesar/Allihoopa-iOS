@@ -5,7 +5,7 @@ xcode_sdk: iphonesimulator9.3
 
 env:
   matrix:
-    - XCODE_ACTION=test XCODE_DESTINATION="name=iPhone 6s"
+    - XCODE_ACTION=test XCODE_DESTINATION="name=iPhone 6"
   global:
     - secure: "Mmi927M9+FMdSD+r4jNxcVHYBIDSgOxgknmTpkeIKmGq1f+4JgqyZu/VJCZmwazs4qFHmscuqCiubr3mMa7MWXkr4xfTlgq68VaDZVur6cNr0jLt3H1rmaPN9tPjx7ZFi1pPWeAlu2heIKOfX6HG3J+ToHvEY2RMPpcLSE9xGtB8+OPreaEbk2s+qFZoR3N+l79pB7jlTknfROzhr+tFQ6rLRUTJ992bhrKk8Fvlepw1wsNFkn4DENaFgmNT2hY1IalxfkmHEGBVGZZ4Jkp6eXmDo9jAzrWxRmftfh0IzLWaLxEsKJ61l/l2dKtR87JjFvTiaL3Bl8EWi26ECmFCYY9e1guMkaxdO76pJxw8GsSTstRf2NUmF4rvJuxejqI9J5Gj5dhXaJdx5+M5s6mnvN0nl6FRg0BTEEH9PWZkbHPjJ7BnMdYN9sjr0ULzB/v6bBbdAJ2Bs4ABi1Z9n5lbR4GFs857f79826O0eRF2YA/7DoZUVe/yw3YYlr/7p5zzYtNCurJTOuMW35p4Su6FooJp7wnuu82ZmP7fEFUhp4ZjIMUTafuTlFXV1Wz5IZfXq15/e77bD5TnkjU97/qF/IA6QK/LsSh/QZYlwTGSOuVWq/HU+gP55vtnMyqiPc+RfT6uj/5i7pVv/3J3uoTbdDxOFVq2VkfFBgSQHAJZxBM="
 
@@ -14,7 +14,7 @@ matrix:
     - osx_image: xcode7.3
       xcode_sdk: iphoneos9.3
       env:
-        - XCODE_ACTION=build XCODE_DESTINATION="name=iPhone 6s"
+        - XCODE_ACTION=build XCODE_DESTINATION="name=iPhone 6"
 
     - osx_image: xcode8
       xcode_sdk: iphonesimulator10.0

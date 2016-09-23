@@ -10,6 +10,8 @@
 		FA5FD3941D90180F0010E978 /* Allihoopa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA5FD38A1D90180F0010E978 /* Allihoopa.framework */; };
 		FA5FD3991D90180F0010E978 /* AllihoopaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5FD3981D90180F0010E978 /* AllihoopaTests.m */; };
 		FA5FD39B1D90180F0010E978 /* Allihoopa.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5FD38D1D90180F0010E978 /* Allihoopa.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAF525F31D95489E002CE6BF /* AllihoopaSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FAF525F11D95489E002CE6BF /* AllihoopaSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAF525F41D95489E002CE6BF /* AllihoopaSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF525F21D95489E002CE6BF /* AllihoopaSDK.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		FAF5259A1D940980002CE6BF /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		FAF5259C1D9409AC002CE6BF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FAF5259E1D9409E9002CE6BF /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
+		FAF525F11D95489E002CE6BF /* AllihoopaSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllihoopaSDK.h; sourceTree = "<group>"; };
+		FAF525F21D95489E002CE6BF /* AllihoopaSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllihoopaSDK.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +89,8 @@
 		FA5FD38C1D90180F0010E978 /* Allihoopa */ = {
 			isa = PBXGroup;
 			children = (
+				FAF525F11D95489E002CE6BF /* AllihoopaSDK.h */,
+				FAF525F21D95489E002CE6BF /* AllihoopaSDK.m */,
 				FA5FD38D1D90180F0010E978 /* Allihoopa.h */,
 				FA5FD38E1D90180F0010E978 /* Info.plist */,
 			);
@@ -107,6 +113,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAF525F31D95489E002CE6BF /* AllihoopaSDK.h in Headers */,
 				FA5FD39B1D90180F0010E978 /* Allihoopa.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -156,6 +163,7 @@
 		FA5FD3811D90180E0010E978 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = AHA;
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Allihoopa;
 				TargetAttributes = {
@@ -211,6 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAF525F41D95489E002CE6BF /* AllihoopaSDK.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

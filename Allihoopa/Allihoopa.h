@@ -13,3 +13,5 @@ FOUNDATION_EXPORT double AllihoopaVersionNumber;
 
 //! Project version string for Allihoopa.
 FOUNDATION_EXPORT const unsigned char AllihoopaVersionString[];
+
+#import "AllihoopaSDK.h"

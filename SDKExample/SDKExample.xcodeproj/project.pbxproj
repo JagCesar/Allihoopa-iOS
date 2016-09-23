@@ -16,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FAF400641D99145A00610853 /* Credentials.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Credentials.xcconfig; sourceTree = "<group>"; };
 		FAF525D01D9531E7002CE6BF /* SDKExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SDKExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAF525D31D9531E7002CE6BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAF525D51D9531E7002CE6BF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +65,7 @@
 				FAF525DA1D9531E7002CE6BF /* Assets.xcassets */,
 				FAF525DC1D9531E7002CE6BF /* LaunchScreen.storyboard */,
 				FAF525DF1D9531E7002CE6BF /* Info.plist */,
+				FAF400641D99145A00610853 /* Credentials.xcconfig */,
 			);
 			path = SDKExample;
 			sourceTree = "<group>";
@@ -178,6 +180,7 @@
 /* Begin XCBuildConfiguration section */
 		FAF525E01D9531E7002CE6BF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FAF400641D99145A00610853 /* Credentials.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -228,6 +231,7 @@
 		};
 		FAF525E11D9531E7002CE6BF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FAF400641D99145A00610853 /* Credentials.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -271,6 +275,7 @@
 		};
 		FAF525E31D9531E7002CE6BF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FAF400641D99145A00610853 /* Credentials.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = KJD2GM57WH;
@@ -284,6 +289,7 @@
 		};
 		FAF525E41D9531E7002CE6BF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FAF400641D99145A00610853 /* Credentials.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = KJD2GM57WH;
@@ -314,6 +320,7 @@
 				FAF525E41D9531E7002CE6BF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
