@@ -2,8 +2,7 @@ language: objective-c
 
 osx_image: xcode7.3
 xcode_sdk: iphonesimulator9.3
-xcode_project: Allihoopa.xcodeproj
-xcode_scheme: Allihoopa SDK
+
 env:
   matrix:
     - XCODE_ACTION=test XCODE_DESTINATION="name=iPhone 6s"
@@ -39,11 +38,20 @@ script:
   - set -o pipefail
   - |
     xcodebuild $XCODE_ACTION \
-      -project "$TRAVIS_XCODE_PROJECT" \
-      -scheme "$TRAVIS_XCODE_SCHEME" \
+      -project Allihoopa.xcodeproj \
+      -scheme "Allihoopa SDK" \
       -sdk "$TRAVIS_XCODE_SDK" \
       -destination "$XCODE_DESTINATION" \
       | xcpretty
+  - |
+    ( cd SDKExample && \
+      xcodebuild build \
+        -workspace SDKExample.xcworkspace \
+        -scheme "SDKExample" \
+        -sdk "$TRAVIS_XCODE_SDK" \
+        -destination "$XCODE_DESTINATION" \
+        | xcpretty
+    )
   - if [[ "$TRAVIS_JOB_NUMBER" == *.1 ]]; then export BUILD_LEADER=yes; else export BUILD_LEADER=no; fi
 
 before_deploy:
