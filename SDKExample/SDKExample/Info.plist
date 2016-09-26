@@ -29,7 +29,7 @@
 			<string>Allihoopa SDK</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>ph-mwccta</string>
+				<string>ah-mwccta</string>
 			</array>
 		</dict>
 	</array>

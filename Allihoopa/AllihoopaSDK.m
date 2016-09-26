@@ -13,6 +13,15 @@ static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
 
 #import "AllihoopaSDK.h"
 
+#define WEB_BASE_URL @"https://allihoopa.com"
+
+static NSString* const kConfigurationDefaultsKey = @"allihoopa-sdk-prefs";
+
+static NSString* const kConfigKeyAccessToken = @"access-token";
+
+static NSString* const kAppKey = @"app-key";
+static NSString* const kAppSecretKey = @"app-secret";
+
 @interface AHAAllihoopaSDK () <SFSafariViewControllerDelegate>
 @end
 
@@ -71,7 +80,7 @@ static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
 	NSAssert(_currentAuthCallback == nil && _currentAuthViewController == nil,
 			 @"Internal error: only one auth session can be active");
 
-	NSString* url = [NSString stringWithFormat:@"https://allihoopa.com/account/login?response_type=token&client_id=%@", _configuredAppKey];
+	NSString* url = [NSString stringWithFormat:(WEB_BASE_URL @"/account/login?response_type=token&client_id=%@"), _configuredAppKey];
 
 	SFSafariViewController* safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url]];
 	safari.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -88,7 +97,7 @@ static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
 - (BOOL)handleOpenURL:(NSURL* _Nonnull)url {
 	NSAssert(_configuredAppKey != nil, @"The Allihoopa SDK has not been configured yet, call +[AHAAllihoopaSDK setupWithAppKey:secret:] before using other methods");
 
-	NSString* scheme = [NSString stringWithFormat:@"ph-%@", _configuredAppKey];
+	NSString* scheme = [NSString stringWithFormat:@"ah-%@", _configuredAppKey];
 
 	if (![url.scheme isEqualToString:scheme]) {
 		return NO;
@@ -104,6 +113,7 @@ static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
 		_currentAuthViewController = nil;
 
 		[safari dismissViewControllerAnimated:YES completion:^{
+			[self parseAndSaveCredentials:url];
 			callback(YES);
 		}];
 	}
@@ -121,10 +131,58 @@ static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
 	}
 
 	AHAAuthenticationCallback callback = _currentAuthCallback;
+	[self clearSavedCredentials];
 	_currentAuthCallback = nil;
 	_currentAuthViewController = nil;
 
 	callback(NO);
+}
+
+
+
+#pragma mark - Private methods (Configuration)
+
+- (void)updateConfiguration:(void (^)(NSMutableDictionary* configuration))updateBlock {
+	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+
+	NSMutableDictionary* config = [[defaults dictionaryForKey:kConfigurationDefaultsKey] mutableCopy];
+	if (config == nil) {
+		config = [[NSMutableDictionary alloc] init];
+	}
+
+	updateBlock(config);
+
+	[defaults setObject:config forKey:kConfigurationDefaultsKey];
+	[defaults synchronize];
+}
+
+
+#pragma mark - Private methods (Access token saving)
+
+- (void)parseAndSaveCredentials:(NSURL* _Nonnull)url {
+	NSAssert(url != nil, @"Internal error: must provide url");
+
+	NSURLComponents* components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
+	NSString* accessToken;
+
+	for (NSURLQueryItem* item in components.queryItems) {
+		if ([item.name isEqualToString:@"access_token"]) {
+			accessToken = item.value;
+		}
+	}
+
+	NSAssert(accessToken != nil, @"Internal error: no access_token parameter was supplied");
+
+	[self updateConfiguration:^(NSMutableDictionary *configuration) {
+		[configuration setObject:accessToken forKey:kConfigKeyAccessToken];
+	}];
+
+}
+
+- (void)clearSavedCredentials {
+	[self updateConfiguration:^(NSMutableDictionary *configuration) {
+		[configuration removeObjectForKey:kConfigKeyAccessToken];
+	}];
 }
 
 @end
