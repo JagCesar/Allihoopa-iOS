@@ -7,16 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FAF400611D955C2A00610853 /* Allihoopa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF400601D955C2A00610853 /* Allihoopa.framework */; };
+		FAF400621D955C2A00610853 /* Allihoopa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FAF400601D955C2A00610853 /* Allihoopa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FAF525D41D9531E7002CE6BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF525D31D9531E7002CE6BF /* AppDelegate.swift */; };
 		FAF525D61D9531E7002CE6BF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF525D51D9531E7002CE6BF /* ViewController.swift */; };
 		FAF525D91D9531E7002CE6BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAF525D71D9531E7002CE6BF /* Main.storyboard */; };
 		FAF525DB1D9531E7002CE6BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAF525DA1D9531E7002CE6BF /* Assets.xcassets */; };
 		FAF525DE1D9531E7002CE6BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAF525DC1D9531E7002CE6BF /* LaunchScreen.storyboard */; };
-		FAF525F01D953218002CE6BF /* Allihoopa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF525EF1D953218002CE6BF /* Allihoopa.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FAF400631D955C2B00610853 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				FAF400621D955C2A00610853 /* Allihoopa.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		FAF400641D99145A00610853 /* Credentials.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Credentials.xcconfig; sourceTree = "<group>"; };
+		FAF400601D955C2A00610853 /* Allihoopa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Allihoopa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAF525D01D9531E7002CE6BF /* SDKExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SDKExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAF525D31D9531E7002CE6BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAF525D51D9531E7002CE6BF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -24,7 +40,6 @@
 		FAF525DA1D9531E7002CE6BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FAF525DD1D9531E7002CE6BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FAF525DF1D9531E7002CE6BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FAF525EF1D953218002CE6BF /* Allihoopa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Allihoopa.framework; path = "../build/Debug-iphoneos/Allihoopa.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,7 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAF525F01D953218002CE6BF /* Allihoopa.framework in Frameworks */,
+				FAF400611D955C2A00610853 /* Allihoopa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,9 +57,9 @@
 		FAF525C71D9531E7002CE6BF = {
 			isa = PBXGroup;
 			children = (
+				FAF400601D955C2A00610853 /* Allihoopa.framework */,
 				FAF525D21D9531E7002CE6BF /* SDKExample */,
 				FAF525D11D9531E7002CE6BF /* Products */,
-				FAF525EE1D953218002CE6BF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -70,14 +85,6 @@
 			path = SDKExample;
 			sourceTree = "<group>";
 		};
-		FAF525EE1D953218002CE6BF /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				FAF525EF1D953218002CE6BF /* Allihoopa.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -88,6 +95,7 @@
 				FAF525CC1D9531E7002CE6BF /* Sources */,
 				FAF525CD1D9531E7002CE6BF /* Frameworks */,
 				FAF525CE1D9531E7002CE6BF /* Resources */,
+				FAF400631D955C2B00610853 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -219,7 +227,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -264,7 +272,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
