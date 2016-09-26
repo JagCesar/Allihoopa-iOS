@@ -3,3 +3,4 @@
 /build
 
 *.framework.zip
+SDKExample/SDKExample/Credentials.xcconfig

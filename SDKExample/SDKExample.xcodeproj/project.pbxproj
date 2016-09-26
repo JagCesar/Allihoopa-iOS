@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA2108AB1D99177C00AE23AD /* Credentials.template.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = FA2108AA1D99177C00AE23AD /* Credentials.template.xcconfig */; };
 		FAF400611D955C2A00610853 /* Allihoopa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF400601D955C2A00610853 /* Allihoopa.framework */; };
 		FAF400621D955C2A00610853 /* Allihoopa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FAF400601D955C2A00610853 /* Allihoopa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FAF525D41D9531E7002CE6BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF525D31D9531E7002CE6BF /* AppDelegate.swift */; };
@@ -31,8 +32,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		FAF400641D99145A00610853 /* Credentials.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Credentials.xcconfig; sourceTree = "<group>"; };
+		FA2108AA1D99177C00AE23AD /* Credentials.template.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Credentials.template.xcconfig; sourceTree = "<group>"; };
 		FAF400601D955C2A00610853 /* Allihoopa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Allihoopa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAF400641D99145A00610853 /* Credentials.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Credentials.xcconfig; sourceTree = "<group>"; };
 		FAF525D01D9531E7002CE6BF /* SDKExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SDKExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAF525D31D9531E7002CE6BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAF525D51D9531E7002CE6BF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				FAF525DA1D9531E7002CE6BF /* Assets.xcassets */,
 				FAF525DC1D9531E7002CE6BF /* LaunchScreen.storyboard */,
 				FAF525DF1D9531E7002CE6BF /* Info.plist */,
+				FA2108AA1D99177C00AE23AD /* Credentials.template.xcconfig */,
 				FAF400641D99145A00610853 /* Credentials.xcconfig */,
 			);
 			path = SDKExample;
@@ -146,6 +149,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA2108AB1D99177C00AE23AD /* Credentials.template.xcconfig in Resources */,
 				FAF525DE1D9531E7002CE6BF /* LaunchScreen.storyboard in Resources */,
 				FAF525DB1D9531E7002CE6BF /* Assets.xcassets in Resources */,
 				FAF525D91D9531E7002CE6BF /* Main.storyboard in Resources */,
