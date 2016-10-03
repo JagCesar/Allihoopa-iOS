@@ -20,6 +20,20 @@
                ReferencedContainer = "container:SDKExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FA5FD3891D90180E0010E978"
+               BuildableName = "Allihoopa.framework"
+               BlueprintName = "Allihoopa"
+               ReferencedContainer = "container:../Allihoopa.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

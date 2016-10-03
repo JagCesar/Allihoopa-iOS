@@ -1,37 +1,23 @@
-//
-//  AHAAllihoopaSDK.m
-//  Allihoopa
-//
-//  Created by Magnus Hallin on 23/09/16.
-//  Copyright © 2016 Allihoopa. All rights reserved.
-//
+#import "AllihoopaSDK.h"
 
-@import SafariServices;
+#import "Configuration.h"
+#import "AuthenticationViewController.h"
+#import "Drop/DropViewController.h"
+#import "Activity.h"
 
 static NSString* const kInfoPlistAppKey = @"AllihoopaSDKAppKey";
 static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
 
-#import "AllihoopaSDK.h"
-
-#define WEB_BASE_URL @"https://allihoopa.com"
-
-static NSString* const kConfigurationDefaultsKey = @"allihoopa-sdk-prefs";
-
-static NSString* const kConfigKeyAccessToken = @"access-token";
-
-static NSString* const kAppKey = @"app-key";
-static NSString* const kAppSecretKey = @"app-secret";
-
-@interface AHAAllihoopaSDK () <SFSafariViewControllerDelegate>
+@interface AHAAllihoopaSDK ()
 @end
 
 @implementation AHAAllihoopaSDK {
-	NSString* _configuredAppKey;
-	NSString* _configuredAppSecret;
+	AHAAuthenticationViewController* _currentAuthViewController;
 
-	AHAAuthenticationCallback _currentAuthCallback;
-	SFSafariViewController* _currentAuthViewController;
+	AHAConfiguration* _configuration;
 }
+
+#pragma mark - Static interface
 
 + (void)setup {
 	[[self sharedInstance] setup];
@@ -45,6 +31,14 @@ static NSString* const kAppSecretKey = @"app-secret";
 	return [[self sharedInstance] handleOpenURL:url];
 }
 
++ (UIViewController *)dropViewControllerForPiece:(AHADropPieceData *)dropPieceData delegate:(id<AHADropDelegate>)delegate {
+	return [[self sharedInstance] dropViewControllerForPiece:dropPieceData delegate:delegate];
+}
+
++ (UIActivity *)activityForPiece:(AHADropPieceData *)dropPieceData delegate:(id<AHADropDelegate>)delegate {
+	return [[self sharedInstance] activityForPiece:dropPieceData delegate:delegate];
+}
+
 + (instancetype)sharedInstance {
 	static AHAAllihoopaSDK* instance = nil;
 	static dispatch_once_t onceToken;
@@ -53,136 +47,111 @@ static NSString* const kAppSecretKey = @"app-secret";
 		instance = [[AHAAllihoopaSDK alloc] init];
 	});
 
+	NSAssert(instance,
+			 @"Internal error: could not construct the AHAAllihoopaSDK instance");
+
 	return instance;
 }
 
+#pragma mark - Initialization
+
+- (instancetype)init {
+	if ((self = [super init])) {
+		_configuration = [[AHAConfiguration alloc] init];
+	}
+
+	return self;
+}
+
+#pragma mark - Private methods (non-static counterparts)
+
 
 - (void)setup {
-	NSAssert(_configuredAppKey == nil && _configuredAppSecret == nil, @"The Allihoopa SDK can only be configured once");
-
 	NSBundle* bundle = [NSBundle mainBundle];
 	NSString* appKey = [bundle objectForInfoDictionaryKey:kInfoPlistAppKey];
 	NSString* appSecret = [bundle objectForInfoDictionaryKey:kInfoPlistAppSecret];
 
-	NSAssert(appKey != nil && appKey.length > 0, @"The %@ key in your Info.plist must be set to your Allihoopa app key", kInfoPlistAppKey);
-	NSAssert(appSecret != nil && appSecret.length > 0, @"The %@ key in your Info.plist must be set to your Allihoopa app secret", kInfoPlistAppSecret);
+	NSAssert(appKey != nil && appKey.length > 0,
+			 @"The %@ key in your Info.plist must be set to your Allihoopa app key", kInfoPlistAppKey);
+	NSAssert(appSecret != nil && appSecret.length > 0,
+			 @"The %@ key in your Info.plist must be set to your Allihoopa app secret", kInfoPlistAppSecret);
 
-	_configuredAppKey = [appKey copy];
-	_configuredAppSecret = [appSecret copy];
+	[_configuration setupApplicationIdentifier:appKey apiKey:appSecret];
+
+	[self validateURLSchemeSetup];
 }
 
-- (void)authenticate:(void (^)(BOOL))completion {
-	NSAssert(_configuredAppKey != nil,
-			 @"The Allihoopa SDK has not been configured yet, call +[AHAAllihoopaSDK setupWithAppKey:secret:] before using other methods");
-	NSAssert(completion != nil,
-			 @"You must provide a completion handler to the authenticate method");
+- (void)validateURLSchemeSetup {
+	NSBundle* bundle = [NSBundle mainBundle];
+	NSString* expectedURLScheme = [NSString stringWithFormat:@"ah-%@", _configuration.applicationIdentifier];
 
-	NSAssert(_currentAuthCallback == nil && _currentAuthViewController == nil,
-			 @"Internal error: only one auth session can be active");
+	NSDictionary<NSString*,id>* bundleURLTypes = [bundle objectForInfoDictionaryKey:@"CFBundleURLTypes"];
+	BOOL foundScheme = NO;
 
-	NSString* url = [NSString stringWithFormat:(WEB_BASE_URL @"/account/login?response_type=token&client_id=%@"), _configuredAppKey];
+	// Sanity check that the URL scheme has been registered
+	for (NSDictionary<NSString*,id>* urlType in bundleURLTypes) {
+		NSArray* urlSchemes = urlType[@"CFBundleURLSchemes"];
 
-	SFSafariViewController* safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url]];
-	safari.modalPresentationStyle = UIModalPresentationFormSheet;
-	safari.delegate = self;
-
-	UIViewController* rootController = [UIApplication sharedApplication].keyWindow.rootViewController;
-
-	[rootController presentViewController:safari animated:YES completion:nil];
-
-	_currentAuthCallback = completion;
-	_currentAuthViewController = safari;
-}
-
-- (BOOL)handleOpenURL:(NSURL* _Nonnull)url {
-	NSAssert(_configuredAppKey != nil, @"The Allihoopa SDK has not been configured yet, call +[AHAAllihoopaSDK setupWithAppKey:secret:] before using other methods");
-
-	NSString* scheme = [NSString stringWithFormat:@"ah-%@", _configuredAppKey];
-
-	if (![url.scheme isEqualToString:scheme]) {
-		return NO;
-	}
-
-	if (_currentAuthCallback) {
-		NSAssert(_currentAuthViewController != nil, @"Internal error: expected auth view controller");
-
-		AHAAuthenticationCallback callback = _currentAuthCallback;
-		SFSafariViewController* safari = _currentAuthViewController;
-
-		_currentAuthCallback = nil;
-		_currentAuthViewController = nil;
-
-		[safari dismissViewControllerAnimated:YES completion:^{
-			[self parseAndSaveCredentials:url];
-			callback(YES);
-		}];
-	}
-
-	return YES;
-}
-
-
-
-#pragma mark - SFSafariViewControllerDelegate
-
-- (void)safariViewControllerDidFinish:(__unused SFSafariViewController *)controller {
-	if (_currentAuthCallback == nil) {
-		return;
-	}
-
-	AHAAuthenticationCallback callback = _currentAuthCallback;
-	[self clearSavedCredentials];
-	_currentAuthCallback = nil;
-	_currentAuthViewController = nil;
-
-	callback(NO);
-}
-
-
-
-#pragma mark - Private methods (Configuration)
-
-- (void)updateConfiguration:(void (^)(NSMutableDictionary* configuration))updateBlock {
-	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-
-	NSMutableDictionary* config = [[defaults dictionaryForKey:kConfigurationDefaultsKey] mutableCopy];
-	if (config == nil) {
-		config = [[NSMutableDictionary alloc] init];
-	}
-
-	updateBlock(config);
-
-	[defaults setObject:config forKey:kConfigurationDefaultsKey];
-	[defaults synchronize];
-}
-
-
-#pragma mark - Private methods (Access token saving)
-
-- (void)parseAndSaveCredentials:(NSURL* _Nonnull)url {
-	NSAssert(url != nil, @"Internal error: must provide url");
-
-	NSURLComponents* components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
-	NSString* accessToken;
-
-	for (NSURLQueryItem* item in components.queryItems) {
-		if ([item.name isEqualToString:@"access_token"]) {
-			accessToken = item.value;
+		if ([urlSchemes indexOfObject:expectedURLScheme] != NSNotFound) {
+			foundScheme = YES;
 		}
 	}
 
-	NSAssert(accessToken != nil, @"Internal error: no access_token parameter was supplied");
-
-	[self updateConfiguration:^(NSMutableDictionary *configuration) {
-		[configuration setObject:accessToken forKey:kConfigKeyAccessToken];
-	}];
-
+	NSAssert(foundScheme,
+			 @"The %@ URL scheme must be registered in your Info.plist for the Allihoopa SDK to work", expectedURLScheme);
 }
 
-- (void)clearSavedCredentials {
-	[self updateConfiguration:^(NSMutableDictionary *configuration) {
-		[configuration removeObjectForKey:kConfigKeyAccessToken];
-	}];
+- (void)authenticate:(void (^)(BOOL))completion {
+	NSAssert(completion != nil,
+			 @"You must provide a completion handler to the authenticate method");
+	NSAssert(_currentAuthViewController == nil,
+			 @"Internal error: only one auth session can be active");
+
+	__weak AHAAllihoopaSDK* weakSelf = self;
+	AHAAuthenticationViewController* authController = [[AHAAuthenticationViewController alloc]
+													   initWithConfiguration:_configuration
+													   completionHandler:^(BOOL successful) {
+														   AHAAllihoopaSDK* strongSelf = weakSelf;
+														   if (strongSelf) {
+															   strongSelf->_currentAuthViewController = nil;
+														   }
+
+														   completion(successful);
+													   }];
+
+	authController.modalPresentationStyle = UIModalPresentationFormSheet;
+
+	UIViewController* rootController = [UIApplication sharedApplication].keyWindow.rootViewController;
+
+	[rootController presentViewController:authController animated:YES completion:nil];
+
+	_currentAuthViewController = authController;
+}
+
+- (BOOL)handleOpenURL:(NSURL* _Nonnull)url {
+	return [_currentAuthViewController handleOpenURL:url];
+}
+
+- (UIViewController *)dropViewControllerForPiece:(AHADropPieceData *)dropPieceData
+										delegate:(id<AHADropDelegate>)delegate {
+	UIStoryboard* storyboard = [UIStoryboard
+								storyboardWithName:@"DropFlow"
+								bundle:[NSBundle bundleForClass:[AHAAllihoopaSDK class]]];
+	AHADropViewController* dropFlow = [storyboard instantiateInitialViewController];
+	NSAssert(dropFlow && [dropFlow isKindOfClass:[AHADropViewController class]],
+			 @"DropFlow storyboard must have an AHADropViewController as its initial view controller");
+	dropFlow.configuration = _configuration;
+	dropFlow.dropDelegate = delegate;
+	dropFlow.dropPieceData = dropPieceData;
+	dropFlow.modalPresentationStyle = UIModalPresentationFormSheet;
+	dropFlow.dismissWhenCloseTapped = YES;
+
+	return dropFlow;
+}
+
+- (UIActivity *)activityForPiece:(AHADropPieceData *)dropPieceData
+						delegate:(id<AHADropDelegate>)delegate {
+	return [[AHAActivity alloc] init];
 }
 
 @end

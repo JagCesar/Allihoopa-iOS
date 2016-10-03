@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FA2108AB1D99177C00AE23AD /* Credentials.template.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = FA2108AA1D99177C00AE23AD /* Credentials.template.xcconfig */; };
+		FA3527281D9E8A9600D2F91B /* drop.wav in Resources */ = {isa = PBXBuildFile; fileRef = FA3527271D9E8A9600D2F91B /* drop.wav */; };
 		FAF400611D955C2A00610853 /* Allihoopa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF400601D955C2A00610853 /* Allihoopa.framework */; };
 		FAF400621D955C2A00610853 /* Allihoopa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FAF400601D955C2A00610853 /* Allihoopa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FAF525D41D9531E7002CE6BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF525D31D9531E7002CE6BF /* AppDelegate.swift */; };
@@ -33,6 +34,7 @@
 
 /* Begin PBXFileReference section */
 		FA2108AA1D99177C00AE23AD /* Credentials.template.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Credentials.template.xcconfig; sourceTree = "<group>"; };
+		FA3527271D9E8A9600D2F91B /* drop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = drop.wav; sourceTree = "<group>"; };
 		FAF400601D955C2A00610853 /* Allihoopa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Allihoopa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAF400641D99145A00610853 /* Credentials.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Credentials.xcconfig; sourceTree = "<group>"; };
 		FAF525D01D9531E7002CE6BF /* SDKExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SDKExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,6 +58,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA3527261D9E8A7F00D2F91B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FA3527271D9E8A9600D2F91B /* drop.wav */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		FAF525C71D9531E7002CE6BF = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +86,7 @@
 		FAF525D21D9531E7002CE6BF /* SDKExample */ = {
 			isa = PBXGroup;
 			children = (
+				FA3527261D9E8A7F00D2F91B /* Resources */,
 				FAF525D31D9531E7002CE6BF /* AppDelegate.swift */,
 				FAF525D51D9531E7002CE6BF /* ViewController.swift */,
 				FAF525D71D9531E7002CE6BF /* Main.storyboard */,
@@ -149,6 +160,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA3527281D9E8A9600D2F91B /* drop.wav in Resources */,
 				FA2108AB1D99177C00AE23AD /* Credentials.template.xcconfig in Resources */,
 				FAF525DE1D9531E7002CE6BF /* LaunchScreen.storyboard in Resources */,
 				FAF525DB1D9531E7002CE6BF /* Assets.xcassets in Resources */,
