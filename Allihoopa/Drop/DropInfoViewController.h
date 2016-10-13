@@ -21,4 +21,6 @@
 - (void)setDefaultTitle:(NSString*)defaultTitle;
 - (void)setDefaultCoverImage:(UIImage*)defaultImage;
 
+- (void)segueToProgressViewController;
+
 @end

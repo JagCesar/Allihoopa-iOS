@@ -112,7 +112,7 @@
                                                     <color key="backgroundColor" red="1" green="0.15294118230000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <state key="normal" title="DROP TO ALLIHOOPA"/>
                                                     <connections>
-                                                        <segue destination="7qn-Z9-uJ2" kind="show" identifier="startDrop" id="c8M-1V-4GR"/>
+                                                        <action selector="commitEditor" destination="JNZ-at-Tgo" eventType="touchUpInside" id="mav-DF-WlN"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -145,12 +145,13 @@
                         <outlet property="dropButton" destination="gOY-dT-7tG" id="JoI-V2-7gq"/>
                         <outlet property="listedSwitch" destination="KZv-kl-7oI" id="M32-vv-HAa"/>
                         <outlet property="titleEditorView" destination="llL-Vq-oQ5" id="hyu-fQ-Szc"/>
+                        <segue destination="7qn-Z9-uJ2" kind="show" identifier="startDrop" id="TzU-xS-dFW"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sFm-Ic-W9S" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="VVy-jW-cUu" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="141.59999999999999" y="133.5832083958021"/>
+            <point key="canvasLocation" x="86" y="134"/>
         </scene>
         <!--Drop Progress View Controller-->
         <scene sceneID="cVX-z9-RlK">
@@ -190,7 +191,45 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8k7-lX-QZO" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="wg3-eg-0AR" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1000.8" y="133.5832083958021"/>
+            <point key="canvasLocation" x="994" y="134"/>
+        </scene>
+        <!--Drop Error View Controller-->
+        <scene sceneID="c69-AV-VD2">
+            <objects>
+                <viewController id="gvB-sQ-7mX" customClass="AHADropErrorViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="b4F-Nk-tKZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="HXT-BH-bZg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1Kv-ou-dAw">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ma7-hc-m8i">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ma7-hc-m8i" firstAttribute="centerX" secondItem="1Kv-ou-dAw" secondAttribute="centerX" id="SH4-n9-ozo"/>
+                            <constraint firstItem="ma7-hc-m8i" firstAttribute="centerY" secondItem="1Kv-ou-dAw" secondAttribute="centerY" id="kbr-3f-Lgz"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="xVD-1n-nvX">
+                        <barButtonItem key="leftBarButtonItem" title="Close" id="eaB-m6-sjq">
+                            <connections>
+                                <segue destination="TmN-ON-0u8" kind="unwind" unwindAction="cancelDropUnwind:" id="fmV-xw-7z1"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MoW-hA-e3v" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="TmN-ON-0u8" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="631" y="1026"/>
         </scene>
         <!--Drop Done View Controller-->
         <scene sceneID="ai1-SO-Jxb">
@@ -230,7 +269,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tIa-Np-cRu" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="n82-10-kum" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1828" y="133.5832083958021"/>
+            <point key="canvasLocation" x="1932" y="134"/>
         </scene>
         <!--Drop View Controller-->
         <scene sceneID="92a-xf-qGz">
@@ -244,6 +283,7 @@
                     <nil name="viewControllers"/>
                     <connections>
                         <segue destination="JNZ-at-Tgo" kind="relationship" relationship="rootViewController" id="i83-GY-NHy"/>
+                        <segue destination="gvB-sQ-7mX" kind="custom" identifier="dropError" customClass="AHADropErrorSegue" id="JQ1-7h-iZ8"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W0L-Fp-VdY" userLabel="First Responder" sceneMemberID="firstResponder"/>

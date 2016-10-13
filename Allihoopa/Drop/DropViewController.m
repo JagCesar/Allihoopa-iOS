@@ -22,12 +22,21 @@ mutation($piece: PieceInput!) {\
 }\
 ";
 
+typedef NS_ENUM(NSInteger, AHADropViewState) {
+	AHADropViewStateEditInfo,
+	AHADropViewStateProgress,
+	AHADropViewStateDone,
+	AHADropViewStateError,
+};
+
 @interface AHADropViewController () <AHADropInfoViewControllerDelegate>
 @end
 
 @implementation AHADropViewController {
 	AHADropInfoViewController* _infoViewController;
 	AHADropProgressViewController* _progressViewController;
+
+	AHADropViewState _viewState;
 
 	BOOL _waitingForPieceInfo;
 	NSString* _committedTitle;
@@ -48,6 +57,8 @@ mutation($piece: PieceInput!) {\
 
 	BOOL _waitingForCreatePiece;
 	NSDictionary* _createdPiece;
+
+	NSError* _currentError;
 }
 
 
@@ -65,6 +76,8 @@ mutation($piece: PieceInput!) {\
 
 	_infoViewController = self.viewControllers[0];
 	_infoViewController.dropInfoDelegate = self;
+
+	_viewState = AHADropViewStateEditInfo;
 
 	_waitingForPieceInfo = YES;
 
@@ -94,6 +107,8 @@ mutation($piece: PieceInput!) {\
 
 - (void)fetchDefaultCoverImage {
 	if ([_dropDelegate respondsToSelector:@selector(renderCoverImageForPiece:completion:)]) {
+		AHALog(@"Fetching default cover image from application");
+
 		__weak AHADropViewController* weakSelf = self;
 		[_dropDelegate renderCoverImageForPiece:_dropPieceData completion:^(UIImage* _Nullable image) {
 			AHADropViewController* strongSelf = weakSelf;
@@ -104,19 +119,31 @@ mutation($piece: PieceInput!) {\
 }
 
 - (void)coverImageDidArrive:(UIImage*)image {
+	if (![NSThread isMainThread]) {
+		AHARaiseInvalidUsageException(@"Must call completion handlers on main queue");
+	}
+
+	AHALog(@"Default cover image arrived from application");
 	NSAssert(_infoViewController != nil, @"Info view must be set");
 
 	[_infoViewController setDefaultCoverImage:image];
 }
 
 - (void)coverImageDidCompleteUpload:(NSURL*)url error:(NSError*)error {
+	AHALog(@"Cover image upload completed, error: %@", error);
+
 	_coverImageURL = url;
 	_waitingForCoverImage = NO;
+	if (!_currentError) {
+		_currentError = error;
+	}
 
 	[self tick];
 }
 
 - (void)fetchMixStem {
+	AHALog(@"Fetching mix stem from application");
+
 	_waitingForMixStem = YES;
 	__weak AHADropViewController* weakSelf = self;
 
@@ -132,7 +159,10 @@ mutation($piece: PieceInput!) {\
 		AHARaiseInvalidUsageException(@"Must call completion handlers on main queue");
 	}
 
+	AHALog(@"Mix stem arrived from application, error: %@", bundle);
+
 	if (bundle) {
+		AHALog(@"Uploading mix stem");
 		__weak AHADropViewController* weakSelf = self;
 		AHAUploadAssetData(_configuration, bundle.data, ^(NSURL *url, NSError *uploadError) {
 			AHADropViewController* strongSelf = weakSelf;
@@ -140,18 +170,36 @@ mutation($piece: PieceInput!) {\
 			[strongSelf mixStemDidCompleteUpload:bundle url:url error:uploadError];
 		});
 	}
+	else if (fetchError) {
+		_waitingForMixStem = NO;
+		if (!_currentError) {
+			_currentError = fetchError;
+		}
+
+		[self tick];
+	}
+	else {
+		AHARaiseInvalidUsageException(@"Either a mix stem asset bundle or error must be provided");
+	}
 }
 
 - (void)mixStemDidCompleteUpload:(AHAAudioDataBundle*)bundle url:(NSURL*)url error:(NSError*)error {
+	AHALog(@"Mix stem upload completed, error: %@", error);
+
 	_mixStemBundle = bundle;
 	_mixStemURL = url;
 	_waitingForMixStem = NO;
+
+	if (!_currentError) {
+		_currentError = error;
+	}
 
 	[self tick];
 }
 
 - (void)fetchPreviewAudio {
 	if ([_dropDelegate respondsToSelector:@selector(renderPreviewAudioForPiece:completion:)]) {
+		AHALog(@"Fetching preview audio from application");
 		_waitingForPreviewAudio = YES;
 		__weak AHADropViewController* weakSelf;
 
@@ -168,7 +216,11 @@ mutation($piece: PieceInput!) {\
 		AHARaiseInvalidUsageException(@"Must call completion handlers on main queue");
 	}
 
+	AHALog(@"Preview audio arrived from application, error: %@", fetchError);
+
 	if (bundle) {
+		AHALog(@"Uploading preview audio");
+
 		__weak AHADropViewController* weakSelf = self;
 		AHAUploadAssetData(_configuration, bundle.data, ^(NSURL *url, NSError *uploadError) {
 			AHADropViewController* strongSelf = weakSelf;
@@ -176,12 +228,26 @@ mutation($piece: PieceInput!) {\
 			[strongSelf previewAudioDidCompleteUpload:bundle url:url error:uploadError];
 		});
 	}
+	else {
+		_waitingForPreviewAudio = NO;
+
+		if (!_currentError) {
+			_currentError = fetchError;
+		}
+
+		[self tick];
+	}
 }
 
 - (void)previewAudioDidCompleteUpload:(AHAAudioDataBundle*)bundle url:(NSURL*)url error:(NSError*)error {
+	AHALog(@"Preview audio upload completed, error: %@", error);
 	_previewAudioBundle = bundle;
 	_previewAudioURL = url;
 	_waitingForPreviewAudio = NO;
+
+	if (!_currentError) {
+		_currentError = error;
+	}
 
 	[self tick];
 }
@@ -235,6 +301,8 @@ mutation($piece: PieceInput!) {\
 							 @"musicalMetadata": musicalMetadata,
 							 };
 
+	AHALog(@"Sending createPiece GraphQL mutation");
+
 	__weak AHADropViewController* weakSelf = self;
 	AHAGraphQLQuery(_configuration, kCreatePieceQuery, @{ @"piece": piece }, ^(NSDictionary *response, NSError *error) {
 		AHADropViewController* strongSelf = weakSelf;
@@ -244,12 +312,15 @@ mutation($piece: PieceInput!) {\
 }
 
 - (void)createPieceFromPartsDidComplete:(NSDictionary*)piece error:(NSError*)error {
-	if (piece != nil) {
-		_createdPiece = piece;
-		_waitingForCreatePiece = NO;
+	AHALog(@"createPiece GraphQL mutation completed, error: %@", error);
+	_createdPiece = piece;
+	_waitingForCreatePiece = NO;
 
-		[self tick];
+	if (!_currentError) {
+		_currentError = error;
 	}
+
+	[self tick];
 }
 
 #pragma mark - Private methods (state machine)
@@ -262,13 +333,37 @@ mutation($piece: PieceInput!) {\
 
 	BOOL pieceCreated = !!_createdPiece;
 
-	if (waitingParts == 0 && !_waitingForCreatePiece && !pieceCreated) {
+	// If we've received an error and either is showing the progress view or just committed the
+	// edit info screen, segue to the error screen.
+	if (_currentError && (_viewState == AHADropViewStateProgress
+						  || (_viewState == AHADropViewStateEditInfo && !_waitingForPieceInfo))) {
+		AHALog(@"Tick: Segue to error view");
+
+		[self performSegueWithIdentifier:@"dropError" sender:nil];
+		_viewState = AHADropViewStateError;
+	}
+	// If we've just committed the edit info screen and no error has arrived, segue to the
+	// progress view.
+	else if (!_currentError && _viewState == AHADropViewStateEditInfo && !_waitingForPieceInfo) {
+		AHALog(@"Tick: Segue to progress view");
+
+		[_infoViewController segueToProgressViewController];
+		_viewState = AHADropViewStateProgress;
+	}
+	// If all uploads are completed and the edit info is committed, send the createPiece mutation
+	// to actually drop the piece.
+	else if (!_currentError && waitingParts == 0 && !_waitingForCreatePiece && !pieceCreated) {
+		AHALog(@"Tick: Creating piece on server");
+
 		[self createPieceFromParts];
 	}
-	else if (pieceCreated) {
-		NSAssert(_progressViewController != nil,@"No progress view controller available");
+	// If the piece is created, segue to the done screen.
+	else if (pieceCreated && _viewState != AHADropViewStateDone) {
 		AHALog(@"Everything is done: %@", _createdPiece);
+		NSAssert(_progressViewController != nil,@"No progress view controller available");
+
 		[_progressViewController advanceToDropDone];
+		_viewState = AHADropViewStateDone;
 	}
 }
 
@@ -278,6 +373,8 @@ mutation($piece: PieceInput!) {\
 								 description:(NSString*)description
 									  listed:(BOOL)isListed
 								  coverImage:(UIImage*)coverImage {
+	AHALog(@"Info view committed piece information");
+
 	NSAssert(title != nil, @"Must commit title");
 	NSAssert(description != nil, @"Must commit description");
 	NSAssert(_waitingForPieceInfo, @"Can't commit piece info twice");
@@ -289,6 +386,7 @@ mutation($piece: PieceInput!) {\
 	_waitingForPieceInfo = NO;
 
 	if (_committedCoverImage != nil) {
+		AHALog(@"Uploading cover image");
 		_waitingForCoverImage = YES;
 
 		__weak AHADropViewController* weakSelf = self;
@@ -307,6 +405,9 @@ mutation($piece: PieceInput!) {\
 	NSAssert(_progressViewController == nil, @"Transition to progress view controller multiple times");
 
 	_progressViewController = dropProgressViewController;
+	_viewState = AHADropViewStateProgress;
+
+	[self tick];
 }
 
 @end

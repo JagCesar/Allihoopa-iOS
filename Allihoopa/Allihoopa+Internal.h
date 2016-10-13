@@ -4,7 +4,7 @@
 
 #ifdef AHA_ENABLE_LOGGING
 
-#define AHALog(fmt, ...) NSLog(@"[Allihoopa SDK] " fmt, __VA_ARGS__)
+#define AHALog(...) NSLog(@"[AllihoopaSDK]: %@", [NSString stringWithFormat:__VA_ARGS__])
 
 #else
 

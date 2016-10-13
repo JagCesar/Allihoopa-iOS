@@ -22,7 +22,7 @@ static void GetUploadURL(AHAConfiguration* configuration, void(^completion)(NSUR
 		}
 
 		if (![response[@"uploadUrls"] isKindOfClass:[NSDictionary class]]
-			|| ![response[@"uploadUrls"][@"urls"] isKindOfClass:[NSDictionary class]]) {
+			|| ![response[@"uploadUrls"][@"urls"] isKindOfClass:[NSArray class]]) {
 			completion(nil, [NSError errorWithDomain:AHAAllihoopaErrorDomain
 												code:AHAErrorInternalAPIError
 											userInfo:@{NSLocalizedDescriptionKey: @"Expected uploadUrls in API response"}]);

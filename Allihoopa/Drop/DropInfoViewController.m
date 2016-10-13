@@ -37,15 +37,24 @@
 	}
 }
 
+- (void)segueToProgressViewController {
+	[self performSegueWithIdentifier:@"startDrop" sender:nil];
+}
+
+- (IBAction)commitEditor {
+	id<AHADropInfoViewControllerDelegate> delegate = _dropInfoDelegate;
+	NSAssert(delegate != nil, @"Drop info delegate must be alive when dropping");
+
+	[delegate dropInfoViewControllerDidCommitTitle:_titleEditorView.text
+									   description:_descriptionEditorView.text
+											listed:_listedSwitch.on
+										coverImage:_coverImageView.image];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(__unused id)sender {
 	if ([segue.identifier isEqualToString:@"startDrop"]) {
 		id<AHADropInfoViewControllerDelegate> delegate = _dropInfoDelegate;
 		NSAssert(delegate != nil, @"Drop info delegate must be alive when dropping");
-
-		[delegate dropInfoViewControllerDidCommitTitle:_titleEditorView.text
-										   description:_descriptionEditorView.text
-												listed:_listedSwitch.on
-											coverImage:_coverImageView.image];
 
 		AHADropProgressViewController* progressVC = segue.destinationViewController;
 		NSAssert([progressVC isKindOfClass:[AHADropProgressViewController class]],
