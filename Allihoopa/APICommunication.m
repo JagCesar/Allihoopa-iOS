@@ -3,6 +3,7 @@
 #import "Allihoopa+Internal.h"
 
 #import "Configuration.h"
+#import "Errors.h"
 
 static NSURLSession* CreateURLSession(AHAConfiguration* configuration) {
 	NSMutableDictionary* headers = [NSMutableDictionary new];
@@ -22,16 +23,15 @@ void AHAGraphQLQuery(AHAConfiguration* configuration,
 					 NSString* query,
 					 NSDictionary* variables,
 					 void(^completion)(NSDictionary* response, NSError* error)) {
-	NSCAssert(configuration != nil, @"Internal error: no configuration provided");
-	NSCAssert(query != nil, @"Internal error: no query provided");
-	NSCAssert(variables != nil, @"Internal error: no variables provided");
+	NSCAssert(configuration != nil, @"No configuration provided");
+	NSCAssert(query != nil, @"No query provided");
+	NSCAssert(variables != nil, @"No variables provided");
 
 	NSError* outError;
 	NSData* postBody = [NSJSONSerialization dataWithJSONObject:@{@"query": query, @"variables": variables}
 													   options:(NSJSONWritingOptions)0
 														 error:&outError];
-	NSCAssert(postBody != nil && outError == nil,
-			  @"Could not serialize JSON data");
+	NSCAssert(postBody != nil && outError == nil, @"Could not serialize JSON data");
 
 	NSURLSession* session = CreateURLSession(configuration);
 	NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:GRAPHQL_URL]];
@@ -40,7 +40,7 @@ void AHAGraphQLQuery(AHAConfiguration* configuration,
 	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 
 	NSURLSessionDataTask* task = [session dataTaskWithRequest:request completionHandler:^(NSData* _Nullable data, NSURLResponse* _Nullable response, NSError* _Nullable error) {
-		NSCAssert(data != nil || error != nil, @"Internal error: either data or error must be provided");
+		NSCAssert(data != nil || error != nil, @"Either data or error must be provided");
 
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if (error != nil) {
@@ -49,8 +49,9 @@ void AHAGraphQLQuery(AHAConfiguration* configuration,
 			else {
 				NSError* parseError;
 				NSDictionary* result = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:&parseError];
-				NSCAssert(parseError != nil || result != nil, @"Internal error: no data or error was provided");
-				NSCAssert([response isKindOfClass:[NSHTTPURLResponse class]], @"Internal error: URL response not an HTTP response");
+				NSCAssert(parseError != nil || result != nil, @"No data or error was provided");
+				NSCAssert([response isKindOfClass:[NSHTTPURLResponse class]],
+						  @"URL response not an HTTP response");
 
 				NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
 
@@ -58,13 +59,13 @@ void AHAGraphQLQuery(AHAConfiguration* configuration,
 					completion(nil, error);
 				}
 				else if (httpResponse.statusCode != 200) {
-					completion(nil, [NSError errorWithDomain:@"AHAErrorDomain"
-														code:3001
+					completion(nil, [NSError errorWithDomain:AHAAllihoopaErrorDomain
+														code:AHAErrorInternalAPIError
 													userInfo:@{NSLocalizedDescriptionKey: @"GraphQL returned error"}]);
 				}
 				else if (![result isKindOfClass:[NSDictionary class]] || !result[@"data"]) {
-					completion(nil, [NSError errorWithDomain:@"AHAErrorDomain"
-														code:3002
+					completion(nil, [NSError errorWithDomain:AHAAllihoopaErrorDomain
+														code:AHAErrorInternalAPIError
 													userInfo:@{NSLocalizedDescriptionKey: @"GraphQL returned invalid JSON response"}]);
 				}
 				else {

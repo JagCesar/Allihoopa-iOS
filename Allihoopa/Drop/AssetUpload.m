@@ -2,6 +2,7 @@
 
 #import "../Configuration.h"
 #import "../APICommunication.h"
+#import "../Errors.h"
 
 static NSString* const kGetURLQuery = @"\
 mutation($count: Int!) {\
@@ -13,26 +14,31 @@ mutation($count: Int!) {\
 
 static void GetUploadURL(AHAConfiguration* configuration, void(^completion)(NSURL* url, NSError* error)) {
 	AHAGraphQLQuery(configuration, kGetURLQuery, @{@"count": @1}, ^(NSDictionary *response, NSError *error) {
-		NSCAssert(response != nil || error != nil,
-				  @"Internal error: either a response or an error must be provided");
+		NSCAssert(response != nil || error != nil, @"Either a response or an error must be provided");
 
-		if (error != nil) {
+		if (error) {
 			completion(nil, error);
+			return;
 		}
-		else {
-			NSArray* urls = response[@"uploadUrls"][@"urls"];
-			NSCAssert([urls isKindOfClass:[NSArray class]],
-					  @"Invalid response from GraphQL");
 
-			NSCAssert(urls.count == 1,
-					  @"Invalid response from GraphQL");
-
-			NSString* urlAsString = urls[0];
-			NSCAssert([urlAsString isKindOfClass:[NSString class]],
-					  @"Invalid response from GraphQL");
-
-			completion([NSURL URLWithString:urlAsString], nil);
+		if (![response[@"uploadUrls"] isKindOfClass:[NSDictionary class]]
+			|| ![response[@"uploadUrls"][@"urls"] isKindOfClass:[NSDictionary class]]) {
+			completion(nil, [NSError errorWithDomain:AHAAllihoopaErrorDomain
+												code:AHAErrorInternalAPIError
+											userInfo:@{NSLocalizedDescriptionKey: @"Expected uploadUrls in API response"}]);
+			return;
 		}
+
+		NSArray* urls = response[@"uploadUrls"][@"urls"];
+
+		if (urls.count != 1 || ![urls[0] isKindOfClass:[NSString class]]) {
+			completion(nil, [NSError errorWithDomain:AHAAllihoopaErrorDomain
+												code:AHAErrorInternalAPIError
+											userInfo:@{NSLocalizedDescriptionKey: @"Expected URL in API response"}]);
+			return;
+		}
+
+		completion([NSURL URLWithString:urls[0]], nil);
 	});
 }
 
@@ -48,12 +54,13 @@ static void UploadData(NSURL* url, NSData* data, void(^completion)(NSError* erro
 				completion(error);
 			}
 			else {
-				NSCAssert([response isKindOfClass:[NSHTTPURLResponse class]], @"Internal error: response not a HTTP response");
+				NSCAssert([response isKindOfClass:[NSHTTPURLResponse class]],
+						  @"Response not a HTTP response");
 				NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
 
 				if (httpResponse.statusCode != 200) {
-					completion([NSError errorWithDomain:@"AHAErrorDomain"
-												   code:4001
+					completion([NSError errorWithDomain:AHAAllihoopaErrorDomain
+												   code:AHAErrorInternalUploadError
 											   userInfo:@{NSLocalizedDescriptionKey: @"Unexpected upload response"}]);
 				}
 				else {
@@ -68,8 +75,7 @@ static void UploadData(NSURL* url, NSData* data, void(^completion)(NSError* erro
 
 void AHAUploadAssetData(AHAConfiguration* configuration, NSData* data, void(^completion)(NSURL* url, NSError* error)) {
 	GetUploadURL(configuration, ^(NSURL *url, NSError *getURLError) {
-		NSCAssert(url != nil || getURLError != nil,
-				  @"Internal error: either an URL or an error must be provided");
+		NSCAssert(url != nil || getURLError != nil, @"Either an URL or an error must be provided");
 
 		if (getURLError != nil) {
 			completion(nil, getURLError);

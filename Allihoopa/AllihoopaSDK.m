@@ -4,6 +4,7 @@
 #import "AuthenticationViewController.h"
 #import "Drop/DropViewController.h"
 #import "Activity.h"
+#import "Errors.h"
 
 static NSString* const kInfoPlistAppKey = @"AllihoopaSDKAppKey";
 static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
@@ -47,8 +48,7 @@ static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
 		instance = [[AHAAllihoopaSDK alloc] init];
 	});
 
-	NSAssert(instance,
-			 @"Internal error: could not construct the AHAAllihoopaSDK instance");
+	NSAssert(instance, @"Could not construct the AHAAllihoopaSDK instance");
 
 	return instance;
 }
@@ -71,10 +71,13 @@ static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
 	NSString* appKey = [bundle objectForInfoDictionaryKey:kInfoPlistAppKey];
 	NSString* appSecret = [bundle objectForInfoDictionaryKey:kInfoPlistAppSecret];
 
-	NSAssert(appKey != nil && appKey.length > 0,
-			 @"The %@ key in your Info.plist must be set to your Allihoopa app key", kInfoPlistAppKey);
-	NSAssert(appSecret != nil && appSecret.length > 0,
-			 @"The %@ key in your Info.plist must be set to your Allihoopa app secret", kInfoPlistAppSecret);
+	if (appKey == nil || appKey.length == 0) {
+		AHARaiseInvalidUsageException(@"The %@ key in your Info.plist must be set to your Allihoopa app key", kInfoPlistAppKey);
+	}
+
+	if (appSecret == nil || appSecret.length == 0) {
+		AHARaiseInvalidUsageException(@"The %@ key in your Info.plist must be set to your Allihoopa app secret", kInfoPlistAppSecret);
+	}
 
 	[_configuration setupApplicationIdentifier:appKey apiKey:appSecret];
 
@@ -97,15 +100,17 @@ static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
 		}
 	}
 
-	NSAssert(foundScheme,
-			 @"The %@ URL scheme must be registered in your Info.plist for the Allihoopa SDK to work", expectedURLScheme);
+	if (!foundScheme) {
+		AHARaiseInvalidUsageException(@"The %@ URL scheme must be registered in your Info.plist for the Allihoopa SDK to work", expectedURLScheme);
+	}
 }
 
 - (void)authenticate:(void (^)(BOOL))completion {
-	NSAssert(completion != nil,
-			 @"You must provide a completion handler to the authenticate method");
-	NSAssert(_currentAuthViewController == nil,
-			 @"Internal error: only one auth session can be active");
+	if (!completion) {
+		AHARaiseInvalidUsageException(@"You must provide a completion handler to the authenticate method");
+	}
+
+	NSAssert(_currentAuthViewController == nil, @"Only one auth session can be active");
 
 	__weak AHAAllihoopaSDK* weakSelf = self;
 	AHAAuthenticationViewController* authController = [[AHAAuthenticationViewController alloc]

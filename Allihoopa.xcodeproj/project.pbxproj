@@ -12,6 +12,7 @@
 		FA35271F1D9D5B2D00D2F91B /* DataBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = FA35271E1D9D5B2D00D2F91B /* DataBundle.m */; };
 		FA3527221D9E494100D2F91B /* AssetUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3527211D9E494100D2F91B /* AssetUpload.m */; };
 		FA3527251D9E4FE900D2F91B /* APICommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3527241D9E4FE900D2F91B /* APICommunication.m */; };
+		FA35272B1DA2427E00D2F91B /* Errors.m in Sources */ = {isa = PBXBuildFile; fileRef = FA35272A1DA2427E00D2F91B /* Errors.m */; };
 		FA45CB831D9C1C4C0082846C /* DropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA45CB821D9C1C4C0082846C /* DropViewController.m */; };
 		FA45CB881D9C1DF00082846C /* DropProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA45CB871D9C1DF00082846C /* DropProgressViewController.m */; };
 		FA45CB8B1D9C1E810082846C /* DropDoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA45CB8A1D9C1E810082846C /* DropDoneViewController.m */; };
@@ -48,6 +49,8 @@
 		FA3527211D9E494100D2F91B /* AssetUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetUpload.m; sourceTree = "<group>"; };
 		FA3527231D9E4CF800D2F91B /* APICommunication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APICommunication.h; sourceTree = "<group>"; };
 		FA3527241D9E4FE900D2F91B /* APICommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APICommunication.m; sourceTree = "<group>"; };
+		FA3527291DA2400600D2F91B /* Errors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Errors.h; sourceTree = "<group>"; };
+		FA35272A1DA2427E00D2F91B /* Errors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Errors.m; sourceTree = "<group>"; };
 		FA45CB821D9C1C4C0082846C /* DropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropViewController.m; sourceTree = "<group>"; };
 		FA45CB841D9C1C7D0082846C /* DropViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DropViewController.h; sourceTree = "<group>"; };
 		FA45CB851D9C1D870082846C /* DropInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DropInfoViewController.h; sourceTree = "<group>"; };
@@ -165,6 +168,8 @@
 				FA45CB961D9D48210082846C /* DropDelegate.h */,
 				FA45CB911D9D07560082846C /* DropPieceData.h */,
 				FA45CB8F1D9D07470082846C /* DropPieceData.m */,
+				FA3527291DA2400600D2F91B /* Errors.h */,
+				FA35272A1DA2427E00D2F91B /* Errors.m */,
 				FA5FD38E1D90180F0010E978 /* Info.plist */,
 			);
 			path = Allihoopa;
@@ -305,6 +310,7 @@
 				FA35271F1D9D5B2D00D2F91B /* DataBundle.m in Sources */,
 				FAE206641D9BE83E006EFEE3 /* AuthenticationViewController.m in Sources */,
 				FA45CB8B1D9C1E810082846C /* DropDoneViewController.m in Sources */,
+				FA35272B1DA2427E00D2F91B /* Errors.m in Sources */,
 				FA3527251D9E4FE900D2F91B /* APICommunication.m in Sources */,
 				FA45CB8D1D9C1EF50082846C /* DropInfoViewController.m in Sources */,
 				FA45CB881D9C1DF00082846C /* DropProgressViewController.m in Sources */,
@@ -371,6 +377,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
+					"AHA_ENABLE_LOGGING=1",
 					"$(inherited)",
 				);
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;

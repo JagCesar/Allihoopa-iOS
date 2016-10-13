@@ -1,5 +1,23 @@
 #import "DropPieceData.h"
 
+#import "Errors.h"
+
+@implementation AHAPieceID {
+	NSString* _pieceID;
+}
+
+- (NSString*)pieceID { return _pieceID; }
+
+- (instancetype)initWithPieceID:(NSString *)pieceID {
+	if ((self = [super init])) {
+		_pieceID = [pieceID copy];
+	}
+
+	return self;
+}
+
+@end
+
 @implementation AHAFixedTempo {
 	double _fixedTempo;
 }
@@ -71,26 +89,28 @@
 	NSArray* _basedOnPieceIDs;
 }
 
-- (NSString *)defaultTitle { return _defaultTitle; }
-- (NSString *)description { return _description; }
+- (NSString*)defaultTitle { return _defaultTitle; }
+- (NSString*)description { return _description; }
 - (BOOL)listed { return _listed; }
 
 - (NSInteger)lengthMicroseconds { return _lengthMicroseconds; }
-- (AHAFixedTempo *)tempo { return _tempo; }
-- (AHALoopMarkers *)loopMarkers { return _loopMarkers; }
-- (AHATimeSignature *)timeSignature { return _timeSignature; }
+- (AHAFixedTempo*)tempo { return _tempo; }
+- (AHALoopMarkers*)loopMarkers { return _loopMarkers; }
+- (AHATimeSignature*)timeSignature { return _timeSignature; }
 
-- (NSArray<NSUUID *> *)basedOnPieceIDs { return _basedOnPieceIDs; }
+- (NSArray<NSUUID*>*)basedOnPieceIDs { return _basedOnPieceIDs; }
 
-- (instancetype)initWithDefaultTitle:(NSString *)defaultTitle
+- (instancetype)initWithDefaultTitle:(NSString*)defaultTitle
 				  lengthMicroseconds:(NSInteger)lengthMicroseconds
-							   tempo:(AHAFixedTempo *)tempo
-						 loopMarkers:(AHALoopMarkers *)loopMarkers
-					   timeSignature:(AHATimeSignature *)timeSignature
-					 basedOnPieceIDs:(NSArray<NSUUID *> *)basedOnPieceIDs {
+							   tempo:(AHAFixedTempo*)tempo
+						 loopMarkers:(AHALoopMarkers*)loopMarkers
+					   timeSignature:(AHATimeSignature*)timeSignature
+					 basedOnPieceIDs:(NSArray<NSUUID*>*)basedOnPieceIDs
+							   error:(NSError* __autoreleasing *)outValidationError {
 	if ((self = [super init])) {
-		NSAssert(defaultTitle != nil, @"Default title must not be nil");
-		NSAssert(basedOnPieceIDs != nil, @"Based on piece IDs must not be nil");
+		if (!outValidationError) {
+			AHARaiseInvalidUsageException(@"Must pass validation error to initializer");
+		}
 
 		_defaultTitle = [defaultTitle copy];
 
@@ -100,9 +120,19 @@
 		_timeSignature = timeSignature;
 
 		_basedOnPieceIDs = [basedOnPieceIDs copy];
+
+		NSError* validationError = [self validate];
+		if (validationError) {
+			*outValidationError = validationError;
+			return nil;
+		}
 	}
 
 	return self;
+}
+
+- (NSError*)validate {
+	return nil;
 }
 
 @end

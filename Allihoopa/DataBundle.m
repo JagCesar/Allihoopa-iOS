@@ -1,4 +1,5 @@
 #import "DataBundle.h"
+#import "Errors.h"
 
 @implementation AHAAudioDataBundle {
 	AHAAudioFormat _format;
@@ -10,7 +11,9 @@
 
 - (instancetype)initWithFormat:(AHAAudioFormat)format data:(NSData *)data {
 	if ((self = [super init])) {
-		NSAssert(data != nil, @"data must not be nil");
+		if (!data) {
+			AHARaiseInvalidUsageException(@"Data must not be nil");
+		}
 
 		_format = format;
 		_data = data;
@@ -25,7 +28,7 @@
 		case AHAAudioFormatOggVorbis: return @"ogg";
 	}
 
-	NSAssert(false, @"Unknown audio format");
+	AHARaiseInvalidUsageException(@"Unknown audio format");
 }
 
 @end

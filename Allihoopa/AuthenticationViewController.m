@@ -52,8 +52,7 @@
 	}
 
 	if (_completionHandler) {
-		NSAssert(_safari != nil,
-				 @"Internal error: expected auth view controller");
+		NSAssert(_safari != nil, @"Expected auth view controller");
 
 		AHAAuthenticationControllerCallback callback = _completionHandler;
 		SFSafariViewController* safari = _safari;
@@ -88,7 +87,7 @@
 #pragma mark - Private methods (Access token saving)
 
 - (void)parseAndSaveCredentials:(NSURL* _Nonnull)url {
-	NSAssert(url != nil, @"Internal error: must provide url");
+	NSAssert(url != nil, @"Must provide url");
 
 	NSURLComponents* components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
 	NSString* accessToken;
@@ -99,7 +98,7 @@
 		}
 	}
 
-	NSAssert(accessToken != nil, @"Internal error: no access_token parameter was supplied");
+	NSAssert(accessToken != nil, @"No access_token parameter was supplied");
 
 	_configuration.accessToken = accessToken;
 

@@ -19,14 +19,14 @@
 @implementation AHADropInfoViewController
 
 - (void)viewDidLoad {
-	NSAssert(_dropInfoDelegate != nil, @"Internal error: Must set drop info delegate");
+	NSAssert(_dropInfoDelegate != nil, @"Must set drop info delegate");
 
 	_descriptionEditorView.textContainer.lineFragmentPadding = 0;
 }
 
 - (void)viewWillAppear:(__unused BOOL)animated {
-	NSAssert(_titleEditorView != nil, @"Internal error: missing title editor");
-	NSAssert(_coverImageView != nil, @"Internal error: missing cover image view");
+	NSAssert(_titleEditorView != nil, @"Missing title editor");
+	NSAssert(_coverImageView != nil, @"Missing cover image view");
 
 	if (_defaultTitle) {
 		_titleEditorView.text = _defaultTitle;
@@ -40,7 +40,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(__unused id)sender {
 	if ([segue.identifier isEqualToString:@"startDrop"]) {
 		id<AHADropInfoViewControllerDelegate> delegate = _dropInfoDelegate;
-		NSAssert(delegate != nil, @"Internal error: drop info delegate must be alive when dropping");
+		NSAssert(delegate != nil, @"Drop info delegate must be alive when dropping");
 
 		[delegate dropInfoViewControllerDidCommitTitle:_titleEditorView.text
 										   description:_descriptionEditorView.text
@@ -49,7 +49,7 @@
 
 		AHADropProgressViewController* progressVC = segue.destinationViewController;
 		NSAssert([progressVC isKindOfClass:[AHADropProgressViewController class]],
-				 @"Internal error: must segue to drop progress view controller from info view");
+				 @"Must segue to drop progress view controller from info view");
 
 		[delegate dropInfoViewControllerWillSegueToProgressViewController:progressVC];
 	}

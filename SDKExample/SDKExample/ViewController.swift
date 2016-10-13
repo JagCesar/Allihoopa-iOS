@@ -21,12 +21,12 @@ class ViewController: UIViewController {
 	}
 
 	@IBAction func drop() {
-		let piece = AHADropPieceData(defaultTitle: "Test title",
-		                             lengthMicroseconds: 50000,
-		                             tempo: AHAFixedTempo(fixedTempo: 123),
-		                             loopMarkers: AHALoopMarkers(startMicroseconds: 12, endMicroseconds: 34),
-		                             timeSignature: AHATimeSignature(upper: 8, lower: 4),
-		                             basedOnPieceIDs: [])
+		let piece = try! AHADropPieceData(defaultTitle: "Test title",
+		                                  lengthMicroseconds: 50000,
+		                                  tempo: AHAFixedTempo(fixedTempo: 123),
+		                                  loopMarkers: AHALoopMarkers(startMicroseconds: 12, endMicroseconds: 34),
+		                                  timeSignature: AHATimeSignature(upper: 8, lower: 4),
+		                                  basedOnPieceIDs: [])
 
 		let vc = AHAAllihoopaSDK.dropViewController(forPiece: piece, delegate: self)
 
@@ -34,12 +34,12 @@ class ViewController: UIViewController {
 	}
 
 	@IBAction func share(_ sender: UIView?) {
-		let piece = AHADropPieceData(defaultTitle: "Test title",
-		                             lengthMicroseconds: 50000,
-		                             tempo: AHAFixedTempo(fixedTempo: 123),
-		                             loopMarkers: AHALoopMarkers(startMicroseconds: 12, endMicroseconds: 34),
-		                             timeSignature: AHATimeSignature(upper: 8, lower: 4),
-		                             basedOnPieceIDs: [])
+		let piece = try! AHADropPieceData(defaultTitle: "Test title",
+		                                  lengthMicroseconds: 50000,
+		                                  tempo: AHAFixedTempo(fixedTempo: 123),
+		                                  loopMarkers: AHALoopMarkers(startMicroseconds: 12, endMicroseconds: 34),
+		                                  timeSignature: AHATimeSignature(upper: 8, lower: 4),
+		                                  basedOnPieceIDs: [])
 
 		let vc = UIActivityViewController(
 			activityItems: [],

@@ -1,4 +1,5 @@
 #import "Configuration.h"
+#import "Errors.h"
 
 static NSString* const kConfigurationDefaultsKey = @"allihoopa-sdk-prefs";
 
@@ -10,10 +11,8 @@ static NSString* const kConfigKeyAccessToken = @"access-token";
 }
 
 - (void)setupApplicationIdentifier:(NSString *)applicationIdentifier apiKey:(NSString *)apiKey {
-	NSAssert(applicationIdentifier != nil,
-			 @"Internal error: application identifier must be non-nil");
-	NSAssert(apiKey != nil,
-			 @"Internal error: API key must be non-nil");
+	NSAssert(applicationIdentifier != nil, @"Application identifier must be non-nil");
+	NSAssert(apiKey != nil, @"API key must be non-nil");
 
 	_applicationIdentifier = applicationIdentifier;
 	_apiKey = apiKey;
@@ -45,15 +44,17 @@ static NSString* const kConfigKeyAccessToken = @"access-token";
 }
 
 - (NSString *)applicationIdentifier {
-	NSAssert(_applicationIdentifier != nil,
-			 @"The Allihoopa SDK has not been configured yet, call +[AHAAllihoopaSDK setup] before using other methods");
+	if (!_applicationIdentifier) {
+		AHARaiseInvalidUsageException(@"The Allihoopa SDK has not been configured yet, call +[AHAAllihoopaSDK setup] before using other methods");
+	}
 
 	return _applicationIdentifier;
 }
 
 - (NSString *)apiKey {
-	NSAssert(_apiKey != nil,
-			 @"The Allihoopa SDK has not been configured yet, call +[AHAAllihoopaSDK setup] before using other methods");
+	if (!_apiKey) {
+		AHARaiseInvalidUsageException(@"The Allihoopa SDK has not been configured yet, call +[AHAAllihoopaSDK setup] before using other methods");
+	}
 
 	return _apiKey;
 }

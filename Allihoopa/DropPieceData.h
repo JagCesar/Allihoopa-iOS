@@ -1,5 +1,13 @@
 @import Foundation;
 
+@interface AHAPieceID : NSObject
+
+@property (readonly) NSString* _Nonnull pieceID;
+
+- (instancetype _Nonnull)initWithPieceID:(NSString* _Nonnull)pieceID;
+
+@end
+
 @interface AHAFixedTempo : NSObject
 
 @property (readonly) double fixedTempo;
@@ -40,15 +48,16 @@
 @property (readonly) AHATimeSignature* _Nullable timeSignature;
 
 // Attribution data
-@property (readonly) NSArray<NSUUID*>* _Nonnull basedOnPieceIDs;
+@property (readonly) NSArray<AHAPieceID*>* _Nonnull basedOnPieceIDs;
 
 - (instancetype _Nonnull)init NS_UNAVAILABLE;
 
-- (instancetype _Nonnull)initWithDefaultTitle:(NSString* _Nonnull)defaultTitle
-						   lengthMicroseconds:(NSInteger)lengthMicroseconds
-										tempo:(AHAFixedTempo* _Nullable)tempo
-								  loopMarkers:(AHALoopMarkers* _Nullable)loopMarkers
-								timeSignature:(AHATimeSignature* _Nullable)timeSignature
-							  basedOnPieceIDs:(NSArray<NSUUID*>* _Nonnull)basedOnPieceIDs NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithDefaultTitle:(NSString* _Nonnull)defaultTitle
+							lengthMicroseconds:(NSInteger)lengthMicroseconds
+										 tempo:(AHAFixedTempo* _Nullable)tempo
+								   loopMarkers:(AHALoopMarkers* _Nullable)loopMarkers
+								 timeSignature:(AHATimeSignature* _Nullable)timeSignature
+							   basedOnPieceIDs:(NSArray<NSUUID*>* _Nonnull)basedOnPieceIDs
+										 error:(NSError* _Nullable * _Nonnull)outValidationError NS_DESIGNATED_INITIALIZER;
 
 @end

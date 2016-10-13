@@ -1,8 +1,11 @@
 #import "DropViewController.h"
 
+#import "../Allihoopa+Internal.h"
+
 #import "../DropDelegate.h"
 #import "../Configuration.h"
 #import "../APICommunication.h"
+#import "../Errors.h"
 
 #import "DropInfoViewController.h"
 #import "DropProgressViewController.h"
@@ -52,17 +55,13 @@ mutation($piece: PieceInput!) {\
 #pragma mark - View controller lifecycle
 
 - (void)viewDidLoad {
-	NSAssert(_dropDelegate != nil,
-			 @"A delegate must be set for the drop view controller");
-	NSAssert(_dropPieceData != nil,
-			 @"Initial drop piece data must be set for the drop view controller");
+	NSAssert(_dropDelegate != nil, @"A delegate must be set for the drop view controller");
+	NSAssert(_dropPieceData != nil, @"Initial drop piece data must be set for the drop view controller");
 
-	NSAssert(_configuration != nil,
-			 @"Internal error: configuration not set for drop view controller");
-	NSAssert(self.viewControllers.count,
-			 @"Internal error: a root view controller must be set");
+	NSAssert(_configuration != nil, @"Configuration not set for drop view controller");
+	NSAssert(self.viewControllers.count, @"A root view controller must be set");
 	NSAssert([self.viewControllers[0] isKindOfClass:[AHADropInfoViewController class]],
-			 @"Internal error: root view controller must be drop info");
+			 @"Root view controller must be drop info");
 
 	_infoViewController = self.viewControllers[0];
 	_infoViewController.dropInfoDelegate = self;
@@ -105,8 +104,7 @@ mutation($piece: PieceInput!) {\
 }
 
 - (void)coverImageDidArrive:(UIImage*)image {
-	NSAssert(_infoViewController != nil,
-			 @"Internal error: info view must be set");
+	NSAssert(_infoViewController != nil, @"Info view must be set");
 
 	[_infoViewController setDefaultCoverImage:image];
 }
@@ -130,8 +128,9 @@ mutation($piece: PieceInput!) {\
 }
 
 - (void)mixStemDidArrive:(AHAAudioDataBundle*)bundle error:(NSError*)fetchError {
-	NSAssert([NSThread isMainThread],
-			 @"Must call completion handlers on main queue");
+	if (![NSThread isMainThread]) {
+		AHARaiseInvalidUsageException(@"Must call completion handlers on main queue");
+	}
 
 	if (bundle) {
 		__weak AHADropViewController* weakSelf = self;
@@ -165,8 +164,9 @@ mutation($piece: PieceInput!) {\
 }
 
 - (void)previewAudioDidArrive:(AHAAudioDataBundle*)bundle error:(NSError*)fetchError {
-	NSAssert([NSThread isMainThread],
-			 @"Must call completion handlers on main queue");
+	if (![NSThread isMainThread]) {
+		AHARaiseInvalidUsageException(@"Must call completion handlers on main queue");
+	}
 
 	if (bundle) {
 		__weak AHADropViewController* weakSelf = self;
@@ -206,8 +206,8 @@ mutation($piece: PieceInput!) {\
 	NSDictionary* stems = @{ @"mixStem": @{ _mixStemBundle.formatAsString: _mixStemURL.absoluteString } };
 
 	NSMutableArray* basedOnPieces = [NSMutableArray new];
-	for (NSUUID* uuid in _dropPieceData.basedOnPieceIDs) {
-		[basedOnPieces addObject:uuid.UUIDString];
+	for (AHAPieceID* pieceID in _dropPieceData.basedOnPieceIDs) {
+		[basedOnPieces addObject:pieceID.pieceID];
 	}
 
 	NSDictionary* attribution = @{ @"basedOnPieces": basedOnPieces };
@@ -266,9 +266,8 @@ mutation($piece: PieceInput!) {\
 		[self createPieceFromParts];
 	}
 	else if (pieceCreated) {
-		NSAssert(_progressViewController != nil,
-				 @"Internal error: no progress view controller available");
-		NSLog(@"Everything is done: %@", _createdPiece);
+		NSAssert(_progressViewController != nil,@"No progress view controller available");
+		AHALog(@"Everything is done: %@", _createdPiece);
 		[_progressViewController advanceToDropDone];
 	}
 }
@@ -279,9 +278,9 @@ mutation($piece: PieceInput!) {\
 								 description:(NSString*)description
 									  listed:(BOOL)isListed
 								  coverImage:(UIImage*)coverImage {
-	NSAssert(title != nil, @"Internal error: must commit title");
-	NSAssert(description != nil, @"Internal error: must commit description");
-	NSAssert(_waitingForPieceInfo, @"Internal error: can't commit piece info twice");
+	NSAssert(title != nil, @"Must commit title");
+	NSAssert(description != nil, @"Must commit description");
+	NSAssert(_waitingForPieceInfo, @"Can't commit piece info twice");
 
 	_committedTitle = title;
 	_committedDescription = description;
@@ -304,8 +303,8 @@ mutation($piece: PieceInput!) {\
 }
 
 - (void)dropInfoViewControllerWillSegueToProgressViewController:(AHADropProgressViewController*)dropProgressViewController {
-	NSAssert(dropProgressViewController != nil, @"Internal error: no drop progress view controller provided");
-	NSAssert(_progressViewController == nil, @"Internal error: transition to progress view controller multiple times");
+	NSAssert(dropProgressViewController != nil, @"No drop progress view controller provided");
+	NSAssert(_progressViewController == nil, @"Transition to progress view controller multiple times");
 
 	_progressViewController = dropProgressViewController;
 }
