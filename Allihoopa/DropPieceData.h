@@ -57,7 +57,7 @@
 										 tempo:(AHAFixedTempo* _Nullable)tempo
 								   loopMarkers:(AHALoopMarkers* _Nullable)loopMarkers
 								 timeSignature:(AHATimeSignature* _Nullable)timeSignature
-							   basedOnPieceIDs:(NSArray<NSUUID*>* _Nonnull)basedOnPieceIDs
+							   basedOnPieceIDs:(NSArray<AHAPieceID*>* _Nonnull)basedOnPieceIDs
 										 error:(NSError* _Nullable * _Nonnull)outValidationError NS_DESIGNATED_INITIALIZER;
 
 @end

@@ -22,8 +22,9 @@
 		FA45CB951D9D47AC0082846C /* DataBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = FA45CB941D9D47AC0082846C /* DataBundle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA45CB971D9D48210082846C /* DropDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FA45CB961D9D48210082846C /* DropDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA5FD3941D90180F0010E978 /* Allihoopa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA5FD38A1D90180F0010E978 /* Allihoopa.framework */; };
-		FA5FD3991D90180F0010E978 /* AllihoopaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5FD3981D90180F0010E978 /* AllihoopaTests.m */; };
 		FA5FD39B1D90180F0010E978 /* Allihoopa.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5FD38D1D90180F0010E978 /* Allihoopa.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAA67E341DB0C38300906501 /* ConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA67E331DB0C38300906501 /* ConfigurationTests.m */; };
+		FAA67E361DB0C3A300906501 /* ValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA67E351DB0C3A300906501 /* ValidationTests.m */; };
 		FAC2119F1DAFBEB80066FFA9 /* DropErrorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC2119E1DAFBEB80066FFA9 /* DropErrorViewController.m */; };
 		FAC211A21DAFBF850066FFA9 /* DropSegues.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC211A11DAFBF850066FFA9 /* DropSegues.m */; };
 		FAC211A41DB0BA700066FFA9 /* AllihoopaAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAC211A31DB0BA700066FFA9 /* AllihoopaAssets.xcassets */; };
@@ -70,10 +71,11 @@
 		FA5FD38D1D90180F0010E978 /* Allihoopa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Allihoopa.h; sourceTree = "<group>"; };
 		FA5FD38E1D90180F0010E978 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA5FD3931D90180F0010E978 /* AllihoopaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AllihoopaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FA5FD3981D90180F0010E978 /* AllihoopaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AllihoopaTests.m; sourceTree = "<group>"; };
 		FA5FD39A1D90180F0010E978 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA5FD3A41D9031A30010E978 /* Allihoopa.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = Allihoopa.podspec; sourceTree = "<group>"; };
 		FA6E77201D9BECAB003AB48E /* Allihoopa+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Allihoopa+Internal.h"; sourceTree = "<group>"; };
+		FAA67E331DB0C38300906501 /* ConfigurationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationTests.m; sourceTree = "<group>"; };
+		FAA67E351DB0C3A300906501 /* ValidationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValidationTests.m; sourceTree = "<group>"; };
 		FAC2119D1DAFBE520066FFA9 /* DropErrorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DropErrorViewController.h; sourceTree = "<group>"; };
 		FAC2119E1DAFBEB80066FFA9 /* DropErrorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropErrorViewController.m; sourceTree = "<group>"; };
 		FAC211A01DAFBF5E0066FFA9 /* DropSegues.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DropSegues.h; sourceTree = "<group>"; };
@@ -191,8 +193,9 @@
 		FA5FD3971D90180F0010E978 /* AllihoopaTests */ = {
 			isa = PBXGroup;
 			children = (
-				FA5FD3981D90180F0010E978 /* AllihoopaTests.m */,
+				FAA67E331DB0C38300906501 /* ConfigurationTests.m */,
 				FA5FD39A1D90180F0010E978 /* Info.plist */,
+				FAA67E351DB0C3A300906501 /* ValidationTests.m */,
 			);
 			path = AllihoopaTests;
 			sourceTree = "<group>";
@@ -337,7 +340,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA5FD3991D90180F0010E978 /* AllihoopaTests.m in Sources */,
+				FAA67E361DB0C3A300906501 /* ValidationTests.m in Sources */,
+				FAA67E341DB0C38300906501 /* ConfigurationTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

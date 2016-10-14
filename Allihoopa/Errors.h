@@ -10,7 +10,10 @@ typedef NS_ENUM(NSInteger, AHAError) {
 	AHAErrorPieceTempoTooLow = 1002,
 	AHAErrorPieceInvalidLoopMarkers = 1003,
 	AHAErrorPieceInvalidTimeSignature = 1004,
-	AHAErrorPieceTooLong = 1005,
+	AHAErrorPieceTooShort = 1005,
+	AHAErrorPieceTooLong = 1006,
+	AHAErrorPieceTitleTooShort = 1007,
+	AHAErrorPieceTitleTooLong = 1008,
 
 	AHAErrorInternalAPIError = 2001,
 	AHAErrorInternalUploadError = 2002,

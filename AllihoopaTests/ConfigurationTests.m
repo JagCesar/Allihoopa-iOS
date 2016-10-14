@@ -1,15 +1,6 @@
-//
-//  AllihoopaTests.m
-//  AllihoopaTests
-//
-//  Created by Magnus Hallin on 19/09/16.
-//  Copyright © 2016 Allihoopa. All rights reserved.
-//
-
-#import <XCTest/XCTest.h>
+@import XCTest;
 
 #import "../Allihoopa/Configuration.h"
-#import "../Allihoopa/DropPieceData.h"
 
 @interface ConfigurationTests : XCTestCase
 @end
@@ -63,32 +54,6 @@
 	}]);
 
 	XCTAssertNotEqualObjects(configuration.configuration[@"test"], randomString);
-}
-
-@end
-
-
-@interface ModelTests : XCTestCase
-@end
-
-@implementation ModelTests
-
-- (void)testAccessors {
-	AHADropPieceData* piece = [[AHADropPieceData alloc] initWithDefaultTitle:@"piece title"
-														  lengthMicroseconds:1234
-																	   tempo:[[AHAFixedTempo alloc] initWithFixedTempo:123.5]
-																 loopMarkers:[[AHALoopMarkers alloc] initWithStartMicroseconds:12 endMicroseconds:45]
-															   timeSignature:[[AHATimeSignature alloc] initWithUpper:4 lower:8]
-															 basedOnPieceIDs:@[ [NSUUID UUID] ]];
-
-	XCTAssertEqualObjects(piece.defaultTitle, @"piece title");
-	XCTAssertEqual(piece.lengthMicroseconds, 1234);
-	XCTAssertEqual(piece.tempo.fixedTempo, 123.5);
-	XCTAssertEqual(piece.loopMarkers.startMicroseconds, 12);
-	XCTAssertEqual(piece.loopMarkers.endMicroseconds, 45);
-	XCTAssertEqual(piece.timeSignature.upper, 4);
-	XCTAssertEqual(piece.timeSignature.lower, 8);
-	XCTAssertEqual(piece.basedOnPieceIDs.count, 1ul);
 }
 
 @end

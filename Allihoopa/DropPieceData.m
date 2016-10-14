@@ -32,6 +32,22 @@
 	return self;
 }
 
+- (NSError*)validate {
+	if (_fixedTempo < 1) {
+		return [NSError errorWithDomain:AHAAllihoopaErrorDomain
+								   code:AHAErrorPieceTempoTooLow
+							   userInfo:@{ NSLocalizedDescriptionKey: @"tempo: the tempo needs to be at least 1 BPM" }];
+	}
+
+	if (_fixedTempo > 999.999) {
+		return [NSError errorWithDomain:AHAAllihoopaErrorDomain
+								   code:AHAErrorPieceTempoTooHigh
+							   userInfo:@{ NSLocalizedDescriptionKey: @"tempo: the tempo needs to be lower than 999.999 BPM" }];
+	}
+
+	return nil;
+}
+
 @end
 
 
@@ -51,6 +67,28 @@
 	}
 
 	return self;
+}
+
+- (NSError*)validateWithPieceLength:(NSInteger)pieceLength {
+	if (_startMicroseconds < 0) {
+		return [NSError errorWithDomain:AHAAllihoopaErrorDomain
+								   code:AHAErrorPieceInvalidLoopMarkers
+							   userInfo:@{ NSLocalizedDescriptionKey: @"loopMarkers: loop start position can not be negative" }];
+	}
+
+	if (_endMicroseconds > pieceLength) {
+		return [NSError errorWithDomain:AHAAllihoopaErrorDomain
+								   code:AHAErrorPieceInvalidLoopMarkers
+							   userInfo:@{ NSLocalizedDescriptionKey: @"loopMarkers: loop end position can not be after the end of the piece" }];
+	}
+
+	if (_startMicroseconds >= _endMicroseconds) {
+		return [NSError errorWithDomain:AHAAllihoopaErrorDomain
+								   code:AHAErrorPieceInvalidLoopMarkers
+							   userInfo:@{ NSLocalizedDescriptionKey: @"loopMarkers: loop start position must be before end position" }];
+	}
+
+	return nil;
 }
 
 @end
@@ -73,13 +111,27 @@
 	return self;
 }
 
+- (NSError*)validate {
+	if (_upper < 1 || _upper > 16) {
+		return [NSError errorWithDomain:AHAAllihoopaErrorDomain
+								   code:AHAErrorPieceInvalidTimeSignature
+							   userInfo:@{ NSLocalizedDescriptionKey: @"timeSignature: upper numeral must be between 1 and 16" }];
+	}
+
+	if (_lower != 2 && _lower != 4 && _lower != 8 && _lower != 16) {
+		return [NSError errorWithDomain:AHAAllihoopaErrorDomain
+								   code:AHAErrorPieceInvalidTimeSignature
+							   userInfo:@{ NSLocalizedDescriptionKey: @"timeSignature: lower numeral must be 2, 4, 8, or 16" }];
+	}
+
+	return nil;
+}
+
 @end
 
 
 @implementation AHADropPieceData {
 	NSString* _defaultTitle;
-	NSString* _description;
-	BOOL _listed;
 
 	NSInteger _lengthMicroseconds;
 	AHAFixedTempo* _tempo;
@@ -90,8 +142,6 @@
 }
 
 - (NSString*)defaultTitle { return _defaultTitle; }
-- (NSString*)description { return _description; }
-- (BOOL)listed { return _listed; }
 
 - (NSInteger)lengthMicroseconds { return _lengthMicroseconds; }
 - (AHAFixedTempo*)tempo { return _tempo; }
@@ -105,7 +155,7 @@
 							   tempo:(AHAFixedTempo*)tempo
 						 loopMarkers:(AHALoopMarkers*)loopMarkers
 					   timeSignature:(AHATimeSignature*)timeSignature
-					 basedOnPieceIDs:(NSArray<NSUUID*>*)basedOnPieceIDs
+					 basedOnPieceIDs:(NSArray<AHAPieceID*>*)basedOnPieceIDs
 							   error:(NSError* __autoreleasing *)outValidationError {
 	if ((self = [super init])) {
 		if (!outValidationError) {
@@ -132,6 +182,43 @@
 }
 
 - (NSError*)validate {
+	if (!_defaultTitle || _defaultTitle.length < 1) {
+		return [NSError errorWithDomain:AHAAllihoopaErrorDomain
+								   code:AHAErrorPieceTitleTooShort
+							   userInfo:@{ NSLocalizedDescriptionKey: @"defaultTitle: title needs to be at least one character" }];
+	}
+	if ([_defaultTitle lengthOfBytesUsingEncoding:NSUTF32StringEncoding] / 4 > 50) {
+		return [NSError errorWithDomain:AHAAllihoopaErrorDomain
+								   code:AHAErrorPieceTitleTooLong
+							   userInfo:@{ NSLocalizedDescriptionKey: @"defaultTitle: title needs to be 50 characters or shorter" }];
+	}
+
+	if (_lengthMicroseconds <= 0) {
+		return [NSError errorWithDomain:AHAAllihoopaErrorDomain
+								   code:AHAErrorPieceTooShort
+							   userInfo:@{ NSLocalizedDescriptionKey: @"lengthMicroseconds: piece is too short" }];
+	}
+	else if (_lengthMicroseconds > 1200000000) {
+		return [NSError errorWithDomain:AHAAllihoopaErrorDomain
+								   code:AHAErrorPieceTooLong
+							   userInfo:@{ NSLocalizedDescriptionKey: @"lengthMicroseconds: piece is too long, it must be less than 20 minutes" }];
+	}
+
+	NSError* err = [_tempo validate];
+	if (err) {
+		return err;
+	}
+
+	err = [_loopMarkers validateWithPieceLength:_lengthMicroseconds];
+	if (err) {
+		return err;
+	}
+
+	err = [_timeSignature validate];
+	if (err) {
+		return err;
+	}
+
 	return nil;
 }
 
