@@ -6,8 +6,4 @@
 	[self performSegueWithIdentifier:@"dropProgressDone" sender:nil];
 }
 
-- (void)advanceToDropError {
-	[self performSegueWithIdentifier:@"dropError" sender:nil];
-}
-
 @end
