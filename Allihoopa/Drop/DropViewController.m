@@ -92,8 +92,10 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 #pragma mark - IBActions / Unwind segue actions
 
 - (IBAction)cancelDropUnwind:(__unused UIStoryboardSegue*)segue {
-	if ([self.dropDelegate respondsToSelector:@selector(dropViewControllerForPieceWillClose:)]) {
-		[self.dropDelegate dropViewControllerForPieceWillClose:_dropPieceData];
+	id<AHADropDelegate> delegate = _dropDelegate;
+	if ([delegate respondsToSelector:@selector(dropViewControllerForPieceWillClose:afterSuccessfulDrop:)]) {
+		[delegate dropViewControllerForPieceWillClose:_dropPieceData
+										   afterSuccessfulDrop:_viewState == AHADropViewStateDone];
 	}
 
 	if (_dismissWhenCloseTapped) {
@@ -106,11 +108,12 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 #pragma mark - Private methods (delegate data fetching)
 
 - (void)fetchDefaultCoverImage {
-	if ([_dropDelegate respondsToSelector:@selector(renderCoverImageForPiece:completion:)]) {
+	id<AHADropDelegate> delegate = _dropDelegate;
+	if ([delegate respondsToSelector:@selector(renderCoverImageForPiece:completion:)]) {
 		AHALog(@"Fetching default cover image from application");
 
 		__weak AHADropViewController* weakSelf = self;
-		[_dropDelegate renderCoverImageForPiece:_dropPieceData completion:^(UIImage* _Nullable image) {
+		[delegate renderCoverImageForPiece:_dropPieceData completion:^(UIImage* _Nullable image) {
 			AHADropViewController* strongSelf = weakSelf;
 
 			[strongSelf coverImageDidArrive:image];
@@ -159,7 +162,7 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 		AHARaiseInvalidUsageException(@"Must call completion handlers on main queue");
 	}
 
-	AHALog(@"Mix stem arrived from application, error: %@", bundle);
+	AHALog(@"Mix stem arrived from application, error: %@", fetchError);
 
 	if (bundle) {
 		AHALog(@"Uploading mix stem");
@@ -198,12 +201,13 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 }
 
 - (void)fetchPreviewAudio {
-	if ([_dropDelegate respondsToSelector:@selector(renderPreviewAudioForPiece:completion:)]) {
+	id<AHADropDelegate> delegate = self.dropDelegate;
+	if ([delegate respondsToSelector:@selector(renderPreviewAudioForPiece:completion:)]) {
 		AHALog(@"Fetching preview audio from application");
 		_waitingForPreviewAudio = YES;
-		__weak AHADropViewController* weakSelf;
+		__weak AHADropViewController* weakSelf = self;
 
-		[_dropDelegate renderPreviewAudioForPiece:_dropPieceData completion:^(AHAAudioDataBundle* _Nullable bundle, NSError* _Nullable error) {
+		[delegate renderPreviewAudioForPiece:_dropPieceData completion:^(AHAAudioDataBundle* _Nullable bundle, NSError* _Nullable error) {
 			AHADropViewController* strongSelf = weakSelf;
 
 			[strongSelf previewAudioDidArrive:bundle error:error];

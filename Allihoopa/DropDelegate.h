@@ -16,7 +16,8 @@
 - (void)renderCoverImageForPiece:(AHADropPieceData* _Nonnull)piece
 					  completion:(void(^ _Nonnull)(UIImage* _Nullable))completion;
 
-- (void)dropViewControllerForPieceWillClose:(AHADropPieceData* _Nonnull)piece;
+- (void)dropViewControllerForPieceWillClose:(AHADropPieceData* _Nonnull)piece
+						afterSuccessfulDrop:(BOOL)successfulDrop;
 
 
 @end

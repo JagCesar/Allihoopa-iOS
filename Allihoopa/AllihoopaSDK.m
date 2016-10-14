@@ -156,7 +156,7 @@ static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
 
 - (UIActivity *)activityForPiece:(AHADropPieceData *)dropPieceData
 						delegate:(id<AHADropDelegate>)delegate {
-	return [[AHAActivity alloc] init];
+	return [[AHAActivity alloc] initWithPiece:dropPieceData delegate:delegate];
 }
 
 @end

@@ -26,6 +26,7 @@
 		FA5FD39B1D90180F0010E978 /* Allihoopa.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5FD38D1D90180F0010E978 /* Allihoopa.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAC2119F1DAFBEB80066FFA9 /* DropErrorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC2119E1DAFBEB80066FFA9 /* DropErrorViewController.m */; };
 		FAC211A21DAFBF850066FFA9 /* DropSegues.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC211A11DAFBF850066FFA9 /* DropSegues.m */; };
+		FAC211A41DB0BA700066FFA9 /* AllihoopaAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAC211A31DB0BA700066FFA9 /* AllihoopaAssets.xcassets */; };
 		FAE206611D9BE6DD006EFEE3 /* Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE206601D9BE6DD006EFEE3 /* Configuration.m */; };
 		FAE206641D9BE83E006EFEE3 /* AuthenticationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE206631D9BE83E006EFEE3 /* AuthenticationViewController.m */; };
 		FAF525F31D95489E002CE6BF /* AllihoopaSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FAF525F11D95489E002CE6BF /* AllihoopaSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -77,6 +78,7 @@
 		FAC2119E1DAFBEB80066FFA9 /* DropErrorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropErrorViewController.m; sourceTree = "<group>"; };
 		FAC211A01DAFBF5E0066FFA9 /* DropSegues.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DropSegues.h; sourceTree = "<group>"; };
 		FAC211A11DAFBF850066FFA9 /* DropSegues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropSegues.m; sourceTree = "<group>"; };
+		FAC211A31DB0BA700066FFA9 /* AllihoopaAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AllihoopaAssets.xcassets; sourceTree = "<group>"; };
 		FAE2065E1D9BE68D006EFEE3 /* Configuration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Configuration.h; sourceTree = "<group>"; };
 		FAE206601D9BE6DD006EFEE3 /* Configuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Configuration.m; sourceTree = "<group>"; };
 		FAE206621D9BE777006EFEE3 /* AuthenticationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthenticationViewController.h; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				FA3527291DA2400600D2F91B /* Errors.h */,
 				FA35272A1DA2427E00D2F91B /* Errors.m */,
 				FA5FD38E1D90180F0010E978 /* Info.plist */,
+				FAC211A31DB0BA700066FFA9 /* AllihoopaAssets.xcassets */,
 			);
 			path = Allihoopa;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAC211A41DB0BA700066FFA9 /* AllihoopaAssets.xcassets in Resources */,
 				FA0027801D9AC7DB00ED3405 /* DropFlow.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
