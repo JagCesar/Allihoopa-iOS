@@ -33,6 +33,8 @@ void AHAGraphQLQuery(AHAConfiguration* configuration,
 														 error:&outError];
 	NSCAssert(postBody != nil && outError == nil, @"Could not serialize JSON data");
 
+	AHALog(@"Sending GraphQL query %@, variables %@", query, variables);
+
 	NSURLSession* session = CreateURLSession(configuration);
 	NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:GRAPHQL_URL]];
 	request.HTTPMethod = @"POST";
@@ -59,11 +61,13 @@ void AHAGraphQLQuery(AHAConfiguration* configuration,
 					completion(nil, error);
 				}
 				else if (httpResponse.statusCode != 200) {
+					AHALog(@"GraphQL parsed error response: %@", result);
 					completion(nil, [NSError errorWithDomain:AHAAllihoopaErrorDomain
 														code:AHAErrorInternalAPIError
 													userInfo:@{NSLocalizedDescriptionKey: @"GraphQL returned error"}]);
 				}
 				else if (![result isKindOfClass:[NSDictionary class]] || !result[@"data"]) {
+					AHALog(@"GraphQL parsed error response: %@", result);
 					completion(nil, [NSError errorWithDomain:AHAAllihoopaErrorDomain
 														code:AHAErrorInternalAPIError
 													userInfo:@{NSLocalizedDescriptionKey: @"GraphQL returned invalid JSON response"}]);
