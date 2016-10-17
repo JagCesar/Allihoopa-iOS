@@ -266,6 +266,9 @@
                                                 <integer key="value" value="1"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="editCoverImage:" destination="1Kq-4t-IlT" eventType="touchUpInside" id="M0R-Ey-76l"/>
+                                        </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoMarkColor" translatesAutoresizingMaskIntoConstraints="NO" id="JyC-AR-XaQ">
                                         <constraints>
@@ -297,6 +300,24 @@
                                         <color key="textColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sample description" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iQZ-63-vJ7">
+                                        <gestureRecognizers/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="19w-hh-zIr" appends="YES" id="HgE-bG-9Rn"/>
+                                        </connections>
+                                    </label>
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vNX-Vg-9eT">
+                                        <gestureRecognizers/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="uYr-CT-lDx" appends="YES" id="Owf-G5-Kg3"/>
+                                        </connections>
+                                    </label>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AddCircleOutline" translatesAutoresizingMaskIntoConstraints="NO" id="PXd-YU-D9t">
                                         <gestureRecognizers/>
                                         <constraints>
@@ -304,18 +325,9 @@
                                             <constraint firstAttribute="height" constant="20" id="wNS-Rq-L6z"/>
                                         </constraints>
                                         <connections>
-                                            <outletCollection property="gestureRecognizers" destination="o2s-Qt-Cok" appends="YES" id="lxU-AD-bnq"/>
+                                            <outletCollection property="gestureRecognizers" destination="NLA-P9-Uoa" appends="YES" id="WzF-fO-hO6"/>
                                         </connections>
                                     </imageView>
-                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description of pieceu sntaoheu tnheou thdoetnuhdneothdtnudoehtudnoethenuhtoedeuntdhoenuhdnothedun" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iQZ-63-vJ7">
-                                        <gestureRecognizers/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="wxC-cd-8F6" appends="YES" id="Ck7-hz-Md9"/>
-                                        </connections>
-                                    </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jtM-rJ-vfa">
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.076655321782178223" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -327,36 +339,46 @@
                                         <color key="textColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ovl-O2-jVh"/>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ovl-O2-jVh">
+                                        <connections>
+                                            <action selector="onListedChange:" destination="1Kq-4t-IlT" eventType="valueChanged" id="2a7-VM-I8C"/>
+                                        </connections>
+                                    </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anyone can see this" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PDP-cr-JaF">
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                         <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ooH-Fj-lgV">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ooH-Fj-lgV">
                                         <color key="backgroundColor" red="1" green="0.15294118230000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="lN6-nX-Vgy"/>
                                         </constraints>
-                                        <state key="normal" title="DROP">
+                                        <state key="normal" title="DROP" image="LogoMarkWhite">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="commitEditor" destination="1Kq-4t-IlT" eventType="touchUpInside" id="Amq-Cn-6gf"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="ooH-Fj-lgV" secondAttribute="bottom" id="1kU-iX-yMV"/>
                                     <constraint firstItem="1Gc-5s-R77" firstAttribute="top" secondItem="JyC-AR-XaQ" secondAttribute="bottom" constant="8" id="8Y2-lJ-OTG"/>
+                                    <constraint firstItem="vNX-Vg-9eT" firstAttribute="leading" secondItem="PXd-YU-D9t" secondAttribute="trailing" constant="8" id="ADt-YH-rbK"/>
                                     <constraint firstAttribute="trailing" secondItem="iQZ-63-vJ7" secondAttribute="trailing" constant="24" id="Blf-a6-O8M"/>
                                     <constraint firstItem="fzP-I5-Eyk" firstAttribute="bottom" secondItem="Yhc-oy-qAj" secondAttribute="bottom" constant="-16" id="DmO-db-l4k"/>
                                     <constraint firstItem="El5-gh-hSV" firstAttribute="top" secondItem="Yhc-oy-qAj" secondAttribute="bottom" constant="32.5" id="Ffi-WF-m6c"/>
                                     <constraint firstItem="ovl-O2-jVh" firstAttribute="top" secondItem="ayA-yj-bDU" secondAttribute="bottom" constant="8" id="GBh-DL-T0X"/>
                                     <constraint firstItem="ayA-yj-bDU" firstAttribute="top" secondItem="jtM-rJ-vfa" secondAttribute="bottom" constant="24" id="HYg-gd-yvZ"/>
                                     <constraint firstItem="PXd-YU-D9t" firstAttribute="leading" secondItem="gWl-Lf-xT9" secondAttribute="leading" id="Hww-w8-NgK"/>
+                                    <constraint firstItem="vNX-Vg-9eT" firstAttribute="trailing" secondItem="iQZ-63-vJ7" secondAttribute="trailing" id="J4j-4r-eMZ"/>
                                     <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="1Gc-5s-R77" secondAttribute="trailing" id="KZZ-m1-8vb"/>
                                     <constraint firstItem="fzP-I5-Eyk" firstAttribute="trailing" secondItem="Yhc-oy-qAj" secondAttribute="trailing" constant="-16" id="Kxs-xz-OVk"/>
                                     <constraint firstItem="jtM-rJ-vfa" firstAttribute="top" secondItem="iQZ-63-vJ7" secondAttribute="bottom" constant="19.5" id="Nop-9v-ahh"/>
                                     <constraint firstItem="mvx-4U-ftl" firstAttribute="leading" secondItem="El5-gh-hSV" secondAttribute="leading" id="PGi-Hx-QaX"/>
+                                    <constraint firstItem="iQZ-63-vJ7" firstAttribute="leading" secondItem="gWl-Lf-xT9" secondAttribute="leading" id="QE4-mm-OGX"/>
                                     <constraint firstItem="ooH-Fj-lgV" firstAttribute="leading" secondItem="Gcb-L3-sfm" secondAttribute="leading" id="SuZ-B3-kuD"/>
                                     <constraint firstItem="iQZ-63-vJ7" firstAttribute="top" secondItem="gWl-Lf-xT9" secondAttribute="bottom" constant="8" symbolic="YES" id="TB9-LI-J16"/>
                                     <constraint firstItem="Yhc-oy-qAj" firstAttribute="top" secondItem="1Gc-5s-R77" secondAttribute="bottom" constant="30" id="TfG-fx-t0n"/>
@@ -376,10 +398,11 @@
                                     <constraint firstAttribute="trailing" secondItem="PDP-cr-JaF" secondAttribute="trailing" constant="24" id="oKY-sZ-diE"/>
                                     <constraint firstItem="JyC-AR-XaQ" firstAttribute="centerX" secondItem="Gcb-L3-sfm" secondAttribute="centerX" id="pfD-Fc-cRe"/>
                                     <constraint firstItem="1Gc-5s-R77" firstAttribute="centerX" secondItem="JyC-AR-XaQ" secondAttribute="centerX" id="qF1-DZ-DLR"/>
-                                    <constraint firstItem="iQZ-63-vJ7" firstAttribute="leading" secondItem="PXd-YU-D9t" secondAttribute="trailing" constant="8" id="ri2-v3-gLR"/>
+                                    <constraint firstItem="iQZ-63-vJ7" firstAttribute="height" relation="greaterThanOrEqual" secondItem="vNX-Vg-9eT" secondAttribute="height" id="rkV-63-Cmi"/>
                                     <constraint firstItem="PDP-cr-JaF" firstAttribute="centerY" secondItem="ovl-O2-jVh" secondAttribute="centerY" id="uBq-gU-iRE"/>
                                     <constraint firstItem="Yhc-oy-qAj" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Gcb-L3-sfm" secondAttribute="leadingMargin" constant="16" id="xK0-xy-Da9"/>
                                     <constraint firstItem="ayA-yj-bDU" firstAttribute="leading" secondItem="gWl-Lf-xT9" secondAttribute="leading" id="xXv-fp-ViR"/>
+                                    <constraint firstItem="vNX-Vg-9eT" firstAttribute="top" secondItem="iQZ-63-vJ7" secondAttribute="top" id="xyy-8s-4ta"/>
                                     <constraint firstItem="gWl-Lf-xT9" firstAttribute="top" secondItem="mvx-4U-ftl" secondAttribute="bottom" constant="30" id="yX0-55-Nzh"/>
                                     <constraint firstAttribute="trailing" secondItem="jtM-rJ-vfa" secondAttribute="trailing" constant="12" id="zpv-Y5-Rmu"/>
                                 </constraints>
@@ -404,11 +427,15 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="1000"/>
                     <connections>
+                        <outlet property="addDescriptionButton" destination="PXd-YU-D9t" id="RFK-JM-XbE"/>
+                        <outlet property="addDescriptionLabel" destination="vNX-Vg-9eT" id="QMt-zf-RcJ"/>
                         <outlet property="coverImageView" destination="Yhc-oy-qAj" id="Lpo-91-xgK"/>
                         <outlet property="descriptionLabel" destination="iQZ-63-vJ7" id="ZFE-Gt-uLd"/>
+                        <outlet property="dropButton" destination="ooH-Fj-lgV" id="4DB-lh-Nc7"/>
+                        <outlet property="listedCaption" destination="PDP-cr-JaF" id="DsF-GD-9nK"/>
                         <outlet property="listedSwitch" destination="ovl-O2-jVh" id="gLb-Hp-c4G"/>
                         <outlet property="titleLabel" destination="mvx-4U-ftl" id="1Ha-m3-xwY"/>
-                        <segue destination="7qn-Z9-uJ2" kind="show" identifier="startDrop" id="cct-6T-Yyf"/>
+                        <segue destination="7qn-Z9-uJ2" kind="show" identifier="startDrop" id="aRI-SC-b5I"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="29y-e6-txe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -418,14 +445,19 @@
                         <segue destination="crf-rZ-pHa" kind="presentation" identifier="editTitle" modalPresentationStyle="formSheet" id="efg-bC-clD"/>
                     </connections>
                 </tapGestureRecognizer>
-                <tapGestureRecognizer id="wxC-cd-8F6" userLabel="Description tap gesture recognizer">
+                <tapGestureRecognizer id="NLA-P9-Uoa" userLabel="Add Description Button Tap">
                     <connections>
-                        <segue destination="crf-rZ-pHa" kind="presentation" identifier="editDescription" modalPresentationStyle="formSheet" id="5Nh-Rw-ei4"/>
+                        <segue destination="crf-rZ-pHa" kind="presentation" identifier="editDescription" modalPresentationStyle="formSheet" id="afI-KM-uCI"/>
                     </connections>
                 </tapGestureRecognizer>
-                <tapGestureRecognizer id="o2s-Qt-Cok" userLabel="Description button tap gesture recognizer">
+                <tapGestureRecognizer id="uYr-CT-lDx" userLabel="Add Description Label Tap">
                     <connections>
-                        <segue destination="crf-rZ-pHa" kind="presentation" identifier="editDescription" modalPresentationStyle="formSheet" id="Ri7-Of-pSl"/>
+                        <segue destination="crf-rZ-pHa" kind="presentation" identifier="editDescription" modalPresentationStyle="formSheet" id="klx-sB-mPq"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="19w-hh-zIr" userLabel="Description Label Tap">
+                    <connections>
+                        <segue destination="crf-rZ-pHa" kind="presentation" identifier="editDescription" modalPresentationStyle="formSheet" id="gTD-Rc-wfL"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -435,9 +467,10 @@
     <resources>
         <image name="AddCircleOutline" width="20" height="20"/>
         <image name="LogoMarkColor" width="111" height="111"/>
+        <image name="LogoMarkWhite" width="81" height="81"/>
         <image name="PlaceholderCoverImage" width="288" height="288"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5Nh-Rw-ei4"/>
+        <segue reference="gTD-Rc-wfL"/>
     </inferredMetricsTieBreakers>
 </document>
