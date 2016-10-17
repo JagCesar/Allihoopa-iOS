@@ -31,6 +31,7 @@
 		FAC211A41DB0BA700066FFA9 /* AllihoopaAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAC211A31DB0BA700066FFA9 /* AllihoopaAssets.xcassets */; };
 		FAE206611D9BE6DD006EFEE3 /* Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE206601D9BE6DD006EFEE3 /* Configuration.m */; };
 		FAE206641D9BE83E006EFEE3 /* AuthenticationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE206631D9BE83E006EFEE3 /* AuthenticationViewController.m */; };
+		FAE6E6AC1DB5157C0019B815 /* ProgressSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6E6AB1DB5157C0019B815 /* ProgressSpinner.m */; };
 		FAF525F31D95489E002CE6BF /* AllihoopaSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FAF525F11D95489E002CE6BF /* AllihoopaSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAF525F41D95489E002CE6BF /* AllihoopaSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF525F21D95489E002CE6BF /* AllihoopaSDK.m */; };
 /* End PBXBuildFile section */
@@ -88,6 +89,8 @@
 		FAE206601D9BE6DD006EFEE3 /* Configuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Configuration.m; sourceTree = "<group>"; };
 		FAE206621D9BE777006EFEE3 /* AuthenticationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthenticationViewController.h; sourceTree = "<group>"; };
 		FAE206631D9BE83E006EFEE3 /* AuthenticationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthenticationViewController.m; sourceTree = "<group>"; };
+		FAE6E6AA1DB5155F0019B815 /* ProgressSpinner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProgressSpinner.h; sourceTree = "<group>"; };
+		FAE6E6AB1DB5157C0019B815 /* ProgressSpinner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressSpinner.m; sourceTree = "<group>"; };
 		FAF525901D940015002CE6BF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		FAF525921D940185002CE6BF /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		FAF525941D9401B3002CE6BF /* Cartfile.resolved */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
@@ -137,6 +140,8 @@
 				FA45CB821D9C1C4C0082846C /* DropViewController.m */,
 				FABAB3181DB121F1000E1A0D /* ModalEditor.h */,
 				FABAB3191DB12278000E1A0D /* ModalEditor.m */,
+				FAE6E6AA1DB5155F0019B815 /* ProgressSpinner.h */,
+				FAE6E6AB1DB5157C0019B815 /* ProgressSpinner.m */,
 			);
 			path = Drop;
 			sourceTree = "<group>";
@@ -331,6 +336,7 @@
 				FAE206611D9BE6DD006EFEE3 /* Configuration.m in Sources */,
 				FAF525F41D95489E002CE6BF /* AllihoopaSDK.m in Sources */,
 				FA35271F1D9D5B2D00D2F91B /* DataBundle.m in Sources */,
+				FAE6E6AC1DB5157C0019B815 /* ProgressSpinner.m in Sources */,
 				FAE206641D9BE83E006EFEE3 /* AuthenticationViewController.m in Sources */,
 				FA45CB8B1D9C1E810082846C /* DropDoneViewController.m in Sources */,
 				FA35272B1DA2427E00D2F91B /* Errors.m in Sources */,

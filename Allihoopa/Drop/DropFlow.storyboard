@@ -41,12 +41,21 @@
                                     <constraint firstItem="0u6-LC-DH9" firstAttribute="top" secondItem="qAg-kq-XAh" secondAttribute="top" constant="10" id="npU-fA-EgE"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MXq-Y2-Esn" customClass="AHAProgressSpinner">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="D4g-N1-gUR"/>
+                                    <constraint firstAttribute="width" constant="40" id="pcL-tB-nQi"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="xer-ag-sDb" firstAttribute="centerY" secondItem="Xqg-kk-oev" secondAttribute="centerY" id="HdV-Tj-FeK"/>
                             <constraint firstItem="xer-ag-sDb" firstAttribute="centerX" secondItem="Xqg-kk-oev" secondAttribute="centerX" id="VVC-S4-5N3"/>
                             <constraint firstItem="qAg-kq-XAh" firstAttribute="centerX" secondItem="Xqg-kk-oev" secondAttribute="centerX" id="Wlb-LR-cZ7"/>
+                            <constraint firstItem="xer-ag-sDb" firstAttribute="top" secondItem="MXq-Y2-Esn" secondAttribute="bottom" constant="8.5" id="fJU-jP-nJg"/>
+                            <constraint firstItem="MXq-Y2-Esn" firstAttribute="centerX" secondItem="Xqg-kk-oev" secondAttribute="centerX" id="mVe-Qj-18a"/>
                             <constraint firstItem="xer-ag-sDb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Xqg-kk-oev" secondAttribute="leadingMargin" id="sqz-2K-LXw"/>
                             <constraint firstItem="ksV-5J-Lps" firstAttribute="top" secondItem="qAg-kq-XAh" secondAttribute="bottom" constant="20" id="wpA-nD-jAC"/>
                         </constraints>
