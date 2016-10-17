@@ -89,14 +89,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ma7-hc-m8i">
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oops! Something went wrong. Please try again later." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ma7-hc-m8i">
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="300" id="8Pi-GX-HwO"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="ma7-hc-m8i" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1Kv-ou-dAw" secondAttribute="leadingMargin" id="ITn-0h-BiG"/>
                             <constraint firstItem="ma7-hc-m8i" firstAttribute="centerX" secondItem="1Kv-ou-dAw" secondAttribute="centerX" id="SH4-n9-ozo"/>
                             <constraint firstItem="ma7-hc-m8i" firstAttribute="centerY" secondItem="1Kv-ou-dAw" secondAttribute="centerY" id="kbr-3f-Lgz"/>
                         </constraints>
@@ -113,7 +117,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MoW-hA-e3v" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="TmN-ON-0u8" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-924" y="751"/>
+            <point key="canvasLocation" x="-924" y="750.67466266866575"/>
         </scene>
         <!--Drop Done View Controller-->
         <scene sceneID="ai1-SO-Jxb">
