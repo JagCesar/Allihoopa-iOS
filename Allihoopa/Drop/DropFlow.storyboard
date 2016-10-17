@@ -130,7 +130,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5HE-VI-Lbw" customClass="AHADropViewController" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="olb-db-tJZ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="olb-db-tJZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -205,7 +205,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="L3g-mq-z5g" firstAttribute="top" secondItem="o93-Q4-BzH" secondAttribute="bottom" constant="8" id="0o1-mQ-I1i"/>
+                            <constraint firstItem="L3g-mq-z5g" firstAttribute="top" secondItem="o93-Q4-BzH" secondAttribute="bottom" constant="16" id="0o1-mQ-I1i"/>
                             <constraint firstAttribute="trailingMargin" secondItem="hCy-JZ-rdX" secondAttribute="trailing" id="1u7-qf-nZA"/>
                             <constraint firstAttribute="leadingMargin" secondItem="L3g-mq-z5g" secondAttribute="leading" id="3LJ-Nh-xAx"/>
                             <constraint firstAttribute="trailingMargin" secondItem="L3g-mq-z5g" secondAttribute="trailing" id="B2U-5E-A0V"/>

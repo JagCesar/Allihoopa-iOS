@@ -17,6 +17,7 @@
 
 	NSString* _title;
 	NSString* _initialText;
+	UIFont* _textFont;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -26,6 +27,10 @@
 		[nc addObserver:self
 			   selector:@selector(keyboardWillShow:)
 				   name:UIKeyboardWillShowNotification
+				 object:nil];
+		[nc addObserver:self
+			   selector:@selector(keyboardWillShow:)
+				   name:UIKeyboardDidShowNotification
 				 object:nil];
 		[nc addObserver:self
 			   selector:@selector(keyboardWillHide:)
@@ -51,6 +56,7 @@
 	_textEditor.textContainer.lineFragmentPadding = 0;
 	_titleLabel.text = _title;
 	_textEditor.text = _initialText;
+	_textEditor.font = _textFont;
 
 	[self updateCharacterCountLabel];
 }
@@ -71,14 +77,16 @@
 	return _textEditor.text;
 }
 
-- (void)setTitle:(NSString *)title maxLength:(NSInteger)maxLength text:(NSString *)text {
+- (void)setTitle:(NSString *)title maxLength:(NSInteger)maxLength text:(NSString *)text style:(UIFont *)font {
 	NSAssert(title != nil, @"Title must be set");
 	NSAssert(text != nil, @"Text must be set");
 	NSAssert(maxLength > 0, @"Max length must be positive");
+	NSAssert(font != nil, @"Style must be set");
 
 	_initialText = text;
 	_title = title;
 	_maxLength = maxLength;
+	_textFont = font;
 }
 
 #pragma mark - Private API
@@ -111,7 +119,9 @@
 	NSValue* frameEndValue = notification.userInfo[UIKeyboardFrameEndUserInfoKey];
 	CGRect frame =  frameEndValue.CGRectValue;
 
-	_bottomConstraint.constant = CGRectGetHeight(frame);
+	CGRect localFrame = [self.view convertRect:frame fromView:nil];
+
+	_bottomConstraint.constant = fmax(CGRectGetMaxY(self.view.bounds) - CGRectGetMinY(localFrame), 0);
 	[self updateKeyboardFromNotification:notification];
 }
 

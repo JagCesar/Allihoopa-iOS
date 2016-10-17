@@ -103,7 +103,10 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 				 @"Must segue to modal editor for editTitle");
 
 		_modalEditMode = AHAModalEditModeTitle;
-		[editor setTitle:@"Title of your piece" maxLength:50 text:_titleLabel.text];
+		[editor setTitle:@"Title of your piece"
+			   maxLength:50
+					text:_titleLabel.text
+				   style:_titleLabel.font];
 	}
 	else if ([segue.identifier isEqualToString:@"editDescription"]) {
 		NSAssert(_modalEditMode == AHAModalEditModeNone,
@@ -114,7 +117,10 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 				 @"Must segue to modal editor for editDescription");
 
 		_modalEditMode = AHAModalEditModeDescription;
-		[editor setTitle:@"Description and tags" maxLength:140 text:_descriptionLabel.text];
+		[editor setTitle:@"Description and tags"
+			   maxLength:140
+					text:_descriptionLabel.text
+				   style:_descriptionLabel.font];
 	}
 	else {
 		AHALog(@"Prepare for segue: %@", segue);
