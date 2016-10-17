@@ -9,14 +9,19 @@
 
 #import "DropInfoViewController.h"
 #import "DropProgressViewController.h"
+#import "DropDoneViewController.h"
 #import "AssetUpload.h"
 
 static NSString* const kCreatePieceQuery = @"\
 mutation($piece: PieceInput!) {\
   dropPiece(piece: $piece) {\
     piece {\
-      uuid\
+      title\
+      url\
       shortId\
+      coverImage(position: 10 withFallback: true) {\
+        url\
+      }\
     }\
   }\
 }\
@@ -29,12 +34,13 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	AHADropViewStateError,
 };
 
-@interface AHADropViewController () <AHADropInfoViewControllerDelegate>
+@interface AHADropViewController () <AHADropInfoViewControllerDelegate, AHADropProgressViewControllerDelegate>
 @end
 
 @implementation AHADropViewController {
 	AHADropInfoViewController* _infoViewController;
 	AHADropProgressViewController* _progressViewController;
+	AHADropDoneViewController* _doneViewController;
 
 	AHADropViewState _viewState;
 
@@ -57,6 +63,10 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 
 	BOOL _waitingForCreatePiece;
 	NSDictionary* _createdPiece;
+
+	BOOL _waitingForCoverImageDownload;
+	UIImage* _downloadedCoverImage;
+	BOOL _coverImageDownloaded;
 
 	NSError* _currentError;
 }
@@ -87,6 +97,13 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	[self fetchPreviewAudio];
 }
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+	if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+		return UIInterfaceOrientationMaskAll;
+	}
+
+	return UIInterfaceOrientationMaskPortrait;
+}
 
 
 #pragma mark - IBActions / Unwind segue actions
@@ -317,12 +334,67 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 
 - (void)createPieceFromPartsDidComplete:(NSDictionary*)piece error:(NSError*)error {
 	AHALog(@"createPiece GraphQL mutation completed, error: %@", error);
-	_createdPiece = piece;
+
 	_waitingForCreatePiece = NO;
 
-	if (!_currentError) {
+	if (_currentError) {
 		_currentError = error;
 	}
+	else if (piece
+			 && piece[@"dropPiece"]
+			 && [piece[@"dropPiece"] isKindOfClass:[NSDictionary class]]
+			 && piece[@"dropPiece"][@"piece"]
+			 && [piece[@"dropPiece"][@"piece"] isKindOfClass:[NSDictionary class]])
+	{
+		_createdPiece = piece[@"dropPiece"][@"piece"];
+	}
+	else {
+		_currentError = [NSError errorWithDomain:AHAAllihoopaErrorDomain
+											code:AHAErrorInternalAPIError
+										userInfo:@{ NSLocalizedDescriptionKey: @"Unexpected response from GraphQL"}];
+	}
+
+	[self tick];
+}
+
+#pragma mark - Private methods (downloading cover image)
+
+- (void)downloadCoverImage {
+	NSAssert(_createdPiece, @"Piece must be created before cover image can be downloaded");
+
+	if (_createdPiece[@"coverImage"]
+		&& [_createdPiece[@"coverImage"] isKindOfClass:[NSDictionary class]]
+		&& _createdPiece[@"coverImage"][@"url"]
+		&& [_createdPiece[@"coverImage"][@"url"] isKindOfClass:[NSString class]])
+	{
+		_waitingForCoverImageDownload = YES;
+		NSURLSession* session = [NSURLSession sharedSession];
+		NSURL* url = [NSURL URLWithString:_createdPiece[@"coverImage"][@"url"]];
+
+		__weak AHADropViewController* weakSelf = self;
+		NSURLSessionDataTask* task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data,
+																					  __unused NSURLResponse * _Nullable response,
+																					  __unused NSError * _Nullable error) {
+			UIImage* image;
+			if (data) {
+				image = [UIImage imageWithData:data];
+			}
+
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[weakSelf didDownloadCoverImage:image];
+			});
+		}];
+		[task resume];
+	}
+	else {
+		_coverImageDownloaded = YES;
+	}
+}
+
+- (void)didDownloadCoverImage:(UIImage*)coverImage {
+	_downloadedCoverImage = coverImage;
+	_waitingForCoverImageDownload = NO;
+	_coverImageDownloaded = YES;
 
 	[self tick];
 }
@@ -361,8 +433,13 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 
 		[self createPieceFromParts];
 	}
+	else if (pieceCreated && !_coverImageDownloaded && !_waitingForCoverImageDownload) {
+		AHALog(@"Tick: Downloading cover image");
+
+		[self downloadCoverImage];
+	}
 	// If the piece is created, segue to the done screen.
-	else if (pieceCreated && _viewState != AHADropViewStateDone) {
+	else if (pieceCreated && _coverImageDownloaded && _viewState != AHADropViewStateDone) {
 		AHALog(@"Everything is done: %@", _createdPiece);
 		NSAssert(_progressViewController != nil,@"No progress view controller available");
 
@@ -409,7 +486,32 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	NSAssert(_progressViewController == nil, @"Transition to progress view controller multiple times");
 
 	_progressViewController = dropProgressViewController;
+	_progressViewController.dropProgressDelegate = self;
 	_viewState = AHADropViewStateProgress;
+
+	[self tick];
+}
+
+#pragma mark - AHADropProgressViewControllerDelegate
+
+- (void)dropProgressViewControllerWillSegueToDoneViewController:(AHADropDoneViewController *)dropDoneViewController {
+	NSAssert(dropDoneViewController != nil, @"No drop done view controller provided");
+	NSAssert(_doneViewController == nil, @"Transition to done view controller multiple times");
+	NSAssert(_createdPiece != nil, @"Piece must be created when transitioning to drop done");
+
+	_doneViewController = dropDoneViewController;
+	_viewState = AHADropViewStateDone;
+
+	NSString* title = _createdPiece[@"title"];
+	NSString* url = _createdPiece[@"url"];
+
+	NSAssert(title != nil && [title isKindOfClass:[NSString class]], @"Title expected in GraphQL response");
+	NSAssert(url != nil && [url isKindOfClass:[NSString class]], @"URL expected in GraphQL response");
+	NSAssert(_coverImageDownloaded, @"Cover image needs to be downloaded");
+
+	[_doneViewController setPieceTitle:_createdPiece[@"title"]
+							 playerURL:[NSURL URLWithString:url]
+							coverImage:_downloadedCoverImage];
 
 	[self tick];
 }
