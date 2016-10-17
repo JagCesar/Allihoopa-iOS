@@ -14,7 +14,7 @@
 
 @end
 
-@interface AHADropInfoViewController : UITableViewController
+@interface AHADropInfoViewController : UIViewController
 
 @property (weak, nonatomic) id<AHADropInfoViewControllerDelegate> dropInfoDelegate;
 

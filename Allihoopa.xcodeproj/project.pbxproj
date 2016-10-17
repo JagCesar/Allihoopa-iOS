@@ -25,6 +25,7 @@
 		FA5FD39B1D90180F0010E978 /* Allihoopa.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5FD38D1D90180F0010E978 /* Allihoopa.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAA67E341DB0C38300906501 /* ConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA67E331DB0C38300906501 /* ConfigurationTests.m */; };
 		FAA67E361DB0C3A300906501 /* ValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA67E351DB0C3A300906501 /* ValidationTests.m */; };
+		FABAB31A1DB12278000E1A0D /* ModalEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = FABAB3191DB12278000E1A0D /* ModalEditor.m */; };
 		FAC2119F1DAFBEB80066FFA9 /* DropErrorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC2119E1DAFBEB80066FFA9 /* DropErrorViewController.m */; };
 		FAC211A21DAFBF850066FFA9 /* DropSegues.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC211A11DAFBF850066FFA9 /* DropSegues.m */; };
 		FAC211A41DB0BA700066FFA9 /* AllihoopaAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAC211A31DB0BA700066FFA9 /* AllihoopaAssets.xcassets */; };
@@ -76,6 +77,8 @@
 		FA6E77201D9BECAB003AB48E /* Allihoopa+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Allihoopa+Internal.h"; sourceTree = "<group>"; };
 		FAA67E331DB0C38300906501 /* ConfigurationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationTests.m; sourceTree = "<group>"; };
 		FAA67E351DB0C3A300906501 /* ValidationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValidationTests.m; sourceTree = "<group>"; };
+		FABAB3181DB121F1000E1A0D /* ModalEditor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModalEditor.h; sourceTree = "<group>"; };
+		FABAB3191DB12278000E1A0D /* ModalEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModalEditor.m; sourceTree = "<group>"; };
 		FAC2119D1DAFBE520066FFA9 /* DropErrorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DropErrorViewController.h; sourceTree = "<group>"; };
 		FAC2119E1DAFBEB80066FFA9 /* DropErrorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropErrorViewController.m; sourceTree = "<group>"; };
 		FAC211A01DAFBF5E0066FFA9 /* DropSegues.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DropSegues.h; sourceTree = "<group>"; };
@@ -132,6 +135,8 @@
 				FAC211A11DAFBF850066FFA9 /* DropSegues.m */,
 				FA45CB841D9C1C7D0082846C /* DropViewController.h */,
 				FA45CB821D9C1C4C0082846C /* DropViewController.m */,
+				FABAB3181DB121F1000E1A0D /* ModalEditor.h */,
+				FABAB3191DB12278000E1A0D /* ModalEditor.m */,
 			);
 			path = Drop;
 			sourceTree = "<group>";
@@ -330,6 +335,7 @@
 				FA45CB8B1D9C1E810082846C /* DropDoneViewController.m in Sources */,
 				FA35272B1DA2427E00D2F91B /* Errors.m in Sources */,
 				FA3527251D9E4FE900D2F91B /* APICommunication.m in Sources */,
+				FABAB31A1DB12278000E1A0D /* ModalEditor.m in Sources */,
 				FA45CB8D1D9C1EF50082846C /* DropInfoViewController.m in Sources */,
 				FA45CB881D9C1DF00082846C /* DropProgressViewController.m in Sources */,
 				FAC211A21DAFBF850066FFA9 /* DropSegues.m in Sources */,
