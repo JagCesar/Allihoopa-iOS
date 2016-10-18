@@ -139,6 +139,8 @@ AHAAllihoopaSDK.authenticate { (successful) in
 ```
 
 This opens a login/signup dialog where the user can authenticate with Allihoopa.
+You should not *really* have to call this method yourself: the SDK will
+automatically show a login screen before dropping, for example.
 
 It uses `SFSafariViewController`, which lets the user avoid entering
 username/password into the app if they are already signed into allihoopa.com in

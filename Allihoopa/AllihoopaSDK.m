@@ -122,9 +122,11 @@ static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
 
 	authController.modalPresentationStyle = UIModalPresentationFormSheet;
 
-	UIViewController* rootController = [UIApplication sharedApplication].keyWindow.rootViewController;
+	UIWindow* newWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+	newWindow.rootViewController = [[UIViewController alloc] init];
+	[newWindow makeKeyAndVisible];
+	[newWindow.rootViewController presentViewController:authController animated:YES completion:nil];
 
-	[rootController presentViewController:authController animated:YES completion:nil];
 
 	_currentAuthViewController = authController;
 }

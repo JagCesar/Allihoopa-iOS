@@ -1,5 +1,6 @@
 #import "DropViewController.h"
 
+#import "../AllihoopaSDK.h"
 #import "../Allihoopa+Internal.h"
 
 #import "../DropDelegate.h"
@@ -92,9 +93,26 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	_waitingForPieceInfo = YES;
 
 	[_infoViewController setDefaultTitle:_dropPieceData.defaultTitle];
+
 	[self fetchDefaultCoverImage];
-	[self fetchMixStem];
-	[self fetchPreviewAudio];
+}
+
+- (void)viewDidAppear:(__unused BOOL)animated {
+	__weak AHADropViewController* weakSelf = self;
+	[AHAAllihoopaSDK authenticate:^(BOOL successful) {
+		AHADropViewController* strongSelf = weakSelf;
+
+		if (strongSelf) {
+			if (successful) {
+				[strongSelf fetchDefaultCoverImage];
+				[strongSelf fetchMixStem];
+				[strongSelf fetchPreviewAudio];
+			}
+			else {
+				[strongSelf cancelDropUnwind:nil];
+			}
+		}
+	}];
 }
 
 - (void)dealloc {
