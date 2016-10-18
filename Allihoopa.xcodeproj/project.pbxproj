@@ -23,6 +23,7 @@
 		FA45CB971D9D48210082846C /* DropDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FA45CB961D9D48210082846C /* DropDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA5FD3941D90180F0010E978 /* Allihoopa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA5FD38A1D90180F0010E978 /* Allihoopa.framework */; };
 		FA5FD39B1D90180F0010E978 /* Allihoopa.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5FD38D1D90180F0010E978 /* Allihoopa.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA7AADE41DB673CD00935F67 /* Errors.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3527291DA2400600D2F91B /* Errors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAA67E341DB0C38300906501 /* ConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA67E331DB0C38300906501 /* ConfigurationTests.m */; };
 		FAA67E361DB0C3A300906501 /* ValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA67E351DB0C3A300906501 /* ValidationTests.m */; };
 		FABAB31A1DB12278000E1A0D /* ModalEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = FABAB3191DB12278000E1A0D /* ModalEditor.m */; };
@@ -220,6 +221,7 @@
 				FA45CB931D9D32560082846C /* DropPieceData.h in Headers */,
 				FAF525F31D95489E002CE6BF /* AllihoopaSDK.h in Headers */,
 				FA45CB971D9D48210082846C /* DropDelegate.h in Headers */,
+				FA7AADE41DB673CD00935F67 /* Errors.h in Headers */,
 				FA45CB951D9D47AC0082846C /* DataBundle.h in Headers */,
 				FA5FD39B1D90180F0010E978 /* Allihoopa.h in Headers */,
 			);
