@@ -1,9 +1,9 @@
 Allihoopa SDK for iOS
 =====================
 
-[![Travis](https://img.shields.io/travis/allihoopa/Allihoopa-iOS/master.svg?maxAge=2592000&style=flat-square)]()
-[![CocoaPods](https://img.shields.io/cocoapods/v/Allihoopa.svg?maxAge=2592000&style=flat-square)]()
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat-square)](https://github.com/Carthage/Carthage)
+[![Travis](https://travis-ci.org/allihoopa/Allihoopa-iOS.svg?branch=master)](https://travis-ci.org/allihoopa/Allihoopa-iOS)
+[![CocoaPods](https://cocoapod-badges.herokuapp.com/v/Allihoopa/badge.svg)](https://cocoapods.org/pods/Allihoopa)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg)](https://github.com/Carthage/Carthage)
 
 ----
 
@@ -43,13 +43,11 @@ Alternatively, you can simply download the latest built framework from the
 
 ## Configuration
 
-You need to add two keys to your `Info.plist`: 
-
-* Set `AllihoopaSDKAppKey` to your Allihoopa app key
-* Set `AllihoopaSDKAppSecret` to your Allihoopa app secret
-
-Also, you will need to register for the `ah-{APP_KEY}` URL scheme; e.g. 
-`ah-figure` if your app key is `figure`.
+You need to add a URL scheme to your app's `Info.plist`: `ah-{APP_IDENTIFIER}`,
+e.g. `ah-figure` if your application identifier is `figure`. You will receive
+your application identifier and API key when your register your application with
+Allihoopa. If you want to get on board, please send an email to
+[info@allihoopa.com](mailto:info@allihoopa.com).
 
 
 ## Development setup
@@ -66,13 +64,17 @@ import Allihoopa
 
 // In your UIApplicationDelegate implementation
 func applicationDidFinishLaunching(_ application: UIApplication) {
-    AHAAllihoopaSDK.setup()
+    AHAAllihoopaSDK.setup(
+        applicationIdentifier: "your-application-identifier",
+        apiKey: "your-api-key")
 }
 
 func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
     if AHAAllihoopaSDK.handleOpen(url) {
         return true
     }
+
+    // Call other SDKs' URL handling methods
 
     return false
 }
@@ -83,7 +85,8 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpe
 
 // In your UIApplicationDelegate implementation
 - (void)applicationDidFinishLaunching:(UIApplication*)application {
-    [AHAAllihoopaSDK setup];
+    [AHAAllihoopaSDK setupWithApplicationIdentifier:@"your-application-identifier"
+                                             apiKey:@"your-api-key"];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
@@ -91,15 +94,18 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpe
         return YES;
     }
 
+    // Call other SDKs' URL handling methods
+
     return NO;
 }
 ```
 
-`setup` must be called *before* any other API calls can be made. It will
-automatically read the API credentials from your `Info.plist` - check the
-configuration heading above.
+`setupWithApplicationIdentifier:apiKey:` must be called *before* any other API
+calls can be made. It will throw an exception if the SDK is improperly setup: if
+the credentials are missing or if you've not set up the URL scheme properly. For
+more information, see the "Steting up the SDK" heading above.
 
-`handleOpenURL` must be called inside the URL handler of your application. It
+`handleOpenURL:` must be called inside the URL handler of your application. It
 will only return true if it successfully handled the URL, making it possible to
 chain this call with other URL handlers.
 

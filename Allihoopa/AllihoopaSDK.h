@@ -15,7 +15,8 @@ typedef void (^AHAAuthenticationCallback)(BOOL successful);
  `ah-{applicationIdentifier}` URL scheme has been registered. +setup will throw
  an exception if any of these conditions have not been met.
  */
-+ (void)setup;
++ (void)setupWithApplicationIdentifier:(NSString* _Nonnull)applicationIdentifier
+								apiKey:(NSString* _Nonnull)apiKey NS_SWIFT_NAME(setup(applicationIdentifier:apiKey:));
 
 + (void)authenticate:(AHAAuthenticationCallback _Nonnull)completion;
 

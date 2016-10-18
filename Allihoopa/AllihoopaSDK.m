@@ -20,8 +20,8 @@ static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
 
 #pragma mark - Static interface
 
-+ (void)setup {
-	[[self sharedInstance] setup];
++ (void)setupWithApplicationIdentifier:(NSString*)applicationIdentifier apiKey:(NSString*)apiKey {
+	[[self sharedInstance] setupWithApplicationIdentifier:applicationIdentifier apiKey:apiKey];
 }
 
 + (void)authenticate:(void (^)(BOOL))completion {
@@ -66,20 +66,16 @@ static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
 #pragma mark - Private methods (non-static counterparts)
 
 
-- (void)setup {
-	NSBundle* bundle = [NSBundle mainBundle];
-	NSString* appKey = [bundle objectForInfoDictionaryKey:kInfoPlistAppKey];
-	NSString* appSecret = [bundle objectForInfoDictionaryKey:kInfoPlistAppSecret];
-
-	if (appKey == nil || appKey.length == 0) {
-		AHARaiseInvalidUsageException(@"The %@ key in your Info.plist must be set to your Allihoopa app key", kInfoPlistAppKey);
+- (void)setupWithApplicationIdentifier:(NSString*)applicationIdentifier apiKey:(NSString*)apiKey {
+	if (applicationIdentifier == nil || applicationIdentifier.length == 0) {
+		AHARaiseInvalidUsageException(@"No application identifier provided");
 	}
 
-	if (appSecret == nil || appSecret.length == 0) {
-		AHARaiseInvalidUsageException(@"The %@ key in your Info.plist must be set to your Allihoopa app secret", kInfoPlistAppSecret);
+	if (apiKey == nil || apiKey.length == 0) {
+		AHARaiseInvalidUsageException(@"No API key provided");
 	}
 
-	[_configuration setupApplicationIdentifier:appKey apiKey:appSecret];
+	[_configuration setupApplicationIdentifier:applicationIdentifier apiKey:apiKey];
 
 	[self validateURLSchemeSetup];
 }

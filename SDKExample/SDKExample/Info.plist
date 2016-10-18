@@ -2,10 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>AllihoopaSDKAppSecret</key>
-	<string>${ALLIHOOPA_SDK_APP_SECRET}</string>
-	<key>AllihoopaSDKAppKey</key>
-	<string>${ALLIHOOPA_SDK_APP_KEY}</string>
+	<key>AllihoopaSDKAPIKey</key>
+	<string>${ALLIHOOPA_SDK_API_KEY}</string>
+	<key>AllihoopaSDKApplicationIdentifier</key>
+	<string>${ALLIHOOPA_SDK_APPLICATION_IDENTIFIER}</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -29,7 +29,7 @@
 			<string>Allihoopa SDK</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>ah-$(ALLIHOOPA_SDK_APP_KEY)</string>
+				<string>ah-$(ALLIHOOPA_SDK_APPLICATION_IDENTIFIER)</string>
 			</array>
 		</dict>
 	</array>

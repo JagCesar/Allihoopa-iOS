@@ -15,7 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	var window: UIWindow?
 
 	func applicationDidFinishLaunching(_ application: UIApplication) {
-		AHAAllihoopaSDK.setup()
+		let applicationIdentifier = Bundle.main.object(forInfoDictionaryKey: "AllihoopaSDKApplicationIdentifier") as! String
+		let apiKey = Bundle.main.object(forInfoDictionaryKey: "AllihoopaSDKAPIKey") as! String
+		AHAAllihoopaSDK.setup(applicationIdentifier: applicationIdentifier, apiKey: apiKey)
 	}
 
 	func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
