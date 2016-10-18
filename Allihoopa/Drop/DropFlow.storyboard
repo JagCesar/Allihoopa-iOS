@@ -2,8 +2,10 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="5HE-VI-Lbw">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -128,7 +130,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Q9S-pp-GJF"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Z5Y-NJ-2U2">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="500"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Yay, you dropped your piece BOP IT" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="esY-88-vvV">
@@ -137,6 +139,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" image="Checkmark" translatesAutoresizingMaskIntoConstraints="NO" id="mWl-PI-raJ"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RecordSleeveShadow" translatesAutoresizingMaskIntoConstraints="NO" id="NSj-Va-aaF">
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="NSj-Va-aaF" secondAttribute="height" multiplier="1036:290" id="CII-VS-w1M"/>
+                                </constraints>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RecordPattern" translatesAutoresizingMaskIntoConstraints="NO" id="xbW-j3-0Sg">
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="300" id="GAd-iz-y6h"/>
@@ -167,6 +174,8 @@
                             <constraint firstItem="nKJ-W7-FvY" firstAttribute="centerX" secondItem="Z5Y-NJ-2U2" secondAttribute="centerX" id="9bZ-wy-H7V"/>
                             <constraint firstItem="mWl-PI-raJ" firstAttribute="top" secondItem="NG7-R1-fh2" secondAttribute="bottom" constant="8" id="9mB-wK-7Rt"/>
                             <constraint firstItem="xbW-j3-0Sg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Z5Y-NJ-2U2" secondAttribute="leadingMargin" id="ClB-Xi-327"/>
+                            <constraint firstItem="NSj-Va-aaF" firstAttribute="width" secondItem="grp-EH-RzH" secondAttribute="width" multiplier="1.45" id="DHF-97-nvu"/>
+                            <constraint firstItem="NSj-Va-aaF" firstAttribute="centerY" secondItem="grp-EH-RzH" secondAttribute="bottom" constant="-5" id="GQm-jo-Ea9"/>
                             <constraint firstItem="esY-88-vvV" firstAttribute="top" secondItem="mWl-PI-raJ" secondAttribute="bottom" constant="23" id="HbC-gh-n1u"/>
                             <constraint firstItem="esY-88-vvV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Z5Y-NJ-2U2" secondAttribute="leadingMargin" id="MCy-9X-Uue"/>
                             <constraint firstItem="xbW-j3-0Sg" firstAttribute="centerX" secondItem="Z5Y-NJ-2U2" secondAttribute="centerX" id="PGD-Gf-5vy"/>
@@ -174,6 +183,7 @@
                             <constraint firstItem="grp-EH-RzH" firstAttribute="top" secondItem="xbW-j3-0Sg" secondAttribute="top" constant="40" id="Ztu-gQ-Lij"/>
                             <constraint firstItem="mWl-PI-raJ" firstAttribute="centerX" secondItem="Z5Y-NJ-2U2" secondAttribute="centerX" id="aZ5-wm-7lg"/>
                             <constraint firstItem="esY-88-vvV" firstAttribute="centerX" secondItem="Z5Y-NJ-2U2" secondAttribute="centerX" id="db0-9P-179"/>
+                            <constraint firstItem="NSj-Va-aaF" firstAttribute="centerX" secondItem="grp-EH-RzH" secondAttribute="centerX" id="kiB-bu-Lkv"/>
                             <constraint firstItem="nKJ-W7-FvY" firstAttribute="leading" secondItem="Z5Y-NJ-2U2" secondAttribute="leadingMargin" id="ooj-DO-1yL"/>
                         </constraints>
                     </view>
@@ -185,7 +195,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="320" height="480"/>
+                    <size key="freeformSize" width="320" height="500"/>
                     <connections>
                         <outlet property="coverImageView" destination="grp-EH-RzH" id="gxE-xp-Yc3"/>
                         <outlet property="recordPatternImage" destination="xbW-j3-0Sg" id="WHz-ik-jRX"/>
@@ -543,6 +553,7 @@
         <image name="LogoMarkWhite" width="81" height="81"/>
         <image name="PlaceholderCoverImage" width="288" height="288"/>
         <image name="RecordPattern" width="1024" height="1024"/>
+        <image name="RecordSleeveShadow" width="1036" height="290"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="gTD-Rc-wfL"/>
