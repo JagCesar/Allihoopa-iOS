@@ -1,13 +1,22 @@
 #import "AllihoopaSDK.h"
 
+#import "Allihoopa+Internal.h"
 #import "Configuration.h"
 #import "AuthenticationViewController.h"
 #import "Drop/DropViewController.h"
 #import "Activity.h"
 #import "Errors.h"
+#import "APICommunication.h"
 
 static NSString* const kInfoPlistAppKey = @"AllihoopaSDKAppKey";
 static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
+
+static NSString* const kMeGraphQLQuery = @"\
+{\
+  me {\
+    profileUrl\
+  }\
+}";
 
 @interface AHAAllihoopaSDK ()
 @end
@@ -108,27 +117,41 @@ static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
 
 	NSAssert(_currentAuthViewController == nil, @"Only one auth session can be active");
 
-	__weak AHAAllihoopaSDK* weakSelf = self;
-	AHAAuthenticationViewController* authController = [[AHAAuthenticationViewController alloc]
-													   initWithConfiguration:_configuration
-													   completionHandler:^(BOOL successful) {
-														   AHAAllihoopaSDK* strongSelf = weakSelf;
-														   if (strongSelf) {
-															   strongSelf->_currentAuthViewController = nil;
-														   }
+	if (_configuration.accessToken) {
+		AHALog(@"Found access token, checking if it's still valid");
 
-														   completion(successful);
-													   }];
+		// We can let the following blocks take a strong reference to self since this is a
+		// singleton instance anyway.
+		AHAGraphQLQuery(_configuration, kMeGraphQLQuery, @{}, ^(NSDictionary *response, __unused NSError *error) {
+			if (response && response[@"me"]) {
+				AHALog(@"Access token valid, skipping auth view controller");
+				completion(YES);
+			}
+			else {
+				AHALog(@"Access token invalid, clearing and recursing");
+				self->_configuration.accessToken = nil;
+				[self authenticate:completion];
+			}
+		});
+	}
+	else {
+		AHALog(@"No access token found, showing auth view controller");
+		AHAAuthenticationViewController* authController = [[AHAAuthenticationViewController alloc]
+														   initWithConfiguration:_configuration
+														   completionHandler:^(BOOL successful) {
+															   self->_currentAuthViewController = nil;
+															   completion(successful);
+														   }];
 
-	authController.modalPresentationStyle = UIModalPresentationFormSheet;
+		authController.modalPresentationStyle = UIModalPresentationFormSheet;
 
-	UIWindow* newWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-	newWindow.rootViewController = [[UIViewController alloc] init];
-	[newWindow makeKeyAndVisible];
-	[newWindow.rootViewController presentViewController:authController animated:YES completion:nil];
+		UIWindow* newWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+		newWindow.rootViewController = [[UIViewController alloc] init];
+		[newWindow makeKeyAndVisible];
+		[newWindow.rootViewController presentViewController:authController animated:YES completion:nil];
 
-
-	_currentAuthViewController = authController;
+		_currentAuthViewController = authController;
+	}
 }
 
 - (BOOL)handleOpenURL:(NSURL* _Nonnull)url {
