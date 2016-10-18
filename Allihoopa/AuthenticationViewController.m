@@ -38,8 +38,17 @@
 	[self.view addSubview:safari.view];
 
 	safari.view.frame = self.view.bounds;
+	safari.delegate = self;
 
 	_safari = safari;
+}
+
+- (void)viewDidLayoutSubviews {
+	_safari.view.frame = self.view.bounds;
+}
+
+- (void)dealloc {
+	AHALog(@"Deallocing AHAAuthenticationViewController");
 }
 
 #pragma mark - Public interface

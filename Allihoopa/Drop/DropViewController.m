@@ -97,6 +97,10 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	[self fetchPreviewAudio];
 }
 
+- (void)dealloc {
+	AHALog(@"Deallocing AHADropViewController");
+}
+
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
 	if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
 		return UIInterfaceOrientationMaskAll;
