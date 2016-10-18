@@ -146,6 +146,42 @@ extension ViewController : AHADropDelegate {
 }
 ```
 
+---
+
+```objective-c
+NSError* error;
+AHADropPieceData* piece = [[AHADropPieceData alloc] initWithDefaultTitle:@"Default title"
+                                                      lengthMicroseconds:40000000
+                                                                   tempo:nil
+                                                             loopMarkers:nil
+                                                           timeSignature:nil
+                                                         basedOnPieceIDs:@[]
+                                                                   error:&error];
+if (piece) {
+    UIViewController* vc = [AHAAllihoopaSDK dropViewControllerForPiece:piece delegate:self];
+    [self presentViewController:vc animated:YES completion:nil];
+}
+```
+
+```objective-c
+@implementation ViewController
+
+- (void)renderMixStemForPiece:(AHADropPieceData *)piece
+                   completion:(void (^)(AHAAudioDataBundle * _Nullable, NSError * _Nullable))completion {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // Render wave data into an NSData object
+        AHAAudioDataBundle* bundle = [[AHAAudioDataBundle alloc] initWithFormat:AHAAudioFormatWave data:data];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(bundle, nil);
+        });
+    });
+}
+
+@end
+```
+
+
 `dropViewController` creates a view controller responsible for dropping the
 piece you supplied with the help of the delegate object. If the user is not
 logged in, a log in dialog is presented first. When the user is finished, or if
