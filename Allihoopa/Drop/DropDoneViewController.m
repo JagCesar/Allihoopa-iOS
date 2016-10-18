@@ -51,8 +51,8 @@
 		_recordPatternImage.alpha = 0;
 	}
 
-	_recordPatternImage.transform = CGAffineTransformMakeRotation(M_PI / 2);
-	_coverImageView.layer.borderColor = [UIColor colorWithRed:0.58 green:0.58 blue:0.58 alpha:1.0].CGColor;
+	_recordPatternImage.transform = CGAffineTransformMakeRotation((CGFloat)M_PI / 2);
+	_coverImageView.layer.borderColor = [UIColor colorWithRed:0.58f green:0.58f blue:0.58f alpha:1.0].CGColor;
 	_coverImageView.layer.borderWidth = 1;
 }
 

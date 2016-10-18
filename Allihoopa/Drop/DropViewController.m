@@ -513,7 +513,7 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	NSAssert(url != nil && [url isKindOfClass:[NSString class]], @"URL expected in GraphQL response");
 	NSAssert(_coverImageDownloaded, @"Cover image needs to be downloaded");
 
-	[_doneViewController setPieceTitle:_createdPiece[@"title"]
+	[_doneViewController setPieceTitle:title
 							 playerURL:[NSURL URLWithString:url]
 							coverImage:_downloadedCoverImage];
 

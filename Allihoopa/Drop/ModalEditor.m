@@ -94,8 +94,8 @@
 - (void)updateCharacterCountLabel {
 	NSAssert(_maxLength > 0, @"Max length must be positive");
 	NSAssert(_textEditor != nil, @"View must be loaded");
-	_characterCountLabel.text = [NSString stringWithFormat:@"%li",
-								 _maxLength - (NSInteger)_textEditor.text.length];
+	_characterCountLabel.text = [NSString stringWithFormat:@"%i",
+								 (int)(_maxLength - (NSInteger)_textEditor.text.length)];
 }
 
 #pragma mark - Keyboard notifications
@@ -105,7 +105,7 @@
 	NSNumber* animationDurationValue = notification.userInfo[UIKeyboardAnimationDurationUserInfoKey];
 
 	UIViewAnimationCurve animationCurve = animationCurveValue.integerValue;
-	CGFloat animationDuration = animationDurationValue.doubleValue;
+	CGFloat animationDuration = (CGFloat)animationDurationValue.doubleValue;
 
 	[UIView animateWithDuration:animationDuration
 						  delay:0
@@ -121,7 +121,7 @@
 
 	CGRect localFrame = [self.view convertRect:frame fromView:nil];
 
-	_bottomConstraint.constant = fmax(CGRectGetMaxY(self.view.bounds) - CGRectGetMinY(localFrame), 0);
+	_bottomConstraint.constant = (CGFloat)fmax(CGRectGetMaxY(self.view.bounds) - CGRectGetMinY(localFrame), 0);
 	[self updateKeyboardFromNotification:notification];
 }
 

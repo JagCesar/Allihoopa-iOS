@@ -47,37 +47,37 @@ static CGFloat EaseInOutCubic(CGFloat t) {
 	double duration = 1.5;
 	double t = fmod(CACurrentMediaTime() - _startTime, duration) / duration;
 
-	CGRect upperRightFrame = CGRectMake(0.27 * width, 0, 0.73 * width, 0.73 * height);
-	CGRect lowerLeftFrame = CGRectMake(0, 0.27 * height, 0.73 * width, 0.73 * height);
+	CGRect upperRightFrame = CGRectMake(0.27f * width, 0, 0.73f * width, 0.73f * height);
+	CGRect lowerLeftFrame = CGRectMake(0, 0.27f * height, 0.73f * width, 0.73f * height);
 
 	CGFloat xOffset = 0;
 	CGFloat yOffset = 0;
 
 	if (t < 0.25) {
-		yOffset = t * 4;
+		yOffset = (CGFloat)t * 4;
 	}
 	else if (t < 0.5) {
-		xOffset = (t - 0.25) * 4;
+		xOffset = ((CGFloat)t - 0.25f) * 4;
 		yOffset = 1;
 	}
 	else if (t < 0.75) {
-		yOffset = (0.75 - t) * 4;
+		yOffset = (0.75f - (CGFloat)t) * 4;
 		xOffset = 1;
 	}
 	else {
-		xOffset = (1 - t) * 4;
+		xOffset = (1 - (CGFloat)t) * 4;
 	}
 
 	xOffset = EaseInOutCubic(xOffset);
 	yOffset = EaseInOutCubic(yOffset);
 
-	upperRightFrame = CGRectOffset(upperRightFrame, -0.27 * width * xOffset, 0.27 * height * yOffset);
-	lowerLeftFrame = CGRectOffset(lowerLeftFrame, 0.27 * width * xOffset, -0.27 * height * yOffset);
+	upperRightFrame = CGRectOffset(upperRightFrame, -0.27f * width * xOffset, 0.27f * height * yOffset);
+	lowerLeftFrame = CGRectOffset(lowerLeftFrame, 0.27f * width * xOffset, -0.27f * height * yOffset);
 
 	[[UIColor colorWithRed:1.0 green:0.15234375f blue:1.0 alpha:1.0] setFill];
 	[[UIBezierPath bezierPathWithOvalInRect:upperRightFrame] fillWithBlendMode:kCGBlendModeMultiply alpha:1.0];
 
-	[[UIColor colorWithRed:0.16 green:0.86 blue:0.16 alpha:1.0] setFill];
+	[[UIColor colorWithRed:0.16f green:0.86f blue:0.16f alpha:1.0] setFill];
 	[[UIBezierPath bezierPathWithOvalInRect:lowerLeftFrame] fillWithBlendMode:kCGBlendModeMultiply alpha:1.0];
 }
 
