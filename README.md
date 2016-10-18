@@ -109,12 +109,158 @@ more information, see the "Steting up the SDK" heading above.
 will only return true if it successfully handled the URL, making it possible to
 chain this call with other URL handlers.
 
+## Dropping pieces
+
+```swift
+let piece = try! AHADropPieceData(
+    defaultTitle: "Default title", // The default title of the piece
+    lengthMicroseconds: 40000000, // Length of the piece, in microseconds
+    tempo: nil,
+    loopMarkers: nil,
+    timeSignature: nil,
+    basedOn: [])
+
+let vc = AHAAllihoopaSDK.dropViewController(forPiece: piece, delegate: self)
+
+self.present(vc, animated: true, completion: nil)
+```
+
+```swift
+extension ViewController : AHADropDelegate {
+    // The drop view controller will ask your application for audio data.
+    // You should perform work in the background and call the completion
+    // handler on the main queue. If you already have the data available,
+    // you can just call the completion handler directly.
+    //
+    // This method *must* call completion with a data bundle for the drop to
+    // succeed. If it doesn't, an error screen will be shown.
+    func renderMixStem(forPiece piece: AHADropPieceData, completion: @escaping (AHAAudioDataBundle?, Error?) -> Void) {
+        DispatchQueue.global().async {
+            // Render Wave data into an NSData object
+            let bundle = AHAAudioDataBundle(format: .wave, data: data)
+            DispatchQueue.main.async {
+                completion(bundle, nil)
+            }
+        }
+    }
+}
+```
+
+`dropViewController` creates a view controller responsible for dropping the
+piece you supplied with the help of the delegate object. If the user is not
+logged in, a log in dialog is presented first. When the user is finished, or if
+they cancel, the view controller will dismiss itself and inform the delegate.
+
+A piece can contain different kinds of metadata. The above example shows off the
+minimum amount of data we require: a default title, the length of the piece
+audio data, and a delegate method that renders the audio into a known format.
+
+The `AHADropPieceData` performs basic validation on the inputs: it will return a
+`NSError` containing information on what went wrong. Errors can include things
+like the loop markers being inverted or the length outside of reasonable limits.
+These are *usually* programmer errors - not runtime errors that can be handled
+in a meaningful way.
+
+If your application knows about it, it can supply a lot more metadata to
+`AHADropPieceData` more information, as well as implementing more methods on
+`AHADropDelegate` than shown above. Here's a complete example showing all data
+you can set:
+
+```swift
+let piece = try! AHADropPieceData(
+    defaultTitle: "Default title",
+    lengthMicroseconds: 100000000,
+    // The fixed tempo in BPM. Allowed range: 1 - 999.999 BPM
+    tempo: AHAFixedTempo(fixedTempo: 128), 
+
+    // If the piece is a loop, you can provide the loop markers.
+    loopMarkers: AHALoopMarkers(startMicroseconds: 0, endMicroseconds: 500000),
+
+    // If the time signature is available and fixed, you can provide a time
+    // signature object.
+    //
+    // The upper numeral can range from 1 to 16, incnlusive. The lower numeral
+    // must be one of 2, 4, 8, and 16.
+    timeSignature: AHATimeSignature(upper: 8, lower: 4),
+
+    // If the piece is based on other pieces, provide a list of the IDs of those
+    // pieces here.
+    basedOn: [])
+```
+
+```swift
+extension ViewController : AHADropDelegate {
+    // The "mix stem" is the audio data that should be used to place the piece
+    // on a timeline. Call the completion handler with a data bundle instance
+    // on the main queue when data is available.
+    //
+    // The mix stem is mandatory.
+    func renderMixStem(forPiece piece: AHADropPieceData, completion: @escaping (AHAAudioDataBundle?, Error?) -> Void) {
+    }
+
+    // You can supply a default cover image that the user can upload or change.
+    // Call the completion handler with an image of size 640x640 px, or nil.
+    func renderCoverImage(forPiece piece: AHADropPieceData, completion: @escaping (UIImage?) -> Void) {
+        completion(nil)
+    }
+
+    // If the audio to be placed on the timeline is different from what users
+    // should listen to, use this delegate method to provide a "preview"
+    // audio bundle.
+    //
+    // For example, if you're providing a short loop you can supply only the
+    // loop data in a lossless format as the mix stem, and then a longer track
+    // containing a few loops with fade in/out in a lossy format in the
+    // preview audio.
+    //
+    // The preview audio is what's going to be played on the website.
+    //
+    // If no preview audio is provided, the mix stem will be used instead. This
+    // replacement is done server-side, the mix stem data will only be uploaded
+    // once from the client.
+    func renderPreviewAudio(forPiece piece: AHADropPieceData, completion: @escaping (AHAAudioDataBundle?, Error?) -> Void) {
+    }
+
+    // You can implement this method to get notified when the user either
+    // cancels or completes a drop.
+    func dropViewController(forPieceWillClose piece: AHADropPieceData, afterSuccessfulDrop successfulDrop: Bool) {
+    }
+}
+```
+
+### Dropping from `UIActivityViewController`
+
+```swift
+@IBAction func share(_ sender: UIView?) {
+    let piece = try! AHADropPieceData(
+        defaultTitle: "Default title",
+        lengthMicroseconds: 100000000,
+        tempo: nil,
+        loopMarkers: nil,
+        timeSignature: nil,
+        basedOn: [])
+
+    let vc = UIActivityViewController(
+        activityItems: [],
+        applicationActivities: [AHAAllihoopaSDK.activity(forPiece: piece, delegate: self)])
+    vc.modalPresentationStyle = .popover
+
+    self.present(vc, animated: true, completion: nil)
+
+    let pop = vc.popoverPresentationController!
+    pop.sourceView = sender
+    pop.sourceRect = sender!.bounds
+}
+```
+
+If you are already using `UIActivityViewController` to present a share popover
+to your users, you can use `activityForPiece:delegate:` to create a
+`UIActivity`. It has the same interface as for creating the drop view controller
+above, and uses the same delegate protocol.
 
 ## Authenticating users
 
 ```swift
-import Allihoopa
-
 AHAAllihoopaSDK.authenticate { (successful) in
     if successful {
         // The user is now logged in
@@ -126,8 +272,6 @@ AHAAllihoopaSDK.authenticate { (successful) in
 ```
 
 ```objective-c
-#import <Allihoopa/Allihoopa.h>
-
 [AHAAllihoopaSDK authenticate:^(BOOL successful) {
     if (successful) {
         // The user is now logged in
