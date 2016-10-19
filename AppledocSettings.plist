@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>--company-id</key>
+	<string>com.allihoopa</string>
+	<key>--create-docset</key>
+	<false/>
+	<key>--create-html</key>
+	<true/>
+	<key>--input</key>
+	<array>
+		<string>Allihoopa/Allihoopa.h</string>
+		<string>Allihoopa/DataBundle.h</string>
+		<string>Allihoopa/DropPieceData.h</string>
+		<string>Allihoopa/DropDelegate.h</string>
+		<string>Allihoopa/AllihoopaSDK.h</string>
+		<string>Allihoopa/Errors.h</string>
+	</array>
+	<key>--output</key>
+	<string>doc</string>
+	<key>--project-company</key>
+	<string>Allihoopa</string>
+	<key>--project-name</key>
+	<string>Allihoopa</string>
+	<key>--project-version</key>
+	<string>0.2.0</string>
+	<key>--keep-undocumented-objects</key>
+	<true/>
+	<key>--keep-undocumented-members</key>
+	<true/>
+	<key>--ignore</key>
+	<array>
+		<string>AllihoopaTests</string>
+		<string>SDKExample</string>
+		<string>Carthage</string>
+		<string>*.framework</string>
+	</array>
+</dict>
+</plist>

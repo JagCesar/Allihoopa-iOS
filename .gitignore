@@ -1,6 +1,7 @@
 /Carthage
 /dist
 /build
+/doc
 
 *.framework.zip
 SDKExample/SDKExample/Credentials.xcconfig
