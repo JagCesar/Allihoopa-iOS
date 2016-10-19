@@ -1,8 +1,9 @@
 @import Foundation;
 
+//! Name of the `NSException` that is raised when the SDK is incorrectly used
 extern NSString* const AHAInvalidUsageException;
 
-
+//! General domain for `NSError`s produced by this SDK
 extern NSString* const AHAAllihoopaErrorDomain;
 
 typedef NS_ENUM(NSInteger, AHAError) {

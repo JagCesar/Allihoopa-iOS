@@ -5,6 +5,9 @@ typedef NS_ENUM(NSUInteger, AHAAudioFormat) {
 	AHAAudioFormatOggVorbis,
 };
 
+/**
+ NSData wrapped with a MIME type
+ */
 @interface AHAAudioDataBundle : NSObject
 
 @property (readonly) AHAAudioFormat format;
