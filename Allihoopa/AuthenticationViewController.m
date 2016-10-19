@@ -30,7 +30,7 @@
 
 - (void)viewDidLoad {
 	NSString* url = [NSString
-					 stringWithFormat:(WEB_BASE_URL @"/account/login?response_type=token&client_id=%@"),
+					 stringWithFormat:(WEB_BASE_URL @"/account/login?response_type=token&client_id=%@&allow_popups=false"),
 					 _configuration.applicationIdentifier];
 
 	SFSafariViewController* safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url]];
