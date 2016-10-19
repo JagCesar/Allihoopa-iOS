@@ -2,7 +2,7 @@
 
 source ~/.rvm/scripts/rvm
 rvm use default
-gem install cocoapods
+gem install cocoapods --pre
 
 cd "$TRAVIS_BUILD_DIR"
 
