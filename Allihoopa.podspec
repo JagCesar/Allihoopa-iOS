@@ -32,6 +32,9 @@ DESC
 
   s.source       = { :git => "https://github.com/allihoopa/Allihoopa-iOS.git", :tag => "v#{s.version}" }
 
-  s.source_files  = "Allihoopa"
+  s.source_files  = "Allihoopa", "Allihoopa/Drop"
+  s.resource_bundles = {
+    "Allihoopa" => ["Allihoopa/Drop/*.storyboard", "Allihoopa/*.xcassets"]
+  }
  
 end

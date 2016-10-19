@@ -160,9 +160,20 @@ static NSString* const kMeGraphQLQuery = @"\
 
 - (UIViewController *)dropViewControllerForPiece:(AHADropPieceData *)dropPieceData
 										delegate:(id<AHADropDelegate>)delegate {
+	NSURL* cocoaPodsBundleURL = [[NSBundle mainBundle] URLForResource:@"Allihoopa" withExtension:@"bundle"];
+	NSBundle* assetBundle;
+
+	if (cocoaPodsBundleURL) {
+		assetBundle = [NSBundle bundleWithURL:cocoaPodsBundleURL];
+	}
+
+	if (!assetBundle) {
+		assetBundle = [NSBundle bundleForClass:[AHAAllihoopaSDK class]];
+	}
+
 	UIStoryboard* storyboard = [UIStoryboard
 								storyboardWithName:@"DropFlow"
-								bundle:[NSBundle bundleForClass:[AHAAllihoopaSDK class]]];
+								bundle:assetBundle];
 	AHADropViewController* dropFlow = [storyboard instantiateInitialViewController];
 	NSAssert(dropFlow && [dropFlow isKindOfClass:[AHADropViewController class]],
 			 @"DropFlow storyboard must have an AHADropViewController as its initial view controller");
