@@ -47,7 +47,7 @@ You need to add a URL scheme to your app's `Info.plist`: `ah-{APP_IDENTIFIER}`,
 e.g. `ah-figure` if your application identifier is `figure`. You will receive
 your application identifier and API key when your register your application with
 Allihoopa. If you want to get on board, please send an email to
-[info@allihoopa.com](mailto:info@allihoopa.com).
+[developer@allihoopa.com](mailto:developer@allihoopa.com).
 
 
 ## Development setup
