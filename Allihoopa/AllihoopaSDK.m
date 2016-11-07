@@ -7,6 +7,8 @@
 #import "Activity.h"
 #import "Errors.h"
 #import "APICommunication.h"
+#import "Piece.h"
+#import "Import.h"
 
 static NSString* const kInfoPlistAppKey = @"AllihoopaSDKAppKey";
 static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
@@ -25,12 +27,18 @@ static NSString* const kMeGraphQLQuery = @"\
 	AHAAuthenticationViewController* _currentAuthViewController;
 
 	AHAConfiguration* _configuration;
+
+	__weak id<AHAAllihoopaSDKDelegate> _delegate;
 }
 
 #pragma mark - Static interface
 
-+ (void)setupWithApplicationIdentifier:(NSString*)applicationIdentifier apiKey:(NSString*)apiKey {
-	[[self sharedInstance] setupWithApplicationIdentifier:applicationIdentifier apiKey:apiKey];
++ (void)setupWithApplicationIdentifier:(NSString*)applicationIdentifier
+								apiKey:(NSString*)apiKey
+							  delegate:(id<AHAAllihoopaSDKDelegate> _Nonnull)delegate {
+	[[self sharedInstance] setupWithApplicationIdentifier:applicationIdentifier
+												   apiKey:apiKey
+												 delegate:delegate];
 }
 
 + (void)authenticate:(void (^)(BOOL))completion {
@@ -75,7 +83,9 @@ static NSString* const kMeGraphQLQuery = @"\
 #pragma mark - Private methods (non-static counterparts)
 
 
-- (void)setupWithApplicationIdentifier:(NSString*)applicationIdentifier apiKey:(NSString*)apiKey {
+- (void)setupWithApplicationIdentifier:(NSString*)applicationIdentifier
+								apiKey:(NSString*)apiKey
+							  delegate:(id<AHAAllihoopaSDKDelegate>)delegate {
 	if (applicationIdentifier == nil || applicationIdentifier.length == 0) {
 		AHARaiseInvalidUsageException(@"No application identifier provided");
 	}
@@ -83,6 +93,8 @@ static NSString* const kMeGraphQLQuery = @"\
 	if (apiKey == nil || apiKey.length == 0) {
 		AHARaiseInvalidUsageException(@"No API key provided");
 	}
+
+	_delegate = delegate;
 
 	[_configuration setupApplicationIdentifier:applicationIdentifier apiKey:apiKey];
 
@@ -155,7 +167,18 @@ static NSString* const kMeGraphQLQuery = @"\
 }
 
 - (BOOL)handleOpenURL:(NSURL* _Nonnull)url {
-	return [_currentAuthViewController handleOpenURL:url];
+	NSString* command = url.host;
+
+	if ([command isEqualToString:@"authorize"]) {
+		return [_currentAuthViewController handleOpenURL:url];
+	} else if ([command isEqualToString:@"open"]) {
+		[self handleImportFromURL:url];
+		return YES;
+	} else {
+		NSLog(@"[AllihoopaSDK] WARNING: Can not handle requested URL %@", url);
+	}
+
+	return NO;
 }
 
 - (UIViewController *)dropViewControllerForPiece:(AHADropPieceData *)dropPieceData
@@ -189,6 +212,29 @@ static NSString* const kMeGraphQLQuery = @"\
 - (UIActivity *)activityForPiece:(AHADropPieceData *)dropPieceData
 						delegate:(id<AHADropDelegate>)delegate {
 	return [[AHAActivity alloc] initWithPiece:dropPieceData delegate:delegate];
+}
+
+#pragma mark - Private methods (Importing)
+
+- (void)handleImportFromURL:(NSURL* _Nonnull)url {
+	NSURLComponents* components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
+	NSString* pieceId;
+
+	for (NSURLQueryItem* item in components.queryItems) {
+		if ([item.name isEqualToString:@"uuid"]) {
+			pieceId = item.value;
+		}
+	}
+
+	NSAssert(pieceId != nil, @"No uuid parameter was supplied");
+
+	AHAFetchPieceInfo(_configuration, pieceId, ^(AHAPiece *piece, NSError *error) {
+		id<AHAAllihoopaSDKDelegate> delegate = self->_delegate;
+
+		if ([delegate respondsToSelector:@selector(openPieceFromAllihoopa:error:)]) {
+			[delegate openPieceFromAllihoopa:piece error:error];
+		}
+	});
 }
 
 @end

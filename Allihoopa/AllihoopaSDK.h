@@ -1,9 +1,17 @@
 @import UIKit;
 
+@class AHAPiece;
+
 typedef void (^AHAAuthenticationCallback)(BOOL successful);
 
 #import "DropPieceData.h"
 #import "DropDelegate.h"
+
+@protocol AHAAllihoopaSDKDelegate <NSObject>
+
+- (void)openPieceFromAllihoopa:(AHAPiece* _Nullable)piece error:(NSError* _Nullable)error;
+
+@end
 
 @interface AHAAllihoopaSDK : NSObject
 
@@ -17,7 +25,8 @@ typedef void (^AHAAuthenticationCallback)(BOOL successful);
  @throws AHAInvalidUsageException When the application is incorrectly configured
  */
 + (void)setupWithApplicationIdentifier:(NSString* _Nonnull)applicationIdentifier
-								apiKey:(NSString* _Nonnull)apiKey NS_SWIFT_NAME(setup(applicationIdentifier:apiKey:));
+								apiKey:(NSString* _Nonnull)apiKey
+							  delegate:(id<AHAAllihoopaSDKDelegate> _Nonnull)delegate NS_SWIFT_NAME(setup(applicationIdentifier:apiKey:delegate:));
 
 /**
  Ensure that the user is authenticated

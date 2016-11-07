@@ -16,6 +16,20 @@
 	return self;
 }
 
+- (BOOL)isEqual:(id)object {
+	if ([object isKindOfClass:[AHAPieceID class]]) {
+		AHAPieceID* other = object;
+
+		return [_pieceID isEqualToString:other->_pieceID];
+	}
+
+	return NO;
+}
+
+- (NSUInteger)hash {
+	return _pieceID.hash;
+}
+
 @end
 
 @implementation AHAFixedTempo {
@@ -46,6 +60,10 @@
 	}
 
 	return nil;
+}
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<AHAFixedTempo fixedTempo=%g>", _fixedTempo];
 }
 
 @end
@@ -91,6 +109,12 @@
 	return nil;
 }
 
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<AHALoopMarkers start=%li end=%li>",
+			_startMicroseconds,
+			_endMicroseconds];
+}
+
 @end
 
 
@@ -125,6 +149,11 @@
 	}
 
 	return nil;
+}
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<AHATimeSignature upper=%li lower=%li>",
+			_upper, _lower];
 }
 
 @end

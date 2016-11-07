@@ -18,6 +18,8 @@ typedef NS_ENUM(NSInteger, AHAError) {
 
 	AHAErrorInternalAPIError = 2001,
 	AHAErrorInternalUploadError = 2002,
+
+	AHAErrorImportPieceNotFound = 3001,
 };
 
 

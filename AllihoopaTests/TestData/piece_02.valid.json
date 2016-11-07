@@ -1,0 +1,27 @@
+{
+	"data": {
+		"piece": {
+			"uuid": "e6e3af17-85d6-474e-a5a6-22135a0332c6",
+			"title": "Style - needs a lead!",
+			"description": "Add a lead! Would love to hear what you come up with on this simple chord progression.",
+			"createdAt": "2016-10-06T10:21:23.190661+00:00",
+			"url": "https://allihoopa.com/s/Sk9ieVZH",
+			"author": {
+				"username": "Leo"
+			},
+			"coverImage": {
+				"url": "https://ugc.ahcdn.se/production/piece_asset/f7741095-5758-4810-83cc-51f58f7b37bd"
+			},
+			"lengthUs": 38857000,
+			"tempo": 105,
+			"loop": {
+				"startUs": 18285714,
+				"endUs": 36571428
+			},
+			"timeSignature": {
+				"numerator": 4,
+				"denominator": 4
+			}
+		}
+	}
+}

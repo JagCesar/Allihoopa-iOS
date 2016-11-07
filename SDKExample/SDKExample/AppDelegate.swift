@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func applicationDidFinishLaunching(_ application: UIApplication) {
 		let applicationIdentifier = Bundle.main.object(forInfoDictionaryKey: "AllihoopaSDKApplicationIdentifier") as! String
 		let apiKey = Bundle.main.object(forInfoDictionaryKey: "AllihoopaSDKAPIKey") as! String
-		AHAAllihoopaSDK.setup(applicationIdentifier: applicationIdentifier, apiKey: apiKey)
+		AHAAllihoopaSDK.setup(applicationIdentifier: applicationIdentifier, apiKey: apiKey, delegate: self)
 	}
 
 	func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -30,3 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension AppDelegate: AHAAllihoopaSDKDelegate {
+	func openPiece(fromAllihoopa piece: AHAPiece?, error: Error?) {
+		print("Open piece \(piece?.title)")
+	}
+}

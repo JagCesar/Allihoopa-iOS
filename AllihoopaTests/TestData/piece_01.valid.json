@@ -1,0 +1,24 @@
+{
+	"data": {
+		"piece": {
+			"uuid": "7d602eec-0a79-4e63-803a-cc873d1600ff",
+			"title": "Just #Sketch",
+			"description": "Dope beat by #AOS this is more of a #sketch #freestyle just a short ditty, lol #hiphop #buildonthis #collab",
+			"createdAt": "2016-11-06T09:28:35.772189+00:00",
+			"url": "https://allihoopa.com/s/gwmMAjgI",
+			"author": {
+				"username": "amshinobi"
+			},
+			"coverImage": {
+				"url": "https://ugc.ahcdn.se/production/piece_asset/f5ed4b6c-690b-419a-8487-446f16cdd37c"
+			},
+			"lengthUs": 262154000,
+			"tempo": 130,
+			"loop": null,
+			"timeSignature": {
+				"numerator": 4,
+				"denominator": 4
+			},
+		}
+	}
+}

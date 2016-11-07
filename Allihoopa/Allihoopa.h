@@ -11,3 +11,4 @@ FOUNDATION_EXPORT const unsigned char AllihoopaVersionString[];
 #import "DropDelegate.h"
 #import "AllihoopaSDK.h"
 #import "Errors.h"
+#import "Piece.h"
