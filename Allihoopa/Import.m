@@ -23,7 +23,9 @@ void AHAFetchPieceInfo(AHAConfiguration* configuration,
 
 	AHAGraphQLQuery(configuration, query, @{@"uuid": uuid}, ^(NSDictionary *response, NSError *error) {
 		if (response && response[@"piece"]) {
-			AHAPiece* piece = [[AHAPiece alloc] initWithPieceNode:response[@"piece"] error:&error];
+			AHAPiece* piece = [[AHAPiece alloc] initWithPieceNode:response[@"piece"]
+													configuration:configuration
+															error:&error];
 			completion(piece, error);
 		} else {
 			completion(nil, error);

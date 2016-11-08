@@ -89,6 +89,7 @@
 		FA4B03F51DD0D5D700854B39 /* piece_02.valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = piece_02.valid.json; sourceTree = "<group>"; };
 		FA4B03F71DD0D72B00854B39 /* piece_03.valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = piece_03.valid.json; sourceTree = "<group>"; };
 		FA4B03F91DD0D7AA00854B39 /* piece_01.missing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = piece_01.missing.json; sourceTree = "<group>"; };
+		FA4B03FB1DD1BEE600854B39 /* DropPieceData+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DropPieceData+Internal.h"; sourceTree = "<group>"; };
 		FA5FD38A1D90180F0010E978 /* Allihoopa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Allihoopa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA5FD38D1D90180F0010E978 /* Allihoopa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Allihoopa.h; sourceTree = "<group>"; };
 		FA5FD38E1D90180F0010E978 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -223,6 +224,7 @@
 				FA35271E1D9D5B2D00D2F91B /* DataBundle.m */,
 				FA54F5B71D9C039F003C98F6 /* Drop */,
 				FA45CB961D9D48210082846C /* DropDelegate.h */,
+				FA4B03FB1DD1BEE600854B39 /* DropPieceData+Internal.h */,
 				FA45CB911D9D07560082846C /* DropPieceData.h */,
 				FA45CB8F1D9D07470082846C /* DropPieceData.m */,
 				FA3527291DA2400600D2F91B /* Errors.h */,

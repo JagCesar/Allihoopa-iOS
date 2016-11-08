@@ -1,4 +1,5 @@
 #import "DropPieceData.h"
+#import "DropPieceData+Internal.h"
 
 #import "Errors.h"
 
@@ -29,6 +30,12 @@
 - (NSUInteger)hash {
 	return _pieceID.hash;
 }
+
+@end
+
+@implementation AHAPieceID (Internal)
+
+- (NSString *)pieceID { return _pieceID; }
 
 @end
 

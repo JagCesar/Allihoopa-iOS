@@ -1,8 +1,31 @@
 #import "Piece.h"
 #import "Piece+Internal.h"
 
+#import "Allihoopa+Internal.h"
+#import "APICommunication.h"
 #import "DropPieceData.h"
+#import "DropPieceData+Internal.h"
 #import "Errors.h"
+
+static NSString* const kGetMixStemGraphQLQuery = @"\
+query($pieceID: String!, $format: String!) {\
+  piece(uuid: $pieceID) {\
+    mixStem(fileType: $format) {\
+      url\
+    }\
+  }\
+}\
+";
+
+static NSString* const kGetPreviewAudioGraphQLQuery = @"\
+query($pieceID: String!, $format: String!) {\
+  piece(uuid: $pieceID) {\
+    previewAudio(fileType: $format) {\
+      url\
+    }\
+  }\
+}\
+";
 
 static id CoerceNull(id value) {
 	if (value == [NSNull null]) {
@@ -10,6 +33,15 @@ static id CoerceNull(id value) {
 	}
 
 	return value;
+}
+
+static NSString* AudioFormatToString(AHAAudioFormat format) {
+	switch (format) {
+		case AHAAudioFormatWave: return @"wav";
+		case AHAAudioFormatOggVorbis: return @"ogg";
+	}
+
+	AHARaiseInvalidUsageException(@"Invalid audio format");
 }
 
 static NSDate* DateFromString(NSString* dateString) {
@@ -30,6 +62,8 @@ static NSDate* DateFromString(NSString* dateString) {
 }
 
 @implementation AHAPiece {
+	AHAConfiguration* _configuration;
+
 	AHAPieceID* _pieceID;
 
 	NSString* _title;
@@ -47,6 +81,102 @@ static NSDate* DateFromString(NSString* dateString) {
 	AHALoopMarkers* _loopMarkers;
 	AHATimeSignature* _timeSignature;
 }
+
+
+- (AHAPieceID*)pieceID { return _pieceID; }
+- (NSString*)title { return _title; }
+- (NSString*)pieceDescription { return _description; }
+- (NSDate*)createdAt { return _createdAt; }
+- (NSURL*)url { return _url; }
+
+- (NSString*)authorUsername { return _authorUsername; }
+
+- (NSInteger)lengthMicroseconds { return _lengthMicroseconds; }
+
+- (AHAFixedTempo*)tempo { return _tempo; }
+- (AHALoopMarkers*)loop { return _loopMarkers; }
+- (AHATimeSignature*)timeSignature { return _timeSignature; }
+
+- (void)downloadMixStemWithFormat:(AHAAudioFormat)format completion:(void (^)(NSData * _Nullable, NSError * _Nullable))completion {
+	NSDictionary* vars = @{ @"pieceID": _pieceID.pieceID,
+							@"format": AudioFormatToString(format),
+							};
+	AHARetryingGraphQLQuery(_configuration, kGetMixStemGraphQLQuery, vars, 3, 10,
+							^BOOL(NSDictionary *response) {
+								return CoerceNull(CoerceNull(CoerceNull(response[@"piece"])[@"mixStem"])[@"url"]);
+							},
+							^(NSDictionary *response, NSError *getURLError) {
+		AHALog(@"Got mix stem URL info: %@", response);
+
+		if (getURLError != nil) {
+			completion(nil, getURLError);
+		} else {
+			NSURLSession* session = [NSURLSession sharedSession];
+			NSURL* url = [NSURL URLWithString:response[@"piece"][@"mixStem"][@"url"]];
+
+			NSURLSessionTask* task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, __unused NSURLResponse * _Nullable downloadResponse, NSError * _Nullable error) {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					completion(data, error);
+				});
+			}];
+			[task resume];
+		}
+	});
+}
+
+- (void)downloadAudioPreviewWithFormat:(AHAAudioFormat)format completion:(void (^)(NSData * _Nullable, NSError * _Nullable))completion {
+	NSDictionary* vars = @{ @"pieceID": _pieceID.pieceID,
+							@"format": AudioFormatToString(format),
+							};
+	AHARetryingGraphQLQuery(_configuration, kGetPreviewAudioGraphQLQuery, vars, 3, 10,
+							^BOOL(NSDictionary *response) {
+								return CoerceNull(CoerceNull(CoerceNull(response[@"piece"])[@"previewAudio"])[@"url"]);
+							},
+							^(NSDictionary *response, NSError *getURLError) {
+		AHALog(@"Got audio preview URL info: %@", response);
+
+		if (getURLError != nil) {
+			completion(nil, getURLError);
+		} else {
+			NSURLSession* session = [NSURLSession sharedSession];
+			NSURL* url = [NSURL URLWithString:response[@"piece"][@"previewAudio"][@"url"]];
+
+			NSURLSessionTask* task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, __unused NSURLResponse * _Nullable downloadResponse, NSError * _Nullable error) {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					completion(data, error);
+				});
+			}];
+			[task resume];
+		}
+	});
+}
+
+- (void)downloadCoverImage:(void (^)(UIImage * _Nullable, NSError * _Nullable))completion {
+	AHALog(@"Cover image URL: %@", _coverImageURL);
+
+	NSURLSession* session = [NSURLSession sharedSession];
+	NSURLSessionTask* task = [session dataTaskWithURL:_coverImageURL completionHandler:^(NSData * _Nullable data, __unused NSURLResponse * _Nullable response, NSError * _Nullable error) {
+		UIImage* image;
+
+		if (data) {
+			image = [UIImage imageWithData:data scale:1.0];
+			if (!image) {
+				error = [NSError errorWithDomain:AHAAllihoopaErrorDomain
+											code:AHAErrorInternalDownloadError
+										userInfo:@{ NSLocalizedDescriptionKey: @"Could not parse image data" }];
+			}
+		}
+
+		dispatch_async(dispatch_get_main_queue(), ^{
+			completion(image, error);
+		});
+	}];
+	[task resume];
+}
+
+@end
+
+@implementation AHAPiece (Internal)
 
 + (NSString*)graphQLFragment {
 	return @"\
@@ -78,10 +208,15 @@ static NSDate* DateFromString(NSString* dateString) {
 	";
 }
 
-- (instancetype)initWithPieceNode:(NSDictionary*)pieceNode error:(NSError* __autoreleasing *)outError {
+- (instancetype)initWithPieceNode:(NSDictionary*)pieceNode
+					configuration:(AHAConfiguration*)configuration
+							error:(NSError* __autoreleasing *)outError {
 	NSAssert(outError != nil, @"No error destination provided");
+	NSAssert(configuration != nil, @"No configuration provided");
 
 	if ((self = [super init])) {
+		_configuration = configuration;
+
 		if (!CoerceNull(pieceNode)) {
 			*outError = [NSError errorWithDomain:AHAAllihoopaErrorDomain
 											code:AHAErrorImportPieceNotFound
@@ -175,19 +310,5 @@ static NSDate* DateFromString(NSString* dateString) {
 
 	return self;
 }
-
-- (AHAPieceID*)pieceID { return _pieceID; }
-- (NSString*)title { return _title; }
-- (NSString*)pieceDescription { return _description; }
-- (NSDate*)createdAt { return _createdAt; }
-- (NSURL*)url { return _url; }
-
-- (NSString*)authorUsername { return _authorUsername; }
-
-- (NSInteger)lengthMicroseconds { return _lengthMicroseconds; }
-
-- (AHAFixedTempo*)tempo { return _tempo; }
-- (AHALoopMarkers*)loop { return _loopMarkers; }
-- (AHATimeSignature*)timeSignature { return _timeSignature; }
 
 @end

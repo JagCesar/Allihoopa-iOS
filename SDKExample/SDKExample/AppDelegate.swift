@@ -32,6 +32,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate: AHAAllihoopaSDKDelegate {
 	func openPiece(fromAllihoopa piece: AHAPiece?, error: Error?) {
-		print("Open piece \(piece?.title)")
+		if let piece = piece {
+			print("Open piece \(piece.title)")
+
+			piece.downloadMixStem(format: .oggVorbis, completion: { (data, error) in
+				print("Got mix stem data \(data)")
+			})
+
+			piece.downloadAudioPreview(format: .oggVorbis, completion: { (data, error) in
+				print("Got audio preview data \(data)")
+			})
+
+			piece.downloadCoverImage(completion: { (image, error) in
+				print("Got cover image \(image)")
+			})
+		} else {
+			print("Error: \(error!)")
+		}
 	}
 }

@@ -26,6 +26,7 @@ void AHAGraphQLQuery(AHAConfiguration* configuration,
 	NSCAssert(configuration != nil, @"No configuration provided");
 	NSCAssert(query != nil, @"No query provided");
 	NSCAssert(variables != nil, @"No variables provided");
+	NSCAssert(completion != nil, @"No completion block provided");
 
 	NSError* outError;
 	NSData* postBody = [NSJSONSerialization dataWithJSONObject:@{@"query": query, @"variables": variables}
@@ -79,4 +80,50 @@ void AHAGraphQLQuery(AHAConfiguration* configuration,
 		});
 	}];
 	[task resume];
+}
+
+void AHARetryingGraphQLQuery(AHAConfiguration* configuration,
+							 NSString* query,
+							 NSDictionary* variables,
+							 NSTimeInterval delay,
+							 NSInteger maxAttempts,
+							 BOOL(^isSuccessfulPredicate)(NSDictionary* response),
+							 void(^completion)(NSDictionary* response, NSError* error)) {
+	NSCAssert(configuration != nil, @"No configuration provided");
+	NSCAssert(query != nil, @"No query provided");
+	NSCAssert(variables != nil, @"No variables provided");
+	NSCAssert(delay >= 0, @"Delay must be positive");
+	NSCAssert(maxAttempts >= 0, @"Max attempts must be positive");
+	NSCAssert(isSuccessfulPredicate != nil, @"No successful attempt predicate provided");
+	NSCAssert(completion != nil, @"No completion block provided");
+
+	if (maxAttempts == 0) {
+		completion(nil, [NSError errorWithDomain:AHAAllihoopaErrorDomain
+											code:AHAErrorInternalMaxRetriesReached
+										userInfo:@{ NSLocalizedDescriptionKey: @"Max number of retries reached when attempting to fetch data"}]);
+		return;
+	}
+
+	AHAGraphQLQuery(configuration, query, variables, ^(NSDictionary *response, NSError *error) {
+		BOOL isSuccessful = response && isSuccessfulPredicate(response);
+
+		AHALog(@"Query attempt successful: %i", isSuccessful);
+
+		if (!isSuccessful) {
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				AHALog(@"Retrying query");
+				AHARetryingGraphQLQuery(configuration,
+										query,
+										variables,
+										delay,
+										maxAttempts - 1,
+										isSuccessfulPredicate,
+										completion);
+			});
+		} else {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				completion(response, error);
+			});
+		}
+	});
 }

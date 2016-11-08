@@ -1,5 +1,6 @@
 @import XCTest;
 
+#import "../Allihoopa/Configuration.h"
 #import "../Allihoopa/DropPieceData.h"
 #import "../Allihoopa/Piece.h"
 #import "../Allihoopa/Piece+Internal.h"
@@ -25,8 +26,11 @@ static NSDictionary* GetTestData(NSString* fileName) {
 @implementation ImportPieceTests
 
 - (void)testRegularPiece01 {
+	AHAConfiguration* config = [[AHAConfiguration alloc] init];
+
 	NSError* error;
 	AHAPiece* piece = [[AHAPiece alloc] initWithPieceNode:GetTestData(@"piece_01.valid")[@"piece"]
+											configuration:config
 													error:&error];
 
 	XCTAssertNil(error);
@@ -48,8 +52,11 @@ static NSDictionary* GetTestData(NSString* fileName) {
 }
 
 - (void)testRegularPiece02 {
+	AHAConfiguration* config = [[AHAConfiguration alloc] init];
+
 	NSError* error;
 	AHAPiece* piece = [[AHAPiece alloc] initWithPieceNode:GetTestData(@"piece_02.valid")[@"piece"]
+											configuration:config
 													error:&error];
 
 	XCTAssertNil(error);
@@ -72,8 +79,11 @@ static NSDictionary* GetTestData(NSString* fileName) {
 }
 
 - (void)testRegularPiece03 {
+	AHAConfiguration* config = [[AHAConfiguration alloc] init];
+
 	NSError* error;
 	AHAPiece* piece = [[AHAPiece alloc] initWithPieceNode:GetTestData(@"piece_03.valid")[@"piece"]
+											configuration:config
 													error:&error];
 
 	XCTAssertNil(error);
@@ -94,8 +104,11 @@ static NSDictionary* GetTestData(NSString* fileName) {
 }
 
 - (void)testMissingPiece01 {
+	AHAConfiguration* config = [[AHAConfiguration alloc] init];
+
 	NSError* error;
 	AHAPiece* piece = [[AHAPiece alloc] initWithPieceNode:GetTestData(@"piece_01.missing")[@"piece"]
+											configuration:config
 													error:&error];
 
 	XCTAssertNotNil(error);
