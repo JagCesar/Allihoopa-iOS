@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA2108AB1D99177C00AE23AD /* Credentials.template.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = FA2108AA1D99177C00AE23AD /* Credentials.template.xcconfig */; };
 		FA3527281D9E8A9600D2F91B /* drop.wav in Resources */ = {isa = PBXBuildFile; fileRef = FA3527271D9E8A9600D2F91B /* drop.wav */; };
 		FAF400611D955C2A00610853 /* Allihoopa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF400601D955C2A00610853 /* Allihoopa.framework */; };
 		FAF400621D955C2A00610853 /* Allihoopa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FAF400601D955C2A00610853 /* Allihoopa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -127,7 +126,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = Allihoopa;
 				TargetAttributes = {
 					FAF525CF1D9531E7002CE6BF = {
@@ -161,7 +160,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA3527281D9E8A9600D2F91B /* drop.wav in Resources */,
-				FA2108AB1D99177C00AE23AD /* Credentials.template.xcconfig in Resources */,
 				FAF525DE1D9531E7002CE6BF /* LaunchScreen.storyboard in Resources */,
 				FAF525DB1D9531E7002CE6BF /* Assets.xcassets in Resources */,
 				FAF525D91D9531E7002CE6BF /* Main.storyboard in Resources */,
@@ -221,6 +219,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -272,6 +271,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
