@@ -33,12 +33,6 @@
 
 @end
 
-@implementation AHAPieceID (Internal)
-
-- (NSString *)pieceID { return _pieceID; }
-
-@end
-
 @implementation AHAFixedTempo {
 	double _fixedTempo;
 }
@@ -118,8 +112,8 @@
 
 - (NSString *)description {
 	return [NSString stringWithFormat:@"<AHALoopMarkers start=%li end=%li>",
-			_startMicroseconds,
-			_endMicroseconds];
+			(long)_startMicroseconds,
+			(long)_endMicroseconds];
 }
 
 @end
@@ -160,7 +154,7 @@
 
 - (NSString *)description {
 	return [NSString stringWithFormat:@"<AHATimeSignature upper=%li lower=%li>",
-			_upper, _lower];
+			(long)_upper, (long)_lower];
 }
 
 @end

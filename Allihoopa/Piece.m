@@ -103,7 +103,7 @@ static NSDate* DateFromString(NSString* dateString) {
 							};
 	AHARetryingGraphQLQuery(_configuration, kGetMixStemGraphQLQuery, vars, 3, 10,
 							^BOOL(NSDictionary *response) {
-								return CoerceNull(CoerceNull(CoerceNull(response[@"piece"])[@"mixStem"])[@"url"]);
+								return CoerceNull(CoerceNull(CoerceNull(response[@"piece"])[@"mixStem"])[@"url"]) != nil;
 							},
 							^(NSDictionary *response, NSError *getURLError) {
 		AHALog(@"Got mix stem URL info: %@", response);
@@ -130,7 +130,7 @@ static NSDate* DateFromString(NSString* dateString) {
 							};
 	AHARetryingGraphQLQuery(_configuration, kGetPreviewAudioGraphQLQuery, vars, 3, 10,
 							^BOOL(NSDictionary *response) {
-								return CoerceNull(CoerceNull(CoerceNull(response[@"piece"])[@"previewAudio"])[@"url"]);
+								return CoerceNull(CoerceNull(CoerceNull(response[@"piece"])[@"previewAudio"])[@"url"]) != nil;
 							},
 							^(NSDictionary *response, NSError *getURLError) {
 		AHALog(@"Got audio preview URL info: %@", response);
