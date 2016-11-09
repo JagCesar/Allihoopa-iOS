@@ -2,6 +2,20 @@
 Change log
 ==========
 
+## [0.4.0] — 2016-11-09
+
+### Breaking changes
+
+* `+[AHAAllihoopaSDK setupWithApplicationIdentifier:apiKey:]` now requires an
+  application-global delegate argument and has thusly been renamed to
+  `+[AHAAllihoopaSDK setupWithApplicationIdentifier:apiKey:delegate]`.
+
+### Added
+
+* Support for the "Open in" feature from the website. Users can now pick your
+  app from the list of applications to open an application in, and your delegate
+  will receive the `openPieceFromAllihoopa:error:` message.
+
 ## [0.3.2] — 2016-10-19
 
 ### Bugfixes
@@ -39,6 +53,7 @@ Change log
 
 Empty release
 
+[0.4.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/v0.3.2...v0.4.0
 [0.3.2]: https://github.com/allihoopa/Allihoopa-iOS/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/allihoopa/Allihoopa-iOS/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/v0.2.0...v0.3.0

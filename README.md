@@ -18,7 +18,7 @@ If you use [CocoaPods], you can simply add this SDK to your `Podfile`:
 
 ```ruby
 target 'TargetName' do
-  pod 'Allihoopa', '~> 0.3.2'
+  pod 'Allihoopa', '~> 0.4.0'
 end
 ```
 
@@ -31,7 +31,7 @@ pod install
 If you use [Carthage], you instead add this SDK to your `Cartfile`:
 
 ```
-github "Allihoopa/Allihoopa-iOS" ~> 0.3.2
+github "Allihoopa/Allihoopa-iOS" ~> 0.4.0
 ```
 
 After this, you run `carthage` to build the framework, and then drag the
@@ -59,6 +59,10 @@ Look in the [SDKExample] folder for instructions how to work on this SDK.
 
 ## Setting up the SDK
 
+You need a class, e.g. your app delegate, to implement the
+`AHAAllihoopaSDKDelegate` to support the "open in" feature. See below how to
+implement this feature.
+
 ```swift
 import Allihoopa
 
@@ -66,7 +70,8 @@ import Allihoopa
 func applicationDidFinishLaunching(_ application: UIApplication) {
     AHAAllihoopaSDK.setup(
         applicationIdentifier: "your-application-identifier",
-        apiKey: "your-api-key")
+        apiKey: "your-api-key",
+        delegate: self)
 }
 
 func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -86,7 +91,8 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpe
 // In your UIApplicationDelegate implementation
 - (void)applicationDidFinishLaunching:(UIApplication*)application {
     [AHAAllihoopaSDK setupWithApplicationIdentifier:@"your-application-identifier"
-                                             apiKey:@"your-api-key"];
+                                             apiKey:@"your-api-key"
+                                           delegate:self];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
@@ -100,10 +106,10 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpe
 }
 ```
 
-`setupWithApplicationIdentifier:apiKey:` must be called *before* any other API
-calls can be made. It will throw an exception if the SDK is improperly setup: if
-the credentials are missing or if you've not set up the URL scheme properly. For
-more information, see the "Steting up the SDK" heading above.
+`setupWithApplicationIdentifier:apiKey:delegate:` must be called *before* any
+other API calls can be made. It will throw an exception if the SDK is improperly
+setup: if the credentials are missing or if you've not set up the URL scheme
+properly. For more information, see the "Steting up the SDK" heading above.
 
 `handleOpenURL:` must be called inside the URL handler of your application. It
 will only return true if it successfully handled the URL, making it possible to
@@ -293,6 +299,52 @@ If you are already using `UIActivityViewController` to present a share popover
 to your users, you can use `activityForPiece:delegate:` to create a
 `UIActivity`. It has the same interface as for creating the drop view controller
 above, and uses the same delegate protocol.
+
+## Importing pieces
+
+When a user picks "Open in [your app]" on the website, the SDK will pick up the
+request, fetch piece metadata, and call the `openPieceFromAllihoopa:error:` with
+the piece the user wanted to open. The `AHAPiece` instance has methods for
+downloading the audio data in the specified format, which you can use to import
+the audio into the current document, or save it for later. `AHAPiece` also
+contain metadata, similar to `AHADropPiece`.
+
+```swift
+func openPiece(fromAllihoopa piece: AHAPiece?, error: Error?) {
+    if let piece = piece {
+        // The user wanted to open a piece
+
+        // Download the mix stem audio in Ogg format. You can also use .wave
+        piece.downloadMixStem(format: .oggVorbis, completion: { (data, error) in
+            if let data = data {
+                // Data downloaded successfully
+            }
+        })
+    }
+    else {
+        // Handle the error
+        //
+        // This should not *usually* happen, but if the piece was removed after
+        // opening, or if there were some connection issues we can end up here
+    }
+}
+```
+
+```objective-c
+- (void)openPieceFromAllihoopa:(AHAPiece*)piece error:(NSError*)error {
+    if (piece != nil) {
+        // The user wanted to open a piece
+        [piece downloadMixStemWithFormat:AHAAudioFormatOggVorbis completion:^(NSData* data, NSError* error) {
+            if (data != nil) {
+                // Data downloaded successfully
+            }
+        }];
+    }
+    else {
+        // Handle the error
+    }
+}
+```
 
 ## Authenticating users
 
