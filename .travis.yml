@@ -41,7 +41,7 @@ script:
 before_deploy:
   - carthage build --no-skip-current
   - carthage archive Allihoopa
-  - mkdir -p dist && cp -f Allihoopa.framework.zip dist/Allihoopa-iOS-${TRAVIS_TAG/v/}.framework.zip
+  - mkdir -p dist && cp -f Allihoopa.framework.zip dist/Allihoopa-iOS-${TRAVIS_TAG}.framework.zip
 
 deploy:
   - provider: s3
