@@ -30,7 +30,7 @@ DESC
 
   s.platform     = :ios, "9.0"
 
-  s.source       = { :git => "https://github.com/allihoopa/Allihoopa-iOS.git", :tag => "v#{s.version}" }
+  s.source       = { :git => "https://github.com/allihoopa/Allihoopa-iOS.git", :tag => "#{s.version}" }
 
   s.source_files  = "Allihoopa", "Allihoopa/Drop"
   s.resource_bundles = {
