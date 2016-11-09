@@ -35,7 +35,7 @@ script:
       -scheme "Allihoopa SDK" \
       -sdk "$TRAVIS_XCODE_SDK" \
       ${XCODE_DESTINATION:+-destination "$XCODE_DESTINATION"} \
-      CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+      CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
   - if [[ "$TRAVIS_JOB_NUMBER" == *.1 ]]; then export BUILD_LEADER=yes; else export BUILD_LEADER=no; fi
 
 before_deploy:
