@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vcJ-M2-lFk">
+                                <rect key="frame" x="143" y="28" width="88" height="30"/>
+                                <state key="normal" title="Authenticate"/>
+                                <connections>
+                                    <action selector="authenticate" destination="BYZ-38-t0r" eventType="touchUpInside" id="EgB-7C-8TK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="je0-lk-u4h">
+                                <rect key="frame" x="170" y="66" width="34" height="30"/>
+                                <state key="normal" title="Drop"/>
+                                <connections>
+                                    <action selector="drop" destination="BYZ-38-t0r" eventType="touchUpInside" id="2Ry-Ah-Det"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KCH-36-Bzc">
+                                <rect key="frame" x="167" y="104" width="40" height="30"/>
+                                <state key="normal" title="Share"/>
+                                <connections>
+                                    <action selector="share:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TwW-eO-XNM"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="KCH-36-Bzc" firstAttribute="top" secondItem="je0-lk-u4h" secondAttribute="bottom" constant="8" symbolic="YES" id="7XG-2o-L6Z"/>
+                            <constraint firstItem="vcJ-M2-lFk" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="9gc-5B-JOp"/>
+                            <constraint firstItem="vcJ-M2-lFk" firstAttribute="centerX" secondItem="je0-lk-u4h" secondAttribute="centerX" id="LLx-7i-uMZ"/>
+                            <constraint firstItem="je0-lk-u4h" firstAttribute="centerX" secondItem="KCH-36-Bzc" secondAttribute="centerX" id="bMJ-kd-CD9"/>
+                            <constraint firstItem="je0-lk-u4h" firstAttribute="top" secondItem="vcJ-M2-lFk" secondAttribute="bottom" constant="8" symbolic="YES" id="cZB-6B-hHt"/>
+                            <constraint firstItem="vcJ-M2-lFk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kau-T6-eTP"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>
