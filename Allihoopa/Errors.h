@@ -1,4 +1,4 @@
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 //! Name of the `NSException` that is raised when the SDK is incorrectly used
 extern NSString* const AHAInvalidUsageException;

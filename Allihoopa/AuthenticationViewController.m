@@ -1,4 +1,4 @@
-@import SafariServices;
+#import <SafariServices/SafariServices.h>
 
 #import "AuthenticationViewController.h"
 

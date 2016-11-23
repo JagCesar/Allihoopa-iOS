@@ -1,4 +1,4 @@
-@import UIKit;
+#import <UIKit/UIKit.h>
 
 typedef void (^AHAAuthenticationControllerCallback)(BOOL successful);
 

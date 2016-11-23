@@ -1,4 +1,4 @@
-@import XCTest;
+#import <XCTest/XCTest.h>
 
 #import "../Allihoopa/DropPieceData.h"
 #import "../Allihoopa/Errors.h"

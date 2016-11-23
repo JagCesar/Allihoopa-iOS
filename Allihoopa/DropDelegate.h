@@ -1,4 +1,4 @@
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 #import "DropPieceData.h"
 #import "DataBundle.h"
