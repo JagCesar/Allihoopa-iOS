@@ -238,6 +238,9 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 					if (!granted && error == nil) {
 						[strongSelf showSocialServiceDisabled:@"Facebook"];
 					}
+					else if ([error.domain isEqualToString:ACErrorDomain] && error.code == ACErrorAccountNotFound) {
+						[strongSelf showSocialServiceNotFound:@"Facebook"];
+					}
 				}
 			});
 		}];
@@ -273,6 +276,9 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 					if (!granted && error == nil) {
 						[strongSelf showSocialServiceDisabled:@"Twitter"];
 					}
+					else if ([error.domain isEqualToString:ACErrorDomain] && error.code == ACErrorAccountNotFound) {
+						[strongSelf showSocialServiceNotFound:@"Twitter"];
+					}
 				}
 			});
 		}];
@@ -295,6 +301,20 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 						 serviceName];
 
 	UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Sharing Disabled"
+																   message:message
+															preferredStyle:UIAlertControllerStyleAlert];
+
+	[alert addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:^(__unused UIAlertAction * _Nonnull action) {}]];
+
+	[self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)showSocialServiceNotFound:(NSString*)serviceName {
+	NSString* message = [NSString stringWithFormat:@"No %@ account has been set up. Please go to the Settings app and log in to %@.",
+						 serviceName,
+						 serviceName];
+
+	UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"No Account Found"
 																   message:message
 															preferredStyle:UIAlertControllerStyleAlert];
 
