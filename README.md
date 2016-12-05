@@ -59,6 +59,10 @@ your `Info.plist`:
 <string>$(PRODUCT_NAME) wants to access your photo library</string>
 ```
 
+iOS 10 started enforcing these keys - the app will crash when the user taps the
+edit cover image button unless these are specified. Read more about this in the
+[Technical Q&A QA1937](Technical Q&A QA1937: Resolving the Privacy-Sensitive
+Data App Rejection).
 
 ## Development setup
 
