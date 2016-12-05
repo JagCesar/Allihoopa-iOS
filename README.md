@@ -49,6 +49,16 @@ your application identifier and API key when your register your application with
 Allihoopa. If you want to get on board, please send an email to
 [developer@allihoopa.com](mailto:developer@allihoopa.com).
 
+For the drop flow to work, you will _also_ need to add the following keys to
+your `Info.plist`:
+
+```plist
+<key>NSCameraUsageDescription</key>
+<string>$(PRODUCT_NAME) wants to access your camera</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>$(PRODUCT_NAME) wants to access your photo library</string>
+```
+
 
 ## Development setup
 

@@ -4,6 +4,7 @@
 
 #import "../Allihoopa+Internal.h"
 #import "../Configuration.h"
+#import "../Errors.h"
 
 #import "DropProgressViewController.h"
 #import "ModalEditor.h"
@@ -55,6 +56,8 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 	NSAssert(_coverImageView != nil, @"Missing cover image view");
 	NSAssert(_descriptionLabel != nil, @"Missing description label");
 	NSAssert(_listedSwitch != nil, @"Missing listed switch");
+
+	[self validateCameraPermissions];
 
 	if (_defaultTitle) {
 		_titleLabel.text = _defaultTitle;
@@ -204,6 +207,18 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 	}]];
 
 	[self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)validateCameraPermissions {
+	NSBundle* bundle = [NSBundle mainBundle];
+
+	if (![bundle objectForInfoDictionaryKey:@"NSCameraUsageDescription"]) {
+		AHARaiseInvalidUsageException(@"The application's Info.plist file must contain an entry for NSCameraUsageDescription");
+	}
+
+	if (![bundle objectForInfoDictionaryKey:@"NSPhotoLibraryUsageDescription"]) {
+		AHARaiseInvalidUsageException(@"The application's Info.plist file must contain an entry for NSPhotoLibraryUsageDescription");
+	}
 }
 
 #pragma mark - Private methods (social service posting)
