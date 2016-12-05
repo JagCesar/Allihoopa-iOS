@@ -8,14 +8,18 @@ static NSString* const kConfigKeyAccessToken = @"access-token";
 @implementation AHAConfiguration {
 	NSString* _applicationIdentifier;
 	NSString* _apiKey;
+	NSString* _facebookAppID;
 }
 
-- (void)setupApplicationIdentifier:(NSString *)applicationIdentifier apiKey:(NSString *)apiKey {
+- (void)setupApplicationIdentifier:(NSString*)applicationIdentifier
+							apiKey:(NSString*)apiKey
+					 facebookAppID:(NSString*)facebookAppID {
 	NSAssert(applicationIdentifier != nil, @"Application identifier must be non-nil");
 	NSAssert(apiKey != nil, @"API key must be non-nil");
 
-	_applicationIdentifier = applicationIdentifier;
-	_apiKey = apiKey;
+	_applicationIdentifier = [applicationIdentifier copy];
+	_apiKey = [apiKey copy];
+	_facebookAppID = [facebookAppID copy];
 }
 
 - (NSDictionary<NSString *,id> *)configuration {
@@ -43,7 +47,7 @@ static NSString* const kConfigKeyAccessToken = @"access-token";
 	[defaults synchronize];
 }
 
-- (NSString *)applicationIdentifier {
+- (NSString*)applicationIdentifier {
 	if (!_applicationIdentifier) {
 		AHARaiseInvalidUsageException(@"The Allihoopa SDK has not been configured yet, call +[AHAAllihoopaSDK setup] before using other methods");
 	}
@@ -51,12 +55,16 @@ static NSString* const kConfigKeyAccessToken = @"access-token";
 	return _applicationIdentifier;
 }
 
-- (NSString *)apiKey {
+- (NSString*)apiKey {
 	if (!_apiKey) {
 		AHARaiseInvalidUsageException(@"The Allihoopa SDK has not been configured yet, call +[AHAAllihoopaSDK setup] before using other methods");
 	}
 
 	return _apiKey;
+}
+
+- (NSString*)facebookAppID {
+	return _facebookAppID;
 }
 
 - (void)setAccessToken:(NSString *)accessToken {

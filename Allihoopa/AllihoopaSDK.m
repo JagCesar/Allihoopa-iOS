@@ -10,6 +10,12 @@
 #import "Piece.h"
 #import "Import.h"
 
+AHAConfigKey const AHAConfigKeyApplicationIdentifier = @"ApplicationIdentifier";
+AHAConfigKey const AHAConfigKeyAPIKey = @"APIKey";
+AHAConfigKey const AHAConfigKeySDKDelegate = @"SDKDelegate";
+AHAConfigKey const AHAConfigKeyFacebookAppID = @"FacebookAppID";
+
+
 static NSString* const kInfoPlistAppKey = @"AllihoopaSDKAppKey";
 static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
 
@@ -39,6 +45,10 @@ static NSString* const kMeGraphQLQuery = @"\
 	[[self sharedInstance] setupWithApplicationIdentifier:applicationIdentifier
 												   apiKey:apiKey
 												 delegate:delegate];
+}
+
++ (void)setupWithConfiguration:(NSDictionary<AHAConfigKey,id> *)configuration {
+	[[self sharedInstance] setupWithConfiguration:configuration];
 }
 
 + (void)authenticate:(void (^)(BOOL))completion {
@@ -94,11 +104,64 @@ static NSString* const kMeGraphQLQuery = @"\
 		AHARaiseInvalidUsageException(@"No API key provided");
 	}
 
+	NSMutableDictionary* config = [@{
+									 AHAConfigKeyApplicationIdentifier: applicationIdentifier,
+									 AHAConfigKeyAPIKey: apiKey,
+									 } mutableCopy];
+
+	if (delegate) {
+		[config setObject:delegate forKey:AHAConfigKeySDKDelegate];
+	}
+
+	[self setupWithConfiguration:config];
+
+}
+
+- (void)setupWithConfiguration:(NSDictionary<AHAConfigKey,id> *)configuration {
+	if (configuration == nil) {
+		AHARaiseInvalidUsageException(@"No configuration dictionary provided");
+	}
+
+	NSString* applicationIdentifier = configuration[AHAConfigKeyApplicationIdentifier];
+	NSString* apiKey = configuration[AHAConfigKeyAPIKey];
+	id<AHAAllihoopaSDKDelegate> delegate = configuration[AHAConfigKeySDKDelegate];
+	NSString* facebookAppID = configuration[AHAConfigKeyFacebookAppID];
+
+
+	// `applicationIdentifier` must be set to a NSString instance.
+	if (applicationIdentifier != nil && ![applicationIdentifier isKindOfClass:[NSString class]]) {
+		AHARaiseInvalidUsageException(@"Invalid application identifier provided; must provide a string");
+	}
+	else if (applicationIdentifier == nil || applicationIdentifier.length == 0) {
+		AHARaiseInvalidUsageException(@"No application identifier provided");
+	}
+
+	// `apiKey` must be set to a NSString instance.
+	if (apiKey != nil && ![apiKey isKindOfClass:[NSString class]]) {
+		AHARaiseInvalidUsageException(@"Invalid API key provided; must provide a string");
+	}
+	else if (apiKey == nil || apiKey.length == 0) {
+		AHARaiseInvalidUsageException(@"No API key provided");
+	}
+
+	// If `delegate` is set, it must conform to the `AHAAllihoopaSDKDelegate` protocol.
+	if (delegate != nil && ![delegate conformsToProtocol:@protocol(AHAAllihoopaSDKDelegate)]) {
+		AHARaiseInvalidUsageException(@"Delegate instance does not conform to AHAAllihoopaSDKDelegate protocol");
+	}
+
+	// If the `facebookAppID` is set, it must be a NSString instance.
+	if (facebookAppID != nil && ![facebookAppID isKindOfClass:[NSString class]]) {
+		AHARaiseInvalidUsageException(@"Invalid Facebook App ID provided; must provide a string");
+	}
+
 	_delegate = delegate;
 
-	[_configuration setupApplicationIdentifier:applicationIdentifier apiKey:apiKey];
+	[_configuration setupApplicationIdentifier:applicationIdentifier
+										apiKey:apiKey
+								 facebookAppID:facebookAppID];
 
 	[self validateURLSchemeSetup];
+
 }
 
 - (void)validateURLSchemeSetup {

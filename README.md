@@ -68,10 +68,11 @@ import Allihoopa
 
 // In your UIApplicationDelegate implementation
 func applicationDidFinishLaunching(_ application: UIApplication) {
-    AHAAllihoopaSDK.setup(
-        applicationIdentifier: "your-application-identifier",
-        apiKey: "your-api-key",
-        delegate: self)
+    AHAAllihoopaSDK.setup([
+        .applicationIdentifier: "your-application-identifier",
+        .apiKey: "your-api-key",
+        .delegate: self,
+    ])
 }
 
 func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -90,9 +91,11 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpe
 
 // In your UIApplicationDelegate implementation
 - (void)applicationDidFinishLaunching:(UIApplication*)application {
-    [AHAAllihoopaSDK setupWithApplicationIdentifier:@"your-application-identifier"
-                                             apiKey:@"your-api-key"
-                                           delegate:self];
+    [AHAAllihoopaSDK setupWithConfiguration:@{
+        AHAConfigKeyApplicationIdentifier: @"your-application-identifier",
+        AHAConfigKeyAPIKey: @"your-api-key",
+        AHAConfigKeySDKDelegate: self,
+    }];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
@@ -106,10 +109,23 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpe
 }
 ```
 
-`setupWithApplicationIdentifier:apiKey:delegate:` must be called *before* any
-other API calls can be made. It will throw an exception if the SDK is improperly
-setup: if the credentials are missing or if you've not set up the URL scheme
-properly. For more information, see the "Steting up the SDK" heading above.
+`setupWithConfiguration:` must be called *before* any other API calls can be
+made. It will throw an exception if the SDK is improperly setup: if the
+credentials are missing or if you've not set up the URL scheme properly. For
+more information, see the "Steting up the SDK" heading above.
+
+The configuration dictionary supports the following keys - names in Objective-C
+vs. Swift:
+
+* `AHAConfigKeyApplicationIdentifier`/`.applicationIdentifier`: required string
+  containing the application identifier provided by Allihoopa.
+* `AHAConfigKeyAPIKey`/`.apiKey`: required string containing the app's API key.
+* `AHAConfigKeySDKDelegate`/`.sdkDelegate`: optional instance used to notify
+  the application when a user tries to import a piece into this app. If provided,
+  the instance must conform to the `AHAAllihoopaSDKDelegate` protocol.
+* `AHAConfigKeyFacebookAppID`/`.facebookAppID`: optional string containing the
+  Facebook App ID of the application. This will enable secondary social sharing
+  through the Accounts and Social frameworks built into iOS.
 
 `handleOpenURL:` must be called inside the URL handler of your application. It
 will only return true if it successfully handled the URL, making it possible to

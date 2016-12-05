@@ -23,6 +23,8 @@
 	<string>${ALLIHOOPA_SDK_APPLICATION_IDENTIFIER}</string>
 	<key>AllihoopaSDKAPIKey</key>
 	<string>${ALLIHOOPA_SDK_API_KEY}</string>
+	<key>AllihoopaSDKFacebookAppID</key>
+	<string>${ALLIHOOPA_SDK_FACEBOOK_APP_ID}</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>

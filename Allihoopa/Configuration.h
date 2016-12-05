@@ -10,13 +10,15 @@
 
 @property (readonly) NSString* _Nonnull applicationIdentifier;
 @property (readonly) NSString* _Nonnull apiKey;
+@property (readonly) NSString* _Nullable facebookAppID;
 
 @property (readonly) NSDictionary<NSString*,id>* _Nonnull configuration;
 
 @property (nonatomic) NSString* _Nullable accessToken;
 
 - (void)setupApplicationIdentifier:(NSString* _Nonnull)applicationIdentifier
-							apiKey:(NSString* _Nonnull)apiKey;
+							apiKey:(NSString* _Nonnull)apiKey
+					 facebookAppID:(NSString* _Nullable)facebookAppID;
 
 /**
  Execute multiple updates to the persisted configuration atomically

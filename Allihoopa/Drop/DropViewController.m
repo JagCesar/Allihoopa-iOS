@@ -1,5 +1,8 @@
 #import "DropViewController.h"
 
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
+
 #import "../AllihoopaSDK.h"
 #import "../Allihoopa+Internal.h"
 
@@ -69,6 +72,13 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	UIImage* _downloadedCoverImage;
 	BOOL _coverImageDownloaded;
 
+	ACAccount* _facebookAccount;
+	ACAccountCredential* _facebookAccountCredential;
+	ACAccount* _twitterAccount;
+
+	NSInteger _socialPostingWaiting;
+	BOOL _socialPostingStarted;
+
 	NSError* _currentError;
 }
 
@@ -87,6 +97,7 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 
 	_infoViewController = self.viewControllers[0];
 	_infoViewController.dropInfoDelegate = self;
+	_infoViewController.configuration = _configuration;
 
 	_viewState = AHADropViewStateEditInfo;
 
@@ -421,6 +432,92 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	[self tick];
 }
 
+#pragma mark - Private methods (social sharing)
+
+- (void)shareToSocialServices {
+	if (_socialPostingWaiting == 0) {
+		AHALog(@"Social sharing: No services enabled, skipping");
+		_socialPostingStarted = YES;
+		[self tick];
+
+		return;
+	}
+
+	NSAssert(_createdPiece != nil, @"Piece must be created before posting to social services");
+
+	NSString* post = [NSString stringWithFormat:@"%@ is my latest piece, check it out! %@",
+					  _createdPiece[@"title"], _createdPiece[@"url"]];
+
+	_socialPostingStarted = YES;
+
+	if (_twitterAccount) {
+		AHALog(@"Posting to Twitter");
+		SLRequest* request = [SLRequest requestForServiceType:SLServiceTypeTwitter
+												requestMethod:SLRequestMethodPOST
+														  URL:[NSURL URLWithString:@"https://api.twitter.com/1.1/statuses/update.json"]
+												   parameters:@{@"status": post}];
+		request.account = _twitterAccount;
+
+		__weak AHADropViewController* weakSelf = self;
+		[request performRequestWithHandler:^(__unused NSData *responseData, __unused NSHTTPURLResponse *urlResponse, NSError *error) {
+			AHALog(@"Post to Twitter done, error: %@", error);
+			dispatch_async(dispatch_get_main_queue(), ^{
+				AHADropViewController* strongSelf = weakSelf;
+
+				if (strongSelf) {
+					if (error) {
+						[strongSelf showSocialServicePostingError:@"Twitter"];
+					}
+
+					strongSelf->_socialPostingWaiting -= 1;
+					[strongSelf tick];
+				}
+			});
+		}];
+	}
+
+	if (_facebookAccount) {
+		AHALog(@"Posting to Facebook");
+		SLRequest* request = [SLRequest requestForServiceType:SLServiceTypeFacebook
+												requestMethod:SLRequestMethodPOST
+														  URL:[NSURL URLWithString:@"https://graph.facebook.com/v2.8/me/feed"]
+												   parameters:@{@"message": post,
+																@"access_token": _facebookAccountCredential.oauthToken,
+																}];
+		
+		request.account = _facebookAccount;
+
+		__weak AHADropViewController* weakSelf = self;
+		[request performRequestWithHandler:^(__unused NSData *responseData, __unused NSHTTPURLResponse *urlResponse, NSError *error) {
+			AHALog(@"Post to Facebook done, error: %@", error);
+			dispatch_async(dispatch_get_main_queue(), ^{
+				AHADropViewController* strongSelf = weakSelf;
+
+				if (strongSelf) {
+					if (error) {
+						[strongSelf showSocialServicePostingError:@"Facebook"];
+					}
+
+					strongSelf->_socialPostingWaiting -= 1;
+					[strongSelf tick];
+				}
+			});
+		}];
+	}
+}
+
+- (void)showSocialServicePostingError:(NSString*)serviceName {
+	NSString* message = [NSString stringWithFormat:@"Could not share this piece to %@ :(", serviceName];
+
+	UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Sharing Error"
+																   message:message
+															preferredStyle:UIAlertControllerStyleAlert];
+
+	[alert addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:^(__unused UIAlertAction * _Nonnull action) {}]];
+
+	[self presentViewController:alert animated:YES completion:nil];
+}
+
 #pragma mark - Private methods (state machine)
 
 - (void)tick {
@@ -455,13 +552,21 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 
 		[self createPieceFromParts];
 	}
+	// If the piece has been created, we'll need to download the final cover art from the server
+	// to show it on the drop done view controller.
 	else if (pieceCreated && !_coverImageDownloaded && !_waitingForCoverImageDownload) {
 		AHALog(@"Tick: Downloading cover image");
 
 		[self downloadCoverImage];
 	}
-	// If the piece is created, segue to the done screen.
-	else if (pieceCreated && _coverImageDownloaded && _viewState != AHADropViewStateDone) {
+	else if (pieceCreated && _coverImageDownloaded && !_socialPostingStarted) {
+		AHALog(@"Tick: Sharing to social services");
+
+		[self shareToSocialServices];
+	}
+	// Piece created, all social sharing complete, cover image downloaded: transition to the
+	// drop done view if not already there.
+	else if (pieceCreated && _socialPostingWaiting == 0 && _coverImageDownloaded && _viewState != AHADropViewStateDone) {
 		AHALog(@"Everything is done: %@", _createdPiece);
 		NSAssert(_progressViewController != nil,@"No progress view controller available");
 
@@ -475,7 +580,11 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 - (void)dropInfoViewControllerDidCommitTitle:(NSString*)title
 								 description:(NSString*)description
 									  listed:(BOOL)isListed
-								  coverImage:(UIImage*)coverImage {
+								  coverImage:(UIImage*)coverImage
+							 facebookAccount:(ACAccount*)facebookAccount
+				   facebookAccountCredential:(ACAccountCredential*)facebookAccountCredential
+							  twitterAccount:(ACAccount*)twitterAccount
+{
 	AHALog(@"Info view committed piece information");
 
 	NSAssert(title != nil, @"Must commit title");
@@ -486,6 +595,11 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	_committedDescription = description;
 	_committedListed = isListed;
 	_committedCoverImage = coverImage;
+	_facebookAccount = facebookAccount;
+	_facebookAccountCredential = facebookAccountCredential;
+	_twitterAccount = twitterAccount;
+	_socialPostingWaiting = (facebookAccount != nil ? 1 : 0) + (twitterAccount != nil ? 1 : 0);
+	_socialPostingStarted = NO;
 	_waitingForPieceInfo = NO;
 
 	if (_committedCoverImage != nil) {

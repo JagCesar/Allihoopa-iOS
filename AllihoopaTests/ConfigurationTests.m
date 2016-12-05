@@ -14,10 +14,21 @@
 - (void)testSetup {
 	AHAConfiguration* configuration = [[AHAConfiguration alloc] init];
 
-	[configuration setupApplicationIdentifier:@"app-identifier" apiKey:@"apiKey"];
+	[configuration setupApplicationIdentifier:@"app-identifier" apiKey:@"apiKey" facebookAppID:nil];
 
 	XCTAssertEqualObjects(configuration.applicationIdentifier, @"app-identifier");
 	XCTAssertEqualObjects(configuration.apiKey, @"apiKey");
+	XCTAssertNil(configuration.facebookAppID);
+}
+
+- (void)testSetupWithFacebookAppID {
+	AHAConfiguration* configuration = [[AHAConfiguration alloc] init];
+
+	[configuration setupApplicationIdentifier:@"app-identifier" apiKey:@"apiKey" facebookAppID:@"1234"];
+
+	XCTAssertEqualObjects(configuration.applicationIdentifier, @"app-identifier");
+	XCTAssertEqualObjects(configuration.apiKey, @"apiKey");
+	XCTAssertEqualObjects(configuration.facebookAppID, @"1234");
 }
 
 - (void)testIdentifierThrowsOnNoSetup {

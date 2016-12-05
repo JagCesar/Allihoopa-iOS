@@ -1,6 +1,9 @@
 #import "DropInfoViewController.h"
 
+#import <Accounts/Accounts.h>
+
 #import "../Allihoopa+Internal.h"
+#import "../Configuration.h"
 
 #import "DropProgressViewController.h"
 #import "ModalEditor.h"
@@ -19,10 +22,13 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 @property (strong, nonatomic) IBOutlet UIImageView* coverImageView;
 @property (strong, nonatomic) IBOutlet UILabel* descriptionLabel;
 @property (strong, nonatomic) IBOutlet UISwitch* listedSwitch;
-@property (strong, nonatomic) IBOutlet UILabel *listedCaption;
-@property (strong, nonatomic) IBOutlet UILabel *addDescriptionLabel;
-@property (strong, nonatomic) IBOutlet UIImageView *addDescriptionButton;
-@property (strong, nonatomic) IBOutlet UIButton *dropButton;
+@property (strong, nonatomic) IBOutlet UILabel* listedCaption;
+@property (strong, nonatomic) IBOutlet UILabel* addDescriptionLabel;
+@property (strong, nonatomic) IBOutlet UIImageView* addDescriptionButton;
+@property (strong, nonatomic) IBOutlet UIButton* dropButton;
+
+@property (strong, nonatomic) IBOutlet UIButton* facebookPostingButton;
+@property (strong, nonatomic) IBOutlet UIButton* twitterPostingButton;
 
 @property (copy, nonatomic) NSString* defaultTitle;
 @property (strong, nonatomic) UIImage* defaultCoverImage;
@@ -34,11 +40,16 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 @implementation AHADropInfoViewController {
 	AHAModalEditMode _modalEditMode;
 
+	ACAccount* _facebookAccount;
+	ACAccountCredential* _facebookAccountCredential;
+	ACAccount* _twitterAccount;
+
 	UIImagePickerController* _imagePicker;
 }
 
 - (void)viewDidLoad {
 	NSAssert(_dropInfoDelegate != nil, @"Must set drop info delegate");
+	NSAssert(_configuration != nil, @"Must set configuration object");
 
 	NSAssert(_titleLabel != nil, @"Missing title label");
 	NSAssert(_coverImageView != nil, @"Missing cover image view");
@@ -56,6 +67,10 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 	_descriptionLabel.text = @"";
 	_dropButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
 	_dropButton.titleEdgeInsets = UIEdgeInsetsMake(0, -50, 0, 0);
+
+	if (_configuration.facebookAppID == nil) {
+		_facebookPostingButton.hidden = YES;
+	}
 
 	[self onListedChange:_listedSwitch];
 }
@@ -80,7 +95,10 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 	[delegate dropInfoViewControllerDidCommitTitle:_titleLabel.text
 									   description:_descriptionLabel.text
 											listed:_listedSwitch.on
-										coverImage:coverImage];
+										coverImage:coverImage
+								   facebookAccount:_facebookAccount
+						 facebookAccountCredential:_facebookAccountCredential
+									twitterAccount:_twitterAccount];
 }
 
 - (IBAction)unwindFromModalEditor:(UIStoryboardSegue*)segue {
@@ -184,6 +202,103 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 	}]];
 	[alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(__unused UIAlertAction * _Nonnull action) {
 	}]];
+
+	[self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - Private methods (social service posting)
+
+- (IBAction)toggleFacebookPosting:(__unused id)sender {
+	BOOL enabled = !_facebookPostingButton.selected;
+	_facebookPostingButton.selected = enabled;
+
+	[UIView animateWithDuration:0.25 animations:^{
+		[self->_facebookPostingButton layoutIfNeeded];
+	}];
+
+	if (enabled) {
+		ACAccountStore* store = [[ACAccountStore alloc] init];
+		ACAccountType* type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
+		NSDictionary* options = @{ ACFacebookAppIdKey: _configuration.facebookAppID,
+								   ACFacebookPermissionsKey: @[@"publish_actions"],
+								   ACFacebookAudienceKey: ACFacebookAudienceEveryone };
+
+		__weak AHADropInfoViewController* weakSelf = self;
+		[store requestAccessToAccountsWithType:type options:options completion:^(BOOL granted, NSError *error) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				AHADropInfoViewController* strongSelf = weakSelf;
+
+				AHALog(@"Got access to Facebook account: %i, %@", granted, error);
+
+				if (strongSelf) {
+					strongSelf->_facebookPostingButton.selected = granted;
+					strongSelf->_facebookAccount = granted ? [store accountsWithAccountType:type].firstObject : nil;
+					strongSelf->_facebookAccountCredential = strongSelf->_facebookAccount.credential;
+
+					if (!granted && error == nil) {
+						[strongSelf showSocialServiceDisabled:@"Facebook"];
+					}
+				}
+			});
+		}];
+	}
+	else {
+		_facebookAccount = nil;
+	}
+}
+
+- (IBAction)toggleTwitterPosting:(__unused id)sender {
+	BOOL enabled = !_twitterPostingButton.selected;
+	_twitterPostingButton.selected = enabled;
+
+	[UIView animateWithDuration:0.25 animations:^{
+		[self->_twitterPostingButton layoutIfNeeded];
+	}];
+
+	if (enabled) {
+		ACAccountStore* store = [[ACAccountStore alloc] init];
+		ACAccountType* type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+
+		__weak AHADropInfoViewController* weakSelf = self;
+		[store requestAccessToAccountsWithType:type options:nil completion:^(BOOL granted, NSError *error) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				AHADropInfoViewController* strongSelf = weakSelf;
+
+				AHALog(@"Got access to Twitter account: %i, %@", granted, error);
+
+				if (strongSelf) {
+					strongSelf->_twitterPostingButton.selected = granted;
+					strongSelf->_twitterAccount = granted ? [store accountsWithAccountType:type].firstObject : nil;
+
+					if (!granted && error == nil) {
+						[strongSelf showSocialServiceDisabled:@"Twitter"];
+					}
+				}
+			});
+		}];
+	}
+	else {
+		_twitterAccount = nil;
+	}
+}
+
+- (void)showSocialServiceDisabled:(NSString*)serviceName {
+	NSString* appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+
+	if (appName == nil) {
+		appName = @"this app"; // :)
+	}
+
+	NSString* message = [NSString stringWithFormat:@"Sharing to %@ has been disabled. Please enable %@ to post to %@ in the Settings app",
+						 serviceName,
+						 appName,
+						 serviceName];
+
+	UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Sharing Disabled"
+																   message:message
+															preferredStyle:UIAlertControllerStyleAlert];
+
+	[alert addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:^(__unused UIAlertAction * _Nonnull action) {}]];
 
 	[self presentViewController:alert animated:YES completion:nil];
 }

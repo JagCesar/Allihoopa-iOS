@@ -17,7 +17,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func applicationDidFinishLaunching(_ application: UIApplication) {
 		let applicationIdentifier = Bundle.main.object(forInfoDictionaryKey: "AllihoopaSDKApplicationIdentifier") as! String
 		let apiKey = Bundle.main.object(forInfoDictionaryKey: "AllihoopaSDKAPIKey") as! String
-		AHAAllihoopaSDK.setup(applicationIdentifier: applicationIdentifier, apiKey: apiKey, delegate: self)
+		let facebookAppID = Bundle.main.object(forInfoDictionaryKey: "AllihoopaSDKFacebookAppID") as! String?
+
+		var config: [AHAConfigKey: Any] = [
+			.applicationIdentifier: applicationIdentifier,
+			.apiKey: apiKey,
+			.sdkDelegate: self,
+		]
+
+		if let facebookAppID = facebookAppID {
+			config[.facebookAppID] = facebookAppID
+		}
+
+		AHAAllihoopaSDK.setup(config)
 	}
 
 	func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {

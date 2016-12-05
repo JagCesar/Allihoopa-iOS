@@ -21,10 +21,19 @@
 
 	NSString* applicationIdentifier = [mainBundle objectForInfoDictionaryKey:@"AllihoopaSDKApplicationIdentifier"];
 	NSString* apiKey = [mainBundle objectForInfoDictionaryKey:@"AllihoopaSDKAPIKey"];
+	NSString* facebookAppID = [mainBundle objectForInfoDictionaryKey:@"AllihoopaSDKFacebookAppID"];
 
-	[AHAAllihoopaSDK setupWithApplicationIdentifier:applicationIdentifier
-											 apiKey:apiKey
-										   delegate:self];
+	NSMutableDictionary* config = [@{
+									 AHAConfigKeyApplicationIdentifier: applicationIdentifier,
+									 AHAConfigKeyAPIKey: apiKey,
+									 AHAConfigKeySDKDelegate: self,
+									 } mutableCopy];
+
+	if (facebookAppID != nil) {
+		[config setObject:facebookAppID forKey:AHAConfigKeyFacebookAppID];
+	}
+
+	[AHAAllihoopaSDK setupWithConfiguration:config];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {

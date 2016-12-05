@@ -4,6 +4,13 @@
 
 typedef void (^AHAAuthenticationCallback)(BOOL successful);
 
+typedef NSString* _Nonnull AHAConfigKey NS_STRING_ENUM;
+
+extern AHAConfigKey const AHAConfigKeyApplicationIdentifier;
+extern AHAConfigKey const AHAConfigKeyAPIKey;
+extern AHAConfigKey const AHAConfigKeySDKDelegate;
+extern AHAConfigKey const AHAConfigKeyFacebookAppID;
+
 #import "DropPieceData.h"
 #import "DropDelegate.h"
 
@@ -16,17 +23,30 @@ typedef void (^AHAAuthenticationCallback)(BOOL successful);
 @interface AHAAllihoopaSDK : NSObject
 
 /**
+ Old SDK initialization method. Please use setupWithConfiguration instead.
+ 
+ @throws AHAInvalidUsageException When the application is incorrectly configured.
+ */
++ (void)setupWithApplicationIdentifier:(NSString* _Nonnull)applicationIdentifier
+								apiKey:(NSString* _Nonnull)apiKey
+							  delegate:(id<AHAAllihoopaSDKDelegate> _Nonnull)delegate NS_SWIFT_NAME(setup(applicationIdentifier:apiKey:delegate:));
+
+/**
  Initialize the SDK and perform some basic sanity checking
 
  It also requires that the `ah-{applicationIdentifier}` URL scheme has been
  registered. will throw an exception if any of these conditions have not been
  met.
  
+ The configuration dictionary *must* contain the keys AHAConfigKeyApplicationIdentifier
+ and AHAConfigKeyAPIKey and they *must* be set to NSStrings.
+ 
+ If the AHAConfigKeyFacebookAppID key is present, sharing to Facebook is presented
+ as an option to the user when dropping.
+
  @throws AHAInvalidUsageException When the application is incorrectly configured
  */
-+ (void)setupWithApplicationIdentifier:(NSString* _Nonnull)applicationIdentifier
-								apiKey:(NSString* _Nonnull)apiKey
-							  delegate:(id<AHAAllihoopaSDKDelegate> _Nonnull)delegate NS_SWIFT_NAME(setup(applicationIdentifier:apiKey:delegate:));
++ (void)setupWithConfiguration:(NSDictionary<AHAConfigKey,id>* _Nonnull)configuration NS_SWIFT_NAME(setup(_:));
 
 /**
  Ensure that the user is authenticated
