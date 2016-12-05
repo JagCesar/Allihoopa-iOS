@@ -48,19 +48,24 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 
 	AHADropViewState _viewState;
 
+	BOOL _hasBeenPresented;
+
 	BOOL _waitingForPieceInfo;
 	NSString* _committedTitle;
 	NSString* _committedDescription;
 	BOOL _committedListed;
 	UIImage* _committedCoverImage;
 
+	BOOL _gotCoverImageFromApplication;
 	BOOL _waitingForCoverImage;
 	NSURL* _coverImageURL;
 
+	BOOL _gotMixStemFromApplication;
 	BOOL _waitingForMixStem;
 	AHAAudioDataBundle* _mixStemBundle;
 	NSURL* _mixStemURL;
 
+	BOOL _gotPreviewAudioFromApplication;
 	BOOL _waitingForPreviewAudio;
 	AHAAudioDataBundle* _previewAudioBundle;
 	NSURL* _previewAudioURL;
@@ -109,21 +114,24 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 }
 
 - (void)viewDidAppear:(__unused BOOL)animated {
-	__weak AHADropViewController* weakSelf = self;
-	[AHAAllihoopaSDK authenticate:^(BOOL successful) {
-		AHADropViewController* strongSelf = weakSelf;
+	if (!_hasBeenPresented) {
+		_hasBeenPresented = YES;
 
-		if (strongSelf) {
-			if (successful) {
-				[strongSelf fetchDefaultCoverImage];
-				[strongSelf fetchMixStem];
-				[strongSelf fetchPreviewAudio];
+		__weak AHADropViewController* weakSelf = self;
+		[AHAAllihoopaSDK authenticate:^(BOOL successful) {
+			AHADropViewController* strongSelf = weakSelf;
+
+			if (strongSelf) {
+				if (successful) {
+					[strongSelf fetchMixStem];
+					[strongSelf fetchPreviewAudio];
+				}
+				else {
+					[strongSelf cancelDropUnwind:nil];
+				}
 			}
-			else {
-				[strongSelf cancelDropUnwind:nil];
-			}
-		}
-	}];
+		}];
+	}
 }
 
 - (void)dealloc {
@@ -176,6 +184,12 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 		AHARaiseInvalidUsageException(@"Must call completion handlers on main queue");
 	}
 
+	if (_gotCoverImageFromApplication) {
+		AHARaiseInvalidUsageException(@"The cover image completion handler can not be called multiple times per piece");
+	}
+
+	_gotCoverImageFromApplication = YES;
+
 	AHALog(@"Default cover image arrived from application");
 	NSAssert(_infoViewController != nil, @"Info view must be set");
 
@@ -211,6 +225,12 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	if (![NSThread isMainThread]) {
 		AHARaiseInvalidUsageException(@"Must call completion handlers on main queue");
 	}
+
+	if (_gotMixStemFromApplication) {
+		AHARaiseInvalidUsageException(@"The mix stem completion handler can not be called multiple times per piece");
+	}
+
+	_gotMixStemFromApplication = YES;
 
 	AHALog(@"Mix stem arrived from application, error: %@", fetchError);
 
@@ -269,6 +289,12 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	if (![NSThread isMainThread]) {
 		AHARaiseInvalidUsageException(@"Must call completion handlers on main queue");
 	}
+
+	if (_gotPreviewAudioFromApplication) {
+		AHARaiseInvalidUsageException(@"The preview audio completion handler can not be called multiple times per piece");
+	}
+
+	_gotPreviewAudioFromApplication = YES;
 
 	AHALog(@"Preview audio arrived from application, error: %@", fetchError);
 
