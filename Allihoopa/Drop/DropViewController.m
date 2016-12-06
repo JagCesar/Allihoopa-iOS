@@ -10,6 +10,7 @@
 #import "../Configuration.h"
 #import "../APICommunication.h"
 #import "../Errors.h"
+#import "../Promise.h"
 
 #import "DropInfoViewController.h"
 #import "DropProgressViewController.h"
@@ -32,12 +33,24 @@ mutation($piece: PieceInput!) {\
 }\
 ";
 
-typedef NS_ENUM(NSInteger, AHADropViewState) {
-	AHADropViewStateEditInfo,
-	AHADropViewStateProgress,
-	AHADropViewStateDone,
-	AHADropViewStateError,
-};
+static id CoerceNull(id value) {
+	if (value == [NSNull null]) {
+		return nil;
+	}
+
+	return value;
+}
+
+@interface AHAUploadedBundle : NSObject
+
+@property (nonatomic, readonly) AHAAudioDataBundle* bundle;
+@property (nonatomic, readonly) NSURL* url;
+
+- (instancetype)initWithBundle:(AHAAudioDataBundle*)bundle url:(NSURL*)url;
+
+@end
+
+
 
 @interface AHADropViewController () <AHADropInfoViewControllerDelegate, AHADropProgressViewControllerDelegate>
 @end
@@ -47,45 +60,25 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	AHADropProgressViewController* _progressViewController;
 	AHADropDoneViewController* _doneViewController;
 
-	AHADropViewState _viewState;
-
 	BOOL _hasBeenPresented;
 
-	BOOL _waitingForPieceInfo;
-	NSString* _committedTitle;
-	NSString* _committedDescription;
-	BOOL _committedListed;
-	UIImage* _committedCoverImage;
+	AHAPromise<AHADropInfo*>* _pieceInfoPromise;
 
 	BOOL _gotCoverImageFromApplication;
-	BOOL _waitingForCoverImage;
-	NSURL* _coverImageURL;
+	AHAPromise<NSURL*>* _coverImageURLPromise;
 
 	BOOL _gotMixStemFromApplication;
-	BOOL _waitingForMixStem;
-	AHAAudioDataBundle* _mixStemBundle;
-	NSURL* _mixStemURL;
+	AHAPromise<AHAUploadedBundle*>* _mixStemPromise;
 
 	BOOL _gotPreviewAudioFromApplication;
-	BOOL _waitingForPreviewAudio;
-	AHAAudioDataBundle* _previewAudioBundle;
-	NSURL* _previewAudioURL;
+	AHAPromise<AHAUploadedBundle*>* _previewAudioPromise;
 
-	BOOL _waitingForCreatePiece;
 	NSDictionary* _createdPiece;
 
-	BOOL _waitingForCoverImageDownload;
 	UIImage* _downloadedCoverImage;
-	BOOL _coverImageDownloaded;
+	AHAPromise<UIImage*>* _downloadedCoverImagePromise;
 
-	ACAccount* _facebookAccount;
-	ACAccountCredential* _facebookAccountCredential;
-	ACAccount* _twitterAccount;
-
-	NSInteger _socialPostingWaiting;
-	BOOL _socialPostingStarted;
-
-	NSError* _currentError;
+	BOOL _dropSuccessful;
 }
 
 
@@ -105,12 +98,9 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	_infoViewController.dropInfoDelegate = self;
 	_infoViewController.configuration = _configuration;
 
-	_viewState = AHADropViewStateEditInfo;
-
-	_waitingForPieceInfo = YES;
-
 	[_infoViewController setDefaultTitle:_dropPieceData.defaultTitle];
 
+	[self runDropFlow];
 	[self fetchDefaultCoverImage];
 }
 
@@ -154,7 +144,7 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	id<AHADropDelegate> delegate = _dropDelegate;
 	if ([delegate respondsToSelector:@selector(dropViewControllerForPieceWillClose:afterSuccessfulDrop:)]) {
 		[delegate dropViewControllerForPieceWillClose:_dropPieceData
-										   afterSuccessfulDrop:_viewState == AHADropViewStateDone];
+								  afterSuccessfulDrop:_dropSuccessful];
 	}
 
 	if (_dismissWhenCloseTapped) {
@@ -162,6 +152,107 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	}
 }
 
+
+#pragma mark - Private methods (Drop state machine logic)
+
+- (void)runDropFlow {
+	_pieceInfoPromise = [[AHAPromise alloc] init];
+	_mixStemPromise = [[AHAPromise alloc] init];
+	_previewAudioPromise = [[AHAPromise alloc] init];
+	_downloadedCoverImagePromise = [[AHAPromise alloc] init];
+
+	__weak AHADropViewController* weakSelf = self;
+
+	[_pieceInfoPromise onComplete:^(__unused id value, __unused NSError *error) {
+		AHADropViewController* strongSelf = weakSelf;
+
+		if (strongSelf) {
+			[strongSelf->_infoViewController segueToProgressViewController];
+		}
+	}];
+
+	_coverImageURLPromise = [_pieceInfoPromise map:^AHAPromise *(AHADropInfo *value) {
+		AHADropViewController* strongSelf = weakSelf;
+
+		if (strongSelf) {
+			if (value.coverImage) {
+				return AHAUploadAssetData(strongSelf->_configuration, UIImagePNGRepresentation(value.coverImage));
+			}
+			else {
+				return [[AHAPromise alloc] initWithValue:nil];
+			}
+		}
+
+		return nil;
+	}];
+
+	__block AHADropInfo* dropInfo = nil;
+
+	[[[[[[[AHAPromise<NSArray*> alloc]
+		  initWithPromises:@[_mixStemPromise,
+							 _previewAudioPromise,
+							 _coverImageURLPromise,
+							 _pieceInfoPromise]]
+		 map:^AHAPromise *(NSArray* parts) {
+			 AHALog(@"All URLs/parts resolved");
+			 AHADropViewController* strongSelf = weakSelf;
+
+			 if (strongSelf != nil) {
+				 AHAUploadedBundle* uploadedMixStem = CoerceNull(parts[0]);
+				 AHAUploadedBundle* uploadedPreviewAudio = CoerceNull(parts[1]);
+				 NSURL* coverImageURL = CoerceNull(parts[2]);
+				 dropInfo = parts[3];
+
+				 return [strongSelf createPieceFromInfo:dropInfo
+										uploadedMixStem:uploadedMixStem
+								   uploadedPreviewAudio:uploadedPreviewAudio
+										  coverImageURL:coverImageURL];
+			 }
+
+			 return nil;
+		 }]
+		filter:^BOOL(id value) {
+			return (value
+					&& value[@"dropPiece"]
+					&& [value[@"dropPiece"] isKindOfClass:[NSDictionary class]]
+					&& value[@"dropPiece"][@"piece"]
+					&& [value[@"dropPiece"][@"piece"] isKindOfClass:[NSDictionary class]]);
+		}]
+	   mapValue:^id(id value) {
+		   return value[@"dropPiece"][@"piece"];
+	   }]
+	  map:^AHAPromise *(id value) {
+		  AHALog(@"Piece dropped, uploading cover image and sharing to services");
+		  AHADropViewController* strongSelf = weakSelf;
+
+		  if (strongSelf != nil) {
+			  strongSelf->_createdPiece = value;
+			  return [[AHAPromise alloc]
+					  initWithPromises:@[ [strongSelf downloadCoverImage],
+										  [strongSelf shareToSocialServices:dropInfo] ]];
+		  }
+
+		  return nil;
+	  }]
+	 onSuccess:^(NSArray* results) {
+		 AHALog(@"Auxiliary promises complete - advance to drop done");
+		 AHADropViewController* strongSelf = weakSelf;
+
+		 if (strongSelf) {
+			 strongSelf->_dropSuccessful = YES;
+			 strongSelf->_downloadedCoverImage = results[0];
+
+			 [strongSelf->_progressViewController advanceToDropDone];
+		 }
+	 } failure:^(__unused NSError *error) {
+		 AHALog(@"Error occurred in drop chain: %@", error);
+		 AHADropViewController* strongSelf = weakSelf;
+
+		 if (strongSelf) {
+			 [strongSelf performSegueWithIdentifier:@"dropError" sender:nil];
+		 }
+	 }];
+}
 
 
 #pragma mark - Private methods (delegate data fetching)
@@ -197,22 +288,9 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	[_infoViewController setDefaultCoverImage:image];
 }
 
-- (void)coverImageDidCompleteUpload:(NSURL*)url error:(NSError*)error {
-	AHALog(@"Cover image upload completed, error: %@", error);
-
-	_coverImageURL = url;
-	_waitingForCoverImage = NO;
-	if (!_currentError) {
-		_currentError = error;
-	}
-
-	[self tick];
-}
-
 - (void)fetchMixStem {
 	AHALog(@"Fetching mix stem from application");
 
-	_waitingForMixStem = YES;
 	__weak AHADropViewController* weakSelf = self;
 
 	[_dropDelegate renderMixStemForPiece:_dropPieceData completion:^(AHAAudioDataBundle* _Nullable bundle, NSError* _Nullable error) {
@@ -238,19 +316,14 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	if (bundle) {
 		AHALog(@"Uploading mix stem");
 		__weak AHADropViewController* weakSelf = self;
-		AHAUploadAssetData(_configuration, bundle.data, ^(NSURL *url, NSError *uploadError) {
+		[AHAUploadAssetData(_configuration, bundle.data) onComplete:^(NSURL *url, NSError *uploadError) {
 			AHADropViewController* strongSelf = weakSelf;
 
 			[strongSelf mixStemDidCompleteUpload:bundle url:url error:uploadError];
-		});
+		}];
 	}
 	else if (fetchError) {
-		_waitingForMixStem = NO;
-		if (!_currentError) {
-			_currentError = fetchError;
-		}
-
-		[self tick];
+		[_mixStemPromise rejectWithError:fetchError];
 	}
 	else {
 		AHARaiseInvalidUsageException(@"Either a mix stem asset bundle or error must be provided");
@@ -260,22 +333,18 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 - (void)mixStemDidCompleteUpload:(AHAAudioDataBundle*)bundle url:(NSURL*)url error:(NSError*)error {
 	AHALog(@"Mix stem upload completed, error: %@", error);
 
-	_mixStemBundle = bundle;
-	_mixStemURL = url;
-	_waitingForMixStem = NO;
-
-	if (!_currentError) {
-		_currentError = error;
+	if (error) {
+		[_mixStemPromise rejectWithError:error];
 	}
-
-	[self tick];
+	else {
+		[_mixStemPromise resolveWithValue:[[AHAUploadedBundle alloc] initWithBundle:bundle url:url]];
+	}
 }
 
 - (void)fetchPreviewAudio {
 	id<AHADropDelegate> delegate = self.dropDelegate;
 	if ([delegate respondsToSelector:@selector(renderPreviewAudioForPiece:completion:)]) {
 		AHALog(@"Fetching preview audio from application");
-		_waitingForPreviewAudio = YES;
 		__weak AHADropViewController* weakSelf = self;
 
 		[delegate renderPreviewAudioForPiece:_dropPieceData completion:^(AHAAudioDataBundle* _Nullable bundle, NSError* _Nullable error) {
@@ -283,6 +352,9 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 
 			[strongSelf previewAudioDidArrive:bundle error:error];
 		}];
+	}
+	else {
+		[_previewAudioPromise resolveWithValue:nil];
 	}
 }
 
@@ -303,54 +375,50 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 		AHALog(@"Uploading preview audio");
 
 		__weak AHADropViewController* weakSelf = self;
-		AHAUploadAssetData(_configuration, bundle.data, ^(NSURL *url, NSError *uploadError) {
+		[AHAUploadAssetData(_configuration, bundle.data) onComplete:^(NSURL *url, NSError *uploadError) {
 			AHADropViewController* strongSelf = weakSelf;
 
 			[strongSelf previewAudioDidCompleteUpload:bundle url:url error:uploadError];
-		});
+		}];
 	}
 	else {
-		_waitingForPreviewAudio = NO;
-
-		if (!_currentError) {
-			_currentError = fetchError;
-		}
-
-		[self tick];
+		[_previewAudioPromise rejectWithError:fetchError];
 	}
 }
 
 - (void)previewAudioDidCompleteUpload:(AHAAudioDataBundle*)bundle url:(NSURL*)url error:(NSError*)error {
 	AHALog(@"Preview audio upload completed, error: %@", error);
-	_previewAudioBundle = bundle;
-	_previewAudioURL = url;
-	_waitingForPreviewAudio = NO;
 
-	if (!_currentError) {
-		_currentError = error;
+	if (error) {
+		[_previewAudioPromise rejectWithError:error];
 	}
-
-	[self tick];
+	else {
+		[_previewAudioPromise resolveWithValue:[[AHAUploadedBundle alloc] initWithBundle:bundle url:url]];
+	}
 }
 
 
 #pragma mark - Private methods (piece creation)
 
-- (void)createPieceFromParts {
+- (AHAPromise<NSDictionary*>*)createPieceFromInfo:(AHADropInfo*)dropInfo
+								  uploadedMixStem:(AHAUploadedBundle*)uploadedMixStem
+							 uploadedPreviewAudio:(AHAUploadedBundle*)uploadedPreviewAudio
+									coverImageURL:(NSURL*)coverImageURL
+{
 	NSMutableDictionary* presentationData = [NSMutableDictionary new];
-	presentationData[@"title"] = _committedTitle;
-	presentationData[@"description"] = _committedDescription;
-	presentationData[@"isListed"] = @(_committedListed);
+	presentationData[@"title"] = dropInfo.title;
+	presentationData[@"description"] = dropInfo.pieceDescription;
+	presentationData[@"isListed"] = @(dropInfo.isListed);
 
-	if (_previewAudioURL) {
-		presentationData[@"preview"] = @{ _previewAudioBundle.formatAsString: _previewAudioURL.absoluteString };
+	if (uploadedPreviewAudio) {
+		presentationData[@"preview"] = @{ uploadedPreviewAudio.bundle.formatAsString: uploadedPreviewAudio.url.absoluteString };
 	}
 
-	if (_coverImageURL) {
-		presentationData[@"coverImage"] = @{ @"png": _coverImageURL.absoluteString };
+	if (coverImageURL) {
+		presentationData[@"coverImage"] = @{ @"png": coverImageURL.absoluteString };
 	}
 
-	NSDictionary* stems = @{ @"mixStem": @{ _mixStemBundle.formatAsString: _mixStemURL.absoluteString } };
+	NSDictionary* stems = @{ @"mixStem": @{ uploadedMixStem.bundle.formatAsString: uploadedMixStem.url.absoluteString } };
 
 	NSMutableArray* basedOnPieces = [NSMutableArray new];
 	for (AHAPieceID* pieceID in _dropPieceData.basedOnPieceIDs) {
@@ -384,92 +452,37 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 
 	AHALog(@"Sending createPiece GraphQL mutation");
 
-	__weak AHADropViewController* weakSelf = self;
-	AHAGraphQLQuery(_configuration, kCreatePieceQuery, @{ @"piece": piece }, ^(NSDictionary *response, NSError *error) {
-		AHADropViewController* strongSelf = weakSelf;
-
-		[strongSelf createPieceFromPartsDidComplete:response error:error];
-	});
-}
-
-- (void)createPieceFromPartsDidComplete:(NSDictionary*)piece error:(NSError*)error {
-	AHALog(@"createPiece GraphQL mutation completed, error: %@", error);
-
-	_waitingForCreatePiece = NO;
-
-	if (_currentError) {
-		_currentError = error;
-	}
-	else if (piece
-			 && piece[@"dropPiece"]
-			 && [piece[@"dropPiece"] isKindOfClass:[NSDictionary class]]
-			 && piece[@"dropPiece"][@"piece"]
-			 && [piece[@"dropPiece"][@"piece"] isKindOfClass:[NSDictionary class]])
-	{
-		_createdPiece = piece[@"dropPiece"][@"piece"];
-	}
-	else {
-		_currentError = [NSError errorWithDomain:AHAAllihoopaErrorDomain
-											code:AHAErrorInternalAPIError
-										userInfo:@{ NSLocalizedDescriptionKey: @"Unexpected response from GraphQL"}];
-	}
-
-	[self tick];
+	return AHAGraphQLQuery(_configuration, kCreatePieceQuery, @{ @"piece": piece });
 }
 
 #pragma mark - Private methods (downloading cover image)
 
-- (void)downloadCoverImage {
+- (AHAPromise<UIImage*>*)downloadCoverImage {
 	NSAssert(_createdPiece, @"Piece must be created before cover image can be downloaded");
 
-	if (_createdPiece[@"coverImage"]
-		&& [_createdPiece[@"coverImage"] isKindOfClass:[NSDictionary class]]
-		&& _createdPiece[@"coverImage"][@"url"]
-		&& [_createdPiece[@"coverImage"][@"url"] isKindOfClass:[NSString class]])
-	{
-		_waitingForCoverImageDownload = YES;
-		NSURLSession* session = [NSURLSession sharedSession];
-		NSURL* url = [NSURL URLWithString:_createdPiece[@"coverImage"][@"url"]];
+	NSURLSession* session = [NSURLSession sharedSession];
+	NSURL* url = [NSURL URLWithString:_createdPiece[@"coverImage"][@"url"]];
 
-		__weak AHADropViewController* weakSelf = self;
+	return [[AHAPromise<UIImage*> alloc] initWithResolver:^(void (^resolve)(UIImage *success), void (^reject)(NSError *error)) {
 		NSURLSessionDataTask* task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data,
 																					  __unused NSURLResponse * _Nullable response,
-																					  __unused NSError * _Nullable error) {
+																					  NSError * _Nullable error) {
 			UIImage* image;
 			if (data) {
 				image = [UIImage imageWithData:data];
+				resolve(image);
 			}
-
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[weakSelf didDownloadCoverImage:image];
-			});
+			else {
+				reject(error);
+			}
 		}];
 		[task resume];
-	}
-	else {
-		_coverImageDownloaded = YES;
-	}
-}
-
-- (void)didDownloadCoverImage:(UIImage*)coverImage {
-	_downloadedCoverImage = coverImage;
-	_waitingForCoverImageDownload = NO;
-	_coverImageDownloaded = YES;
-
-	[self tick];
+	}];
 }
 
 #pragma mark - Private methods (social sharing)
 
-- (void)shareToSocialServices {
-	if (_socialPostingWaiting == 0) {
-		AHALog(@"Social sharing: No services enabled, skipping");
-		_socialPostingStarted = YES;
-		[self tick];
-
-		return;
-	}
-
+- (AHAPromise*)shareToSocialServices:(AHADropInfo*)dropInfo {
 	NSAssert(_createdPiece != nil, @"Piece must be created before posting to social services");
 
 
@@ -485,63 +498,80 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 		post = [NSString stringWithFormat:@"%@ %@", description, _createdPiece[@"url"]];
 	}
 
+	NSMutableArray<AHAPromise*>* promises = [[NSMutableArray alloc] init];
 
-	_socialPostingStarted = YES;
+	if (dropInfo.twitterAccount) {
+		AHAPromise* p = [[AHAPromise alloc] initWithResolver:^(void (^resolve)(id success), __unused void (^reject)(NSError *error)) {
+			AHALog(@"Posting to Twitter");
+			SLRequest* request = [SLRequest requestForServiceType:SLServiceTypeTwitter
+													requestMethod:SLRequestMethodPOST
+															  URL:[NSURL URLWithString:@"https://api.twitter.com/1.1/statuses/update.json"]
+													   parameters:@{@"status": post}];
+			request.account = dropInfo.twitterAccount;
 
-	if (_twitterAccount) {
-		AHALog(@"Posting to Twitter");
-		SLRequest* request = [SLRequest requestForServiceType:SLServiceTypeTwitter
-												requestMethod:SLRequestMethodPOST
-														  URL:[NSURL URLWithString:@"https://api.twitter.com/1.1/statuses/update.json"]
-												   parameters:@{@"status": post}];
-		request.account = _twitterAccount;
+			[request performRequestWithHandler:^(__unused NSData *responseData, __unused NSHTTPURLResponse *urlResponse, NSError *error) {
+				AHALog(@"Post to Twitter done, error: %@", error);
+
+				if (error) {
+					reject(error);
+				}
+				else {
+					resolve(nil);
+				}
+			}];
+		}];
 
 		__weak AHADropViewController* weakSelf = self;
-		[request performRequestWithHandler:^(__unused NSData *responseData, __unused NSHTTPURLResponse *urlResponse, NSError *error) {
-			AHALog(@"Post to Twitter done, error: %@", error);
-			dispatch_async(dispatch_get_main_queue(), ^{
-				AHADropViewController* strongSelf = weakSelf;
+		[p onFailure:^(__unused NSError *error) {
+			AHADropViewController* strongSelf = weakSelf;
 
-				if (strongSelf) {
-					if (error) {
-						[strongSelf showSocialServicePostingError:@"Twitter"];
-					}
-
-					strongSelf->_socialPostingWaiting -= 1;
-					[strongSelf tick];
-				}
-			});
+			if (strongSelf) {
+				[strongSelf showSocialServicePostingError:@"Twitter"];
+			}
 		}];
+
+		[promises addObject:p];
 	}
 
-	if (_facebookAccount) {
-		AHALog(@"Posting to Facebook");
-		SLRequest* request = [SLRequest requestForServiceType:SLServiceTypeFacebook
-												requestMethod:SLRequestMethodPOST
-														  URL:[NSURL URLWithString:@"https://graph.facebook.com/v2.8/me/feed"]
-												   parameters:@{@"message": post,
-																@"access_token": _facebookAccountCredential.oauthToken,
-																}];
-		
-		request.account = _facebookAccount;
+	if (dropInfo.facebookAccount) {
+		NSAssert(dropInfo.facebookAccountCredential != nil, @"FB account credential must be present if FB account enabled");
+
+		AHAPromise* p = [[AHAPromise alloc] initWithResolver:^(void (^resolve)(id success), __unused void (^reject)(NSError *error)) {
+			AHALog(@"Posting to Facebook");
+			SLRequest* request = [SLRequest requestForServiceType:SLServiceTypeFacebook
+													requestMethod:SLRequestMethodPOST
+															  URL:[NSURL URLWithString:@"https://graph.facebook.com/v2.8/me/feed"]
+													   parameters:@{@"message": post,
+																	@"access_token": dropInfo.facebookAccountCredential.oauthToken,
+																	}];
+
+			request.account = dropInfo.facebookAccount;
+
+			[request performRequestWithHandler:^(__unused NSData *responseData, __unused NSHTTPURLResponse *urlResponse, NSError *error) {
+				AHALog(@"Post to Facebook done, error: %@", error);
+
+				if (error) {
+					reject(error);
+				}
+				else {
+					resolve(nil);
+				}
+			}];
+		}];
 
 		__weak AHADropViewController* weakSelf = self;
-		[request performRequestWithHandler:^(__unused NSData *responseData, __unused NSHTTPURLResponse *urlResponse, NSError *error) {
-			AHALog(@"Post to Facebook done, error: %@", error);
-			dispatch_async(dispatch_get_main_queue(), ^{
-				AHADropViewController* strongSelf = weakSelf;
+		[p onFailure:^(__unused NSError *error) {
+			AHADropViewController* strongSelf = weakSelf;
 
-				if (strongSelf) {
-					if (error) {
-						[strongSelf showSocialServicePostingError:@"Facebook"];
-					}
-
-					strongSelf->_socialPostingWaiting -= 1;
-					[strongSelf tick];
-				}
-			});
+			if (strongSelf) {
+				[strongSelf showSocialServicePostingError:@"Facebook"];
+			}
 		}];
+
+		[promises addObject:p];
 	}
+
+	return [[AHAPromise alloc] initWithPromises:promises];
 }
 
 - (void)showSocialServicePostingError:(NSString*)serviceName {
@@ -556,103 +586,16 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	[self presentViewController:alert animated:YES completion:nil];
 }
 
-#pragma mark - Private methods (state machine)
-
-- (void)tick {
-	int waitingParts = ((_waitingForMixStem ? 1 : 0)
-						+ (_waitingForPieceInfo ? 1 : 0)
-						+ (_waitingForCoverImage ? 1 : 0)
-						+ (_waitingForPreviewAudio ? 1 : 0));
-
-	BOOL pieceCreated = !!_createdPiece;
-
-	// If we've received an error and either is showing the progress view or just committed the
-	// edit info screen, segue to the error screen.
-	if (_currentError && (_viewState == AHADropViewStateProgress
-						  || (_viewState == AHADropViewStateEditInfo && !_waitingForPieceInfo))) {
-		AHALog(@"Tick: Segue to error view");
-
-		[self performSegueWithIdentifier:@"dropError" sender:nil];
-		_viewState = AHADropViewStateError;
-	}
-	// If we've just committed the edit info screen and no error has arrived, segue to the
-	// progress view.
-	else if (!_currentError && _viewState == AHADropViewStateEditInfo && !_waitingForPieceInfo) {
-		AHALog(@"Tick: Segue to progress view");
-
-		[_infoViewController segueToProgressViewController];
-		_viewState = AHADropViewStateProgress;
-	}
-	// If all uploads are completed and the edit info is committed, send the createPiece mutation
-	// to actually drop the piece.
-	else if (!_currentError && waitingParts == 0 && !_waitingForCreatePiece && !pieceCreated) {
-		AHALog(@"Tick: Creating piece on server");
-
-		[self createPieceFromParts];
-	}
-	// If the piece has been created, we'll need to download the final cover art from the server
-	// to show it on the drop done view controller.
-	else if (pieceCreated && !_coverImageDownloaded && !_waitingForCoverImageDownload) {
-		AHALog(@"Tick: Downloading cover image");
-
-		[self downloadCoverImage];
-	}
-	else if (pieceCreated && _coverImageDownloaded && !_socialPostingStarted) {
-		AHALog(@"Tick: Sharing to social services");
-
-		[self shareToSocialServices];
-	}
-	// Piece created, all social sharing complete, cover image downloaded: transition to the
-	// drop done view if not already there.
-	else if (pieceCreated && _socialPostingWaiting == 0 && _coverImageDownloaded && _viewState != AHADropViewStateDone) {
-		AHALog(@"Everything is done: %@", _createdPiece);
-		NSAssert(_progressViewController != nil,@"No progress view controller available");
-
-		[_progressViewController advanceToDropDone];
-		_viewState = AHADropViewStateDone;
-	}
-}
-
 #pragma mark - AHADropInfoViewControllerDelegate
 
-- (void)dropInfoViewControllerDidCommitTitle:(NSString*)title
-								 description:(NSString*)description
-									  listed:(BOOL)isListed
-								  coverImage:(UIImage*)coverImage
-							 facebookAccount:(ACAccount*)facebookAccount
-				   facebookAccountCredential:(ACAccountCredential*)facebookAccountCredential
-							  twitterAccount:(ACAccount*)twitterAccount
+- (void)dropInfoViewControllerDidCommit:(AHADropInfo*)dropInfo
 {
 	AHALog(@"Info view committed piece information");
 
-	NSAssert(title != nil, @"Must commit title");
-	NSAssert(description != nil, @"Must commit description");
-	NSAssert(_waitingForPieceInfo, @"Can't commit piece info twice");
+	NSAssert(dropInfo.title != nil, @"Must commit title");
+	NSAssert(dropInfo.pieceDescription != nil, @"Must commit description");
 
-	_committedTitle = title;
-	_committedDescription = description;
-	_committedListed = isListed;
-	_committedCoverImage = coverImage;
-	_facebookAccount = facebookAccount;
-	_facebookAccountCredential = facebookAccountCredential;
-	_twitterAccount = twitterAccount;
-	_socialPostingWaiting = (facebookAccount != nil ? 1 : 0) + (twitterAccount != nil ? 1 : 0);
-	_socialPostingStarted = NO;
-	_waitingForPieceInfo = NO;
-
-	if (_committedCoverImage != nil) {
-		AHALog(@"Uploading cover image");
-		_waitingForCoverImage = YES;
-
-		__weak AHADropViewController* weakSelf = self;
-		AHAUploadAssetData(_configuration, UIImagePNGRepresentation(_committedCoverImage), ^(NSURL *url, NSError *error) {
-			AHADropViewController* strongSelf = weakSelf;
-
-			[strongSelf coverImageDidCompleteUpload:url error:error];
-		});
-	}
-
-	[self tick];
+	[_pieceInfoPromise resolveWithValue:dropInfo];
 }
 
 - (void)dropInfoViewControllerWillSegueToProgressViewController:(AHADropProgressViewController*)dropProgressViewController {
@@ -661,9 +604,6 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 
 	_progressViewController = dropProgressViewController;
 	_progressViewController.dropProgressDelegate = self;
-	_viewState = AHADropViewStateProgress;
-
-	[self tick];
 }
 
 #pragma mark - AHADropProgressViewControllerDelegate
@@ -674,20 +614,35 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 	NSAssert(_createdPiece != nil, @"Piece must be created when transitioning to drop done");
 
 	_doneViewController = dropDoneViewController;
-	_viewState = AHADropViewStateDone;
 
 	NSString* title = _createdPiece[@"title"];
 	NSString* url = _createdPiece[@"url"];
 
 	NSAssert(title != nil && [title isKindOfClass:[NSString class]], @"Title expected in GraphQL response");
 	NSAssert(url != nil && [url isKindOfClass:[NSString class]], @"URL expected in GraphQL response");
-	NSAssert(_coverImageDownloaded, @"Cover image needs to be downloaded");
 
 	[_doneViewController setPieceTitle:title
 							 playerURL:[NSURL URLWithString:url]
 							coverImage:_downloadedCoverImage];
+}
 
-	[self tick];
+@end
+
+
+
+
+@implementation AHAUploadedBundle
+
+- (instancetype)initWithBundle:(AHAAudioDataBundle *)bundle url:(NSURL *)url {
+	if ((self = [super init])) {
+		NSAssert(bundle != nil, @"Bundle must be provided");
+		NSAssert(url != nil, @"URL must be provided");
+
+		_bundle = bundle;
+		_url = url;
+	}
+
+	return self;
 }
 
 @end

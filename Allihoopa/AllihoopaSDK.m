@@ -197,8 +197,8 @@ static NSString* const kMeGraphQLQuery = @"\
 
 		// We can let the following blocks take a strong reference to self since this is a
 		// singleton instance anyway.
-		AHAGraphQLQuery(_configuration, kMeGraphQLQuery, @{}, ^(NSDictionary *response, __unused NSError *error) {
-			if (response && response[@"me"]) {
+		[AHAGraphQLQuery(_configuration, kMeGraphQLQuery, @{}) onComplete:^(NSDictionary *value, __unused NSError *error) {
+			if (value && value[@"me"]) {
 				AHALog(@"Access token valid, skipping auth view controller");
 				completion(YES);
 			}
@@ -207,7 +207,7 @@ static NSString* const kMeGraphQLQuery = @"\
 				self->_configuration.accessToken = nil;
 				[self authenticate:completion];
 			}
-		});
+		}];
 	}
 	else {
 		AHALog(@"No access token found, showing auth view controller");
@@ -291,13 +291,13 @@ static NSString* const kMeGraphQLQuery = @"\
 
 	NSAssert(pieceId != nil, @"No uuid parameter was supplied");
 
-	AHAFetchPieceInfo(_configuration, pieceId, ^(AHAPiece *piece, NSError *error) {
+	[AHAFetchPieceInfo(_configuration, pieceId) onComplete:^(AHAPiece *piece, NSError *error) {
 		id<AHAAllihoopaSDKDelegate> delegate = self->_delegate;
 
 		if ([delegate respondsToSelector:@selector(openPieceFromAllihoopa:error:)]) {
 			[delegate openPieceFromAllihoopa:piece error:error];
 		}
-	});
+	}];
 }
 
 @end

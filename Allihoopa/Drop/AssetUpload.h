@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+#import "../Promise.h"
+
 @class AHAConfiguration;
 
-void AHAUploadAssetData(AHAConfiguration* configuration, NSData* data, void(^completion)(NSURL* url, NSError* error));
+AHAPromise<NSURL*>* AHAUploadAssetData(AHAConfiguration* configuration, NSData* data);

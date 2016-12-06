@@ -12,46 +12,41 @@ mutation($count: Int!) {\
 }\
 ";
 
-static void GetUploadURL(AHAConfiguration* configuration, void(^completion)(NSURL* url, NSError* error)) {
-	AHAGraphQLQuery(configuration, kGetURLQuery, @{@"count": @1}, ^(NSDictionary *response, NSError *error) {
-		NSCAssert(response != nil || error != nil, @"Either a response or an error must be provided");
-
-		if (error) {
-			completion(nil, error);
-			return;
-		}
+static AHAPromise<NSURL*>* GetUploadURL(AHAConfiguration* configuration) {
+	return [AHAGraphQLQuery(configuration, kGetURLQuery, @{@"count": @1}) map:^(NSDictionary *response) {
+		NSCAssert(response != nil, @"A response must be provided");
 
 		if (![response[@"uploadUrls"] isKindOfClass:[NSDictionary class]]
 			|| ![response[@"uploadUrls"][@"urls"] isKindOfClass:[NSArray class]]) {
-			completion(nil, [NSError errorWithDomain:AHAAllihoopaErrorDomain
-												code:AHAErrorInternalAPIError
-											userInfo:@{NSLocalizedDescriptionKey: @"Expected uploadUrls in API response"}]);
-			return;
+			return [[AHAPromise alloc] initWithError:
+					[NSError errorWithDomain:AHAAllihoopaErrorDomain
+										code:AHAErrorInternalAPIError
+									userInfo:@{NSLocalizedDescriptionKey: @"Expected uploadUrls in API response"}]];
 		}
 
 		NSArray* urls = response[@"uploadUrls"][@"urls"];
 
 		if (urls.count != 1 || ![urls[0] isKindOfClass:[NSString class]]) {
-			completion(nil, [NSError errorWithDomain:AHAAllihoopaErrorDomain
-												code:AHAErrorInternalAPIError
-											userInfo:@{NSLocalizedDescriptionKey: @"Expected URL in API response"}]);
-			return;
+			return [[AHAPromise alloc] initWithError:
+					[NSError errorWithDomain:AHAAllihoopaErrorDomain
+										code:AHAErrorInternalAPIError
+									userInfo:@{NSLocalizedDescriptionKey: @"Expected URL in API response"}]];
 		}
 
-		completion([NSURL URLWithString:urls[0]], nil);
-	});
+		return [[AHAPromise alloc] initWithValue:[NSURL URLWithString:urls[0]]];
+	}];
 }
 
-static void UploadData(NSURL* url, NSData* data, void(^completion)(NSError* error)) {
-	NSURLSession* session = [NSURLSession sharedSession];
+static AHAPromise<id>* UploadData(NSURL* url, NSData* data) {
+	return [[AHAPromise<id> alloc] initWithResolver:^(void (^resolve)(id success), void (^reject)(NSError *error)) {
+		NSURLSession* session = [NSURLSession sharedSession];
 
-	NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
-	request.HTTPMethod = @"PUT";
+		NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
+		request.HTTPMethod = @"PUT";
 
-	NSURLSessionUploadTask* task = [session uploadTaskWithRequest:request fromData:data completionHandler:^(__unused NSData* _Nullable uploadData, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-		dispatch_async(dispatch_get_main_queue(), ^{
+		NSURLSessionUploadTask* task = [session uploadTaskWithRequest:request fromData:data completionHandler:^(__unused NSData* _Nullable uploadData, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 			if (error != nil) {
-				completion(error);
+				reject(error);
 			}
 			else {
 				NSCAssert([response isKindOfClass:[NSHTTPURLResponse class]],
@@ -59,36 +54,24 @@ static void UploadData(NSURL* url, NSData* data, void(^completion)(NSError* erro
 				NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
 
 				if (httpResponse.statusCode != 200) {
-					completion([NSError errorWithDomain:AHAAllihoopaErrorDomain
-												   code:AHAErrorInternalUploadError
-											   userInfo:@{NSLocalizedDescriptionKey: @"Unexpected upload response"}]);
+					reject([NSError errorWithDomain:AHAAllihoopaErrorDomain
+											   code:AHAErrorInternalUploadError
+										   userInfo:@{NSLocalizedDescriptionKey: @"Unexpected upload response"}]);
 				}
 				else {
-					completion(nil);
+					resolve(nil);
 				}
 			}
-		});
+		}];
+		[task resume];
 	}];
-	[task resume];
 }
 
 
-void AHAUploadAssetData(AHAConfiguration* configuration, NSData* data, void(^completion)(NSURL* url, NSError* error)) {
-	GetUploadURL(configuration, ^(NSURL *url, NSError *getURLError) {
-		NSCAssert(url != nil || getURLError != nil, @"Either an URL or an error must be provided");
-
-		if (getURLError != nil) {
-			completion(nil, getURLError);
-		}
-		else {
-			UploadData(url, data, ^(NSError *uploadDataError) {
-				if (uploadDataError != nil) {
-					completion(nil, uploadDataError);
-				}
-				else {
-					completion(url, nil);
-				}
-			});
-		}
-	});
+AHAPromise<NSURL*>* AHAUploadAssetData(AHAConfiguration* configuration, NSData* data) {
+	return [GetUploadURL(configuration) map:^AHAPromise *(NSURL *url) {
+		return [UploadData(url, data) mapValue:^id(__unused id value) {
+			return url;
+		}];
+	}];
 }

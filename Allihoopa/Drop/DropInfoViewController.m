@@ -95,13 +95,15 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 
 	UIImage* coverImage = _coverImageOverridden ? _coverImageView.image : nil;
 
-	[delegate dropInfoViewControllerDidCommitTitle:_titleLabel.text
-									   description:_descriptionLabel.text
-											listed:_listedSwitch.on
-										coverImage:coverImage
-								   facebookAccount:_facebookAccount
-						 facebookAccountCredential:_facebookAccountCredential
-									twitterAccount:_twitterAccount];
+	AHADropInfo* info = [[AHADropInfo alloc] initWithTitle:_titleLabel.text
+										  pieceDescription:_descriptionLabel.text
+													listed:_listedSwitch.on
+												coverImage:coverImage
+										   facebookAccount:_facebookAccount
+								 facebookAccountCredential:_facebookAccountCredential
+											twitterAccount:_twitterAccount];
+
+	[delegate dropInfoViewControllerDidCommit:info];
 }
 
 - (IBAction)unwindFromModalEditor:(UIStoryboardSegue*)segue {
@@ -420,6 +422,33 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
 
 	_imagePicker = nil;
 	[self dismissViewControllerAnimated:YES completion:nil];
+}
+
+@end
+
+
+
+@implementation AHADropInfo
+
+- (instancetype)initWithTitle:(NSString *)title
+			 pieceDescription:(NSString *)pieceDescription
+					   listed:(BOOL)isListed
+				   coverImage:(UIImage *)coverImage
+			  facebookAccount:(ACAccount *)facebookAccount
+	facebookAccountCredential:(ACAccountCredential *)facebookAccountCredential
+			   twitterAccount:(ACAccount *)twitterAccount
+{
+	if ((self = [super init])) {
+		_title = title;
+		_pieceDescription = pieceDescription;
+		_isListed = isListed;
+		_coverImage = coverImage;
+		_facebookAccount = facebookAccount;
+		_facebookAccountCredential = facebookAccountCredential;
+		_twitterAccount = twitterAccount;
+	}
+
+	return self;
 }
 
 @end

@@ -1,6 +1,7 @@
 #import "Import.h"
 #import "Piece.h"
 #import "Piece+Internal.h"
+#import "Errors.h"
 
 #import "APICommunication.h"
 
@@ -12,23 +13,28 @@ query($uuid: String!) {\
 }\
 ";
 
-void AHAFetchPieceInfo(AHAConfiguration* configuration,
-					   NSString* uuid,
-					   void(^completion)(AHAPiece* piece, NSError* error)) {
+AHAPromise<AHAPiece*>* AHAFetchPieceInfo(AHAConfiguration* configuration,
+										 NSString* uuid) {
 	NSCAssert(configuration != nil, @"No configuration provided");
 	NSCAssert(uuid != nil, @"No piece id provided");
-	NSCAssert(completion != nil, @"No completion block provided");
 
 	NSString* query = [NSString stringWithFormat:kPieceInfoGraphQLQuery, [AHAPiece graphQLFragment]];
 
-	AHAGraphQLQuery(configuration, query, @{@"uuid": uuid}, ^(NSDictionary *response, NSError *error) {
-		if (response && response[@"piece"]) {
-			AHAPiece* piece = [[AHAPiece alloc] initWithPieceNode:response[@"piece"]
+	return [AHAGraphQLQuery(configuration, query, @{@"uuid": uuid}) map:^AHAPromise *(NSDictionary *value) {
+		if (value && value[@"piece"] && (id)value[@"piece"] != [NSNull null]) {
+			NSError* error;
+			AHAPiece* piece = [[AHAPiece alloc] initWithPieceNode:value[@"piece"]
 													configuration:configuration
 															error:&error];
-			completion(piece, error);
+
+			if (error) {
+				return [[AHAPromise alloc] initWithError:error];
+			}
+
+			return [[AHAPromise alloc] initWithValue:piece];
 		} else {
-			completion(nil, error);
+			return [[AHAPromise alloc] initWithError:
+					[NSError errorWithDomain:AHAAllihoopaErrorDomain code:AHAErrorInternalAPIError userInfo:@{}]];
 		}
-	});
+	}];
 }

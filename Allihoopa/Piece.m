@@ -101,54 +101,46 @@ static NSDate* DateFromString(NSString* dateString) {
 	NSDictionary* vars = @{ @"pieceID": _pieceID.pieceID,
 							@"format": AudioFormatToString(format),
 							};
-	AHARetryingGraphQLQuery(_configuration, kGetMixStemGraphQLQuery, vars, 3, 10,
+	[AHARetryingGraphQLQuery(_configuration, kGetMixStemGraphQLQuery, vars, 3, 10,
 							^BOOL(NSDictionary *response) {
 								return CoerceNull(CoerceNull(CoerceNull(response[@"piece"])[@"mixStem"])[@"url"]) != nil;
-							},
-							^(NSDictionary *response, NSError *getURLError) {
-		AHALog(@"Got mix stem URL info: %@", response);
+							})
+	 onSuccess:^(NSDictionary *value) {
+		 NSURLSession* session = [NSURLSession sharedSession];
+		 NSURL* url = [NSURL URLWithString:value[@"piece"][@"mixStem"][@"url"]];
 
-		if (getURLError != nil) {
-			completion(nil, getURLError);
-		} else {
-			NSURLSession* session = [NSURLSession sharedSession];
-			NSURL* url = [NSURL URLWithString:response[@"piece"][@"mixStem"][@"url"]];
-
-			NSURLSessionTask* task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, __unused NSURLResponse * _Nullable downloadResponse, NSError * _Nullable error) {
-				dispatch_async(dispatch_get_main_queue(), ^{
-					completion(data, error);
-				});
-			}];
-			[task resume];
-		}
-	});
+		 NSURLSessionTask* task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, __unused NSURLResponse * _Nullable downloadResponse, NSError * _Nullable error) {
+			 dispatch_async(dispatch_get_main_queue(), ^{
+				 completion(data, error);
+			 });
+		 }];
+		 [task resume];
+	 } failure:^(NSError *error) {
+		 completion(nil, error);
+	 }];
 }
 
 - (void)downloadAudioPreviewWithFormat:(AHAAudioFormat)format completion:(void (^)(NSData * _Nullable, NSError * _Nullable))completion {
 	NSDictionary* vars = @{ @"pieceID": _pieceID.pieceID,
 							@"format": AudioFormatToString(format),
 							};
-	AHARetryingGraphQLQuery(_configuration, kGetPreviewAudioGraphQLQuery, vars, 3, 10,
+	[AHARetryingGraphQLQuery(_configuration, kGetPreviewAudioGraphQLQuery, vars, 3, 10,
 							^BOOL(NSDictionary *response) {
 								return CoerceNull(CoerceNull(CoerceNull(response[@"piece"])[@"previewAudio"])[@"url"]) != nil;
-							},
-							^(NSDictionary *response, NSError *getURLError) {
-		AHALog(@"Got audio preview URL info: %@", response);
+							})
+	 onSuccess:^(NSDictionary *value) {
+		 NSURLSession* session = [NSURLSession sharedSession];
+		 NSURL* url = [NSURL URLWithString:value[@"piece"][@"previewAudio"][@"url"]];
 
-		if (getURLError != nil) {
-			completion(nil, getURLError);
-		} else {
-			NSURLSession* session = [NSURLSession sharedSession];
-			NSURL* url = [NSURL URLWithString:response[@"piece"][@"previewAudio"][@"url"]];
-
-			NSURLSessionTask* task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, __unused NSURLResponse * _Nullable downloadResponse, NSError * _Nullable error) {
-				dispatch_async(dispatch_get_main_queue(), ^{
-					completion(data, error);
-				});
-			}];
-			[task resume];
-		}
-	});
+		 NSURLSessionTask* task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, __unused NSURLResponse * _Nullable downloadResponse, NSError * _Nullable error) {
+			 dispatch_async(dispatch_get_main_queue(), ^{
+				 completion(data, error);
+			 });
+		 }];
+		 [task resume];
+	 } failure:^(NSError *error) {
+		 completion(nil, error);
+	 }];
 }
 
 - (void)downloadCoverImage:(void (^)(UIImage * _Nullable, NSError * _Nullable))completion {

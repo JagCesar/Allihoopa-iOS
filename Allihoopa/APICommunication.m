@@ -19,14 +19,12 @@ static NSURLSession* CreateURLSession(AHAConfiguration* configuration) {
 	return [NSURLSession sessionWithConfiguration:sessionConfig];
 }
 
-void AHAGraphQLQuery(AHAConfiguration* configuration,
-					 NSString* query,
-					 NSDictionary* variables,
-					 void(^completion)(NSDictionary* response, NSError* error)) {
+AHAPromise<NSDictionary*>* AHAGraphQLQuery(AHAConfiguration* configuration,
+										  NSString* query,
+										  NSDictionary* variables) {
 	NSCAssert(configuration != nil, @"No configuration provided");
 	NSCAssert(query != nil, @"No query provided");
 	NSCAssert(variables != nil, @"No variables provided");
-	NSCAssert(completion != nil, @"No completion block provided");
 
 	NSError* outError;
 	NSData* postBody = [NSJSONSerialization dataWithJSONObject:@{@"query": query, @"variables": variables}
@@ -42,12 +40,12 @@ void AHAGraphQLQuery(AHAConfiguration* configuration,
 	request.HTTPBody = postBody;
 	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 
-	NSURLSessionDataTask* task = [session dataTaskWithRequest:request completionHandler:^(NSData* _Nullable data, NSURLResponse* _Nullable response, NSError* _Nullable error) {
-		NSCAssert(data != nil || error != nil, @"Either data or error must be provided");
+	AHAPromise<NSDictionary*>* promise = [[AHAPromise<NSDictionary*> alloc] initWithResolver:^(void (^resolve)(id success), void (^reject)(NSError *error)) {
+		NSURLSessionDataTask* task = [session dataTaskWithRequest:request completionHandler:^(NSData* _Nullable data, NSURLResponse* _Nullable response, NSError* _Nullable error) {
+			NSCAssert(data != nil || error != nil, @"Either data or error must be provided");
 
-		dispatch_async(dispatch_get_main_queue(), ^{
 			if (error != nil) {
-				completion(nil, error);
+				reject(error);
 			}
 			else {
 				NSError* parseError;
@@ -59,71 +57,72 @@ void AHAGraphQLQuery(AHAConfiguration* configuration,
 				NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
 
 				if (parseError) {
-					completion(nil, error);
+					reject(error);
 				}
 				else if (httpResponse.statusCode != 200) {
 					AHALog(@"GraphQL parsed error response: %@", result);
-					completion(nil, [NSError errorWithDomain:AHAAllihoopaErrorDomain
-														code:AHAErrorInternalAPIError
-													userInfo:@{NSLocalizedDescriptionKey: @"GraphQL returned error"}]);
+					reject([NSError errorWithDomain:AHAAllihoopaErrorDomain
+											   code:AHAErrorInternalAPIError
+										   userInfo:@{NSLocalizedDescriptionKey: @"GraphQL returned error"}]);
 				}
 				else if (![result isKindOfClass:[NSDictionary class]] || !result[@"data"]) {
 					AHALog(@"GraphQL parsed error response: %@", result);
-					completion(nil, [NSError errorWithDomain:AHAAllihoopaErrorDomain
-														code:AHAErrorInternalAPIError
-													userInfo:@{NSLocalizedDescriptionKey: @"GraphQL returned invalid JSON response"}]);
+					reject([NSError errorWithDomain:AHAAllihoopaErrorDomain
+											   code:AHAErrorInternalAPIError
+										   userInfo:@{NSLocalizedDescriptionKey: @"GraphQL returned invalid JSON response"}]);
 				}
 				else {
-					completion(result[@"data"], nil);
+					resolve(result[@"data"]);
 				}
 			}
-		});
+		}];
+
+		[task resume];
 	}];
-	[task resume];
+
+	return promise;
 }
 
-void AHARetryingGraphQLQuery(AHAConfiguration* configuration,
-							 NSString* query,
-							 NSDictionary* variables,
-							 NSTimeInterval delay,
-							 NSInteger maxAttempts,
-							 BOOL(^isSuccessfulPredicate)(NSDictionary* response),
-							 void(^completion)(NSDictionary* response, NSError* error)) {
+AHAPromise<NSDictionary*>* AHARetryingGraphQLQuery(AHAConfiguration* configuration,
+												   NSString* query,
+												   NSDictionary* variables,
+												   NSTimeInterval delay,
+												   NSInteger maxAttempts,
+												   BOOL(^isSuccessfulPredicate)(NSDictionary* response)) {
 	NSCAssert(configuration != nil, @"No configuration provided");
 	NSCAssert(query != nil, @"No query provided");
 	NSCAssert(variables != nil, @"No variables provided");
 	NSCAssert(delay >= 0, @"Delay must be positive");
 	NSCAssert(maxAttempts >= 0, @"Max attempts must be positive");
 	NSCAssert(isSuccessfulPredicate != nil, @"No successful attempt predicate provided");
-	NSCAssert(completion != nil, @"No completion block provided");
 
 	if (maxAttempts == 0) {
-		completion(nil, [NSError errorWithDomain:AHAAllihoopaErrorDomain
-											code:AHAErrorInternalMaxRetriesReached
-										userInfo:@{ NSLocalizedDescriptionKey: @"Max number of retries reached when attempting to fetch data"}]);
-		return;
+		return [[AHAPromise alloc] initWithError:
+				[NSError errorWithDomain:AHAAllihoopaErrorDomain
+									code:AHAErrorInternalMaxRetriesReached
+								userInfo:@{ NSLocalizedDescriptionKey: @"Max number of retries reached when attempting to fetch data"}]];
 	}
 
-	AHAGraphQLQuery(configuration, query, variables, ^(NSDictionary *response, NSError *error) {
-		BOOL isSuccessful = response && isSuccessfulPredicate(response);
-
-		AHALog(@"Query attempt successful: %i", isSuccessful);
-
-		if (!isSuccessful) {
-			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-				AHALog(@"Retrying query");
-				AHARetryingGraphQLQuery(configuration,
-										query,
-										variables,
-										delay,
-										maxAttempts - 1,
-										isSuccessfulPredicate,
-										completion);
-			});
-		} else {
-			dispatch_async(dispatch_get_main_queue(), ^{
-				completion(response, error);
-			});
-		}
-	});
+	return [[AHAGraphQLQuery(configuration, query, variables)
+			filter:^BOOL(NSDictionary *value) {
+				return isSuccessfulPredicate(value);
+			}]
+			mapError:^AHAPromise *(__unused NSError* originalError) {
+				return [[AHAPromise alloc] initWithResolver:^(void (^resolve)(id success), void (^reject)(NSError *error)) {
+					dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+						AHALog(@"Retrying query");
+						[AHARetryingGraphQLQuery(configuration,
+												query,
+												variables,
+												delay,
+												maxAttempts - 1,
+												isSuccessfulPredicate)
+						 onSuccess:^(NSDictionary *value) {
+							 resolve(value);
+						 } failure:^(NSError *error) {
+							 reject(error);
+						 }];
+					});
+				}];
+			}];
 }

@@ -32,6 +32,7 @@
 		FA5FD3941D90180F0010E978 /* Allihoopa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA5FD38A1D90180F0010E978 /* Allihoopa.framework */; };
 		FA5FD39B1D90180F0010E978 /* Allihoopa.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5FD38D1D90180F0010E978 /* Allihoopa.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA6D283B1DF1AA6900FA2899 /* SecondarySharingServiceButton.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6D283A1DF1AA6900FA2899 /* SecondarySharingServiceButton.m */; };
+		FA6D284A1DF6C1B600FA2899 /* Promise.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6D28491DF6C1B600FA2899 /* Promise.m */; };
 		FA7AADE41DB673CD00935F67 /* Errors.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3527291DA2400600D2F91B /* Errors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA7AADE81DB74BE500935F67 /* AppledocSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA7AADE71DB74BE500935F67 /* AppledocSettings.plist */; };
 		FAA67E341DB0C38300906501 /* ConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA67E331DB0C38300906501 /* ConfigurationTests.m */; };
@@ -99,6 +100,8 @@
 		FA5FD3A41D9031A30010E978 /* Allihoopa.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = Allihoopa.podspec; sourceTree = "<group>"; };
 		FA6D28391DF1AA4300FA2899 /* SecondarySharingServiceButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondarySharingServiceButton.h; sourceTree = "<group>"; };
 		FA6D283A1DF1AA6900FA2899 /* SecondarySharingServiceButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondarySharingServiceButton.m; sourceTree = "<group>"; };
+		FA6D28481DF6C15500FA2899 /* Promise.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Promise.h; sourceTree = "<group>"; };
+		FA6D28491DF6C1B600FA2899 /* Promise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Promise.m; sourceTree = "<group>"; };
 		FA6E77201D9BECAB003AB48E /* Allihoopa+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Allihoopa+Internal.h"; sourceTree = "<group>"; };
 		FA7AADE71DB74BE500935F67 /* AppledocSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppledocSettings.plist; sourceTree = "<group>"; };
 		FAA67E331DB0C38300906501 /* ConfigurationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationTests.m; sourceTree = "<group>"; };
@@ -217,6 +220,7 @@
 				FA35271C1D9D562800D2F91B /* Activity.m */,
 				FA5FD38D1D90180F0010E978 /* Allihoopa.h */,
 				FA6E77201D9BECAB003AB48E /* Allihoopa+Internal.h */,
+				FAC211A31DB0BA700066FFA9 /* AllihoopaAssets.xcassets */,
 				FAF525F11D95489E002CE6BF /* AllihoopaSDK.h */,
 				FAF525F21D95489E002CE6BF /* AllihoopaSDK.m */,
 				FA3527231D9E4CF800D2F91B /* APICommunication.h */,
@@ -229,18 +233,19 @@
 				FA35271E1D9D5B2D00D2F91B /* DataBundle.m */,
 				FA54F5B71D9C039F003C98F6 /* Drop */,
 				FA45CB961D9D48210082846C /* DropDelegate.h */,
-				FA4B03FB1DD1BEE600854B39 /* DropPieceData+Internal.h */,
 				FA45CB911D9D07560082846C /* DropPieceData.h */,
 				FA45CB8F1D9D07470082846C /* DropPieceData.m */,
+				FA4B03FB1DD1BEE600854B39 /* DropPieceData+Internal.h */,
 				FA3527291DA2400600D2F91B /* Errors.h */,
 				FA35272A1DA2427E00D2F91B /* Errors.m */,
 				FA4B03EA1DD0A83500854B39 /* Import.h */,
 				FA4B03EB1DD0B62D00854B39 /* Import.m */,
-				FA4B03E81DD08D2F00854B39 /* Piece.h */,
-				FA4B03EF1DD0D0B600854B39 /* Piece+Internal.h */,
-				FA4B03ED1DD0B87300854B39 /* Piece.m */,
 				FA5FD38E1D90180F0010E978 /* Info.plist */,
-				FAC211A31DB0BA700066FFA9 /* AllihoopaAssets.xcassets */,
+				FA4B03E81DD08D2F00854B39 /* Piece.h */,
+				FA4B03ED1DD0B87300854B39 /* Piece.m */,
+				FA4B03EF1DD0D0B600854B39 /* Piece+Internal.h */,
+				FA6D28481DF6C15500FA2899 /* Promise.h */,
+				FA6D28491DF6C1B600FA2899 /* Promise.m */,
 			);
 			path = Allihoopa;
 			sourceTree = "<group>";
@@ -394,6 +399,7 @@
 				FAE6E6AC1DB5157C0019B815 /* ProgressSpinner.m in Sources */,
 				FAE206641D9BE83E006EFEE3 /* AuthenticationViewController.m in Sources */,
 				FA45CB8B1D9C1E810082846C /* DropDoneViewController.m in Sources */,
+				FA6D284A1DF6C1B600FA2899 /* Promise.m in Sources */,
 				FA35272B1DA2427E00D2F91B /* Errors.m in Sources */,
 				FA4B03EE1DD0B87300854B39 /* Piece.m in Sources */,
 				FA4B03EC1DD0B62D00854B39 /* Import.m in Sources */,

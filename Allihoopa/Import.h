@@ -1,8 +1,9 @@
 #import <Foundation/Foundation.h>
 
+#import "Promise.h"
+
 @class AHAPiece;
 @class AHAConfiguration;
 
-void AHAFetchPieceInfo(AHAConfiguration* configuration,
-					   NSString* uuid,
-					   void(^completion)(AHAPiece* piece, NSError* error));
+AHAPromise<AHAPiece*>* AHAFetchPieceInfo(AHAConfiguration* configuration,
+										 NSString* uuid);

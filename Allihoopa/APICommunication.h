@@ -1,17 +1,17 @@
 #import <Foundation/Foundation.h>
 
+#import "Promise.h"
+
 @class AHAConfiguration;
 
-void AHAGraphQLQuery(AHAConfiguration* configuration,
-					 NSString* query,
-					 NSDictionary* variables,
-					 void(^completion)(NSDictionary* response, NSError* error));
+AHAPromise<NSDictionary*>* AHAGraphQLQuery(AHAConfiguration* configuration,
+										   NSString* query,
+										   NSDictionary* variables);
 
 
-void AHARetryingGraphQLQuery(AHAConfiguration* configuration,
-							 NSString* query,
-							 NSDictionary* variables,
-							 NSTimeInterval delay,
-							 NSInteger maxAttempts,
-							 BOOL(^isSuccessfulPredicate)(NSDictionary* response),
-							 void(^completion)(NSDictionary* response, NSError* error));
+AHAPromise<NSDictionary*>* AHARetryingGraphQLQuery(AHAConfiguration* configuration,
+												   NSString* query,
+												   NSDictionary* variables,
+												   NSTimeInterval delay,
+												   NSInteger maxAttempts,
+												   BOOL(^isSuccessfulPredicate)(NSDictionary* response));
