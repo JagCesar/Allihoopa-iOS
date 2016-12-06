@@ -6,6 +6,7 @@
 #import "../Configuration.h"
 #import "../Errors.h"
 
+#import "DropCoordinator.h"
 #import "DropProgressViewController.h"
 #import "ModalEditor.h"
 
@@ -422,33 +423,6 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
 
 	_imagePicker = nil;
 	[self dismissViewControllerAnimated:YES completion:nil];
-}
-
-@end
-
-
-
-@implementation AHADropInfo
-
-- (instancetype)initWithTitle:(NSString *)title
-			 pieceDescription:(NSString *)pieceDescription
-					   listed:(BOOL)isListed
-				   coverImage:(UIImage *)coverImage
-			  facebookAccount:(ACAccount *)facebookAccount
-	facebookAccountCredential:(ACAccountCredential *)facebookAccountCredential
-			   twitterAccount:(ACAccount *)twitterAccount
-{
-	if ((self = [super init])) {
-		_title = title;
-		_pieceDescription = pieceDescription;
-		_isListed = isListed;
-		_coverImage = coverImage;
-		_facebookAccount = facebookAccount;
-		_facebookAccountCredential = facebookAccountCredential;
-		_twitterAccount = twitterAccount;
-	}
-
-	return self;
 }
 
 @end

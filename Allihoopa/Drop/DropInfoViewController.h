@@ -5,29 +5,7 @@
 
 @class AHADropProgressViewController;
 @class AHAConfiguration;
-
-
-
-@interface AHADropInfo : NSObject
-
-@property (nonatomic, readonly) NSString* title;
-@property (nonatomic, readonly) NSString* pieceDescription;
-@property (nonatomic, readonly) BOOL isListed;
-@property (nonatomic, readonly) UIImage* coverImage;
-@property (nonatomic, readonly) ACAccount* facebookAccount;
-@property (nonatomic, readonly) ACAccountCredential* facebookAccountCredential;
-@property (nonatomic, readonly) ACAccount* twitterAccount;
-
-- (instancetype)initWithTitle:(NSString*)title
-			 pieceDescription:(NSString*)pieceDescription
-					   listed:(BOOL)isListed
-				   coverImage:(UIImage*)coverImage
-			  facebookAccount:(ACAccount*)facebookAccount
-	facebookAccountCredential:(ACAccountCredential*)facebookAccountCredential
-			   twitterAccount:(ACAccount*)twitterAccount;
-
-@end
-
+@class AHADropInfo;
 
 
 

@@ -46,6 +46,7 @@
 		FAE6E6AC1DB5157C0019B815 /* ProgressSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE6E6AB1DB5157C0019B815 /* ProgressSpinner.m */; };
 		FAF525F31D95489E002CE6BF /* AllihoopaSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FAF525F11D95489E002CE6BF /* AllihoopaSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAF525F41D95489E002CE6BF /* AllihoopaSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF525F21D95489E002CE6BF /* AllihoopaSDK.m */; };
+		FAF6CBD31DF70BCD00F88A08 /* DropCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF6CBD21DF70BCD00F88A08 /* DropCoordinator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +128,8 @@
 		FAF5259E1D9409E9002CE6BF /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		FAF525F11D95489E002CE6BF /* AllihoopaSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllihoopaSDK.h; sourceTree = "<group>"; };
 		FAF525F21D95489E002CE6BF /* AllihoopaSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllihoopaSDK.m; sourceTree = "<group>"; };
+		FAF6CBD11DF70BA000F88A08 /* DropCoordinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DropCoordinator.h; sourceTree = "<group>"; };
+		FAF6CBD21DF70BCD00F88A08 /* DropCoordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropCoordinator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +167,8 @@
 			children = (
 				FA3527201D9E442300D2F91B /* AssetUpload.h */,
 				FA3527211D9E494100D2F91B /* AssetUpload.m */,
+				FAF6CBD11DF70BA000F88A08 /* DropCoordinator.h */,
+				FAF6CBD21DF70BCD00F88A08 /* DropCoordinator.m */,
 				FA45CB891D9C1E680082846C /* DropDoneViewController.h */,
 				FA45CB8A1D9C1E810082846C /* DropDoneViewController.m */,
 				FAC2119D1DAFBE520066FFA9 /* DropErrorViewController.h */,
@@ -408,6 +413,7 @@
 				FA45CB8D1D9C1EF50082846C /* DropInfoViewController.m in Sources */,
 				FA45CB881D9C1DF00082846C /* DropProgressViewController.m in Sources */,
 				FAC211A21DAFBF850066FFA9 /* DropSegues.m in Sources */,
+				FAF6CBD31DF70BCD00F88A08 /* DropCoordinator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
