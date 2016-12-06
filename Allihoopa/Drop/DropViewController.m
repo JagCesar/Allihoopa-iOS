@@ -22,6 +22,7 @@ mutation($piece: PieceInput!) {\
     piece {\
       title\
       url\
+      description\
       shortId\
       coverImage(position: 10 withFallback: true) {\
         url\
@@ -471,8 +472,19 @@ typedef NS_ENUM(NSInteger, AHADropViewState) {
 
 	NSAssert(_createdPiece != nil, @"Piece must be created before posting to social services");
 
+
 	NSString* post = [NSString stringWithFormat:@"%@ is my latest piece, check it out! %@",
 					  _createdPiece[@"title"], _createdPiece[@"url"]];
+
+	NSString* description = _createdPiece[@"description"];
+	if (description && (id)description != [NSNull null] && description.length > 0) {
+		if (description.length > 140 - 23 - 1) { // Max tweet length - shortened URL - a single space
+			description = [[description substringToIndex:140 - 23 - 2] stringByAppendingString:@"…"];
+		}
+
+		post = [NSString stringWithFormat:@"%@ %@", description, _createdPiece[@"url"]];
+	}
+
 
 	_socialPostingStarted = YES;
 
