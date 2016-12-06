@@ -18,7 +18,7 @@ If you use [CocoaPods], you can simply add this SDK to your `Podfile`:
 
 ```ruby
 target 'TargetName' do
-  pod 'Allihoopa', '~> 0.4.1'
+  pod 'Allihoopa', '~> 0.4.2'
 end
 ```
 
@@ -31,7 +31,7 @@ pod install
 If you use [Carthage], you instead add this SDK to your `Cartfile`:
 
 ```
-github "Allihoopa/Allihoopa-iOS" ~> 0.4.1
+github "Allihoopa/Allihoopa-iOS" ~> 0.4.2
 ```
 
 After this, you run `carthage` to build the framework, and then drag the
@@ -70,6 +70,9 @@ Look in the [SDKExample] folder for instructions how to work on this SDK.
 
 
 # API documentation
+
+Generated API documentation for the latest release can be found on 
+[http://cocoadocs.org/docsets/Allihoopa](http://cocoadocs.org/docsets/Allihoopa).
 
 ## Setting up the SDK
 

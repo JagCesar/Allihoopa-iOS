@@ -2,6 +2,24 @@
 Change log
 ==========
 
+## [0.4.2] — 2016-12-06
+
+### Added
+
+* Social quick-posting to Facebook and Twitter. The application must provide
+  a Facebook App ID for Facebook posting to show up.
+* `AHAInvalidUsageException` will now be raised when calling the render methods'
+  completion handlers multiple times.
+* Note in README about the `Info.plist` permissions required for the camera and
+  photo library to work in iOS 10.
+* New setup method taking a configuration object. The old setup method will be
+  marked deprecated in 0.5.0 and removed in 0.6.0.
+
+### Bugfixes
+
+* The drop flow would call the delegate's render methods multiple times
+  after using the camera/photo library on iPad.
+
 ## [0.4.1] — 2016-11-23
 
 ### Bugfixes
@@ -60,7 +78,8 @@ Change log
 
 Empty release
 
-[0.4.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/v0.4.0...v0.4.1
+[0.4.2]: https://github.com/allihoopa/Allihoopa-iOS/compare/v0.4.1...v0.4.2
+[0.4.1]: https://github.com/allihoopa/Allihoopa-iOS/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/v0.3.2...v0.4.0
 [0.3.2]: https://github.com/allihoopa/Allihoopa-iOS/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/allihoopa/Allihoopa-iOS/compare/v0.3.0...v0.3.1
