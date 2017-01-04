@@ -2,6 +2,19 @@
 Change log
 ==========
 
+## [1.0.0] — 2017-01-04
+
+### Breaking changes
+
+* The `AHAAllihoopaSDK` methods are now accessed through a singleton interface;
+  use `[AHAAllihoopaSDK sharedInstance]` or `AHAAllihoopaSDK.shared()`.
+* The `AHADropDelegate`'s completion method has been renamed
+  `dropViewController:forPieceWillClose:afterSuccessfulDrop:`/`dropViewController(_:willClose:successfulDrop:)`
+* The SDK itself now depends on the [AllihoopaCore-
+  ObjC](https://github.com/allihoopa/AllihoopaCore-ObjC) library. Developers
+  using Carthage or manual inclusion will need to add that framework to their
+  projects.
+
 ## [0.4.2] — 2016-12-06
 
 ### Added
@@ -78,9 +91,10 @@ Change log
 
 Empty release
 
-[0.4.2]: https://github.com/allihoopa/Allihoopa-iOS/compare/v0.4.1...v0.4.2
-[0.4.1]: https://github.com/allihoopa/Allihoopa-iOS/compare/v0.4.0...v0.4.1
-[0.4.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/v0.3.2...v0.4.0
+[1.0.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/0.4.2...1.0.0
+[0.4.2]: https://github.com/allihoopa/Allihoopa-iOS/compare/0.4.1...0.4.2
+[0.4.1]: https://github.com/allihoopa/Allihoopa-iOS/compare/0.4.0...0.4.1
+[0.4.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/v0.3.2...0.4.0
 [0.3.2]: https://github.com/allihoopa/Allihoopa-iOS/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/allihoopa/Allihoopa-iOS/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/v0.2.0...v0.3.0

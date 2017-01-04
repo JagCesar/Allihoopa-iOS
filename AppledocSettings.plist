@@ -24,7 +24,7 @@
 	<key>--project-name</key>
 	<string>Allihoopa</string>
 	<key>--project-version</key>
-	<string>0.4.2</string>
+	<string>1.0.0</string>
 	<key>--keep-undocumented-objects</key>
 	<true/>
 	<key>--keep-undocumented-members</key>

@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "Allihoopa"
-  s.version      = "0.4.2"
+  s.version      = "1.0.0"
   s.summary      = "SDK to drop and import pieces to and from Allihoopa."
 
   # This description is used to generate tags and improve search results.

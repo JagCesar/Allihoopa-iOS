@@ -18,7 +18,7 @@ If you use [CocoaPods], you can simply add this SDK to your `Podfile`:
 
 ```ruby
 target 'TargetName' do
-  pod 'Allihoopa', '~> 0.4.2'
+  pod 'Allihoopa', '~> 1.0.0'
 end
 ```
 
@@ -31,15 +31,25 @@ pod install
 If you use [Carthage], you instead add this SDK to your `Cartfile`:
 
 ```
-github "Allihoopa/Allihoopa-iOS" ~> 0.4.2
+github "Allihoopa/Allihoopa-iOS" ~> 1.0.0
 ```
 
-After this, you run `carthage` to build the framework, and then drag the
-resulting `Allihoopa.framework` from the `Carthage/Build` folder into your
-project.
+After this, you run `carthage update` to build the framework, and then drag the
+resulting `Allihoopa.framework` _and_ `AllihoopaCore.framework` from the
+`Carthage/Build` folder into the "Embedded binaries" of your target.
 
-Alternatively, you can simply download the latest built framework from the
-[Releases tab].
+
+### Manual build
+
+If you want, you can include the `Allihoopa-macOS` project as a sub-project
+to your application and build the the framework as a dependency. In this case,
+you will need to include
+[AllihoopaCore-ObjC](https://github.com/allihoopa/AllihoopaCore-ObjC) too as a
+dependency since this project share a lot of code and functionality with the
+macOS SDK.
+
+If you use one of the methods described above, this dependency is managed
+automatically for you.
 
 ## Configuration
 
@@ -85,7 +95,7 @@ import Allihoopa
 
 // In your UIApplicationDelegate implementation
 func applicationDidFinishLaunching(_ application: UIApplication) {
-    AHAAllihoopaSDK.setup([
+    AHAAllihoopaSDK.shared().setup([
         .applicationIdentifier: "your-application-identifier",
         .apiKey: "your-api-key",
         .delegate: self,
@@ -93,7 +103,7 @@ func applicationDidFinishLaunching(_ application: UIApplication) {
 }
 
 func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-    if AHAAllihoopaSDK.handleOpen(url) {
+    if AHAAllihoopaSDK.shared().handleOpen(url) {
         return true
     }
 
@@ -108,7 +118,7 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpe
 
 // In your UIApplicationDelegate implementation
 - (void)applicationDidFinishLaunching:(UIApplication*)application {
-    [AHAAllihoopaSDK setupWithConfiguration:@{
+    [[AHAAllihoopaSDK sharedInstance] setupWithConfiguration:@{
         AHAConfigKeyApplicationIdentifier: @"your-application-identifier",
         AHAConfigKeyAPIKey: @"your-api-key",
         AHAConfigKeySDKDelegate: self,
@@ -116,7 +126,7 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpe
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-    if ([AHAAllihoopaSDK handleOpenURL:url]) {
+    if ([[AHAAllihoopaSDK sharedInstance] handleOpenURL:url]) {
         return YES;
     }
 
@@ -159,7 +169,7 @@ let piece = try! AHADropPieceData(
     timeSignature: nil,
     basedOn: [])
 
-let vc = AHAAllihoopaSDK.dropViewController(forPiece: piece, delegate: self)
+let vc = AHAAllihoopaSDK.shared().dropViewController(forPiece: piece, delegate: self)
 
 self.present(vc, animated: true, completion: nil)
 ```
@@ -197,7 +207,7 @@ AHADropPieceData* piece = [[AHADropPieceData alloc] initWithDefaultTitle:@"Defau
                                                          basedOnPieceIDs:@[]
                                                                    error:&error];
 if (piece) {
-    UIViewController* vc = [AHAAllihoopaSDK dropViewControllerForPiece:piece delegate:self];
+    UIViewController* vc = [[AHAAllihoopaSDK sharedInstance] dropViewControllerForPiece:piece delegate:self];
     [self presentViewController:vc animated:YES completion:nil];
 }
 ```
@@ -317,7 +327,7 @@ extension ViewController : AHADropDelegate {
 
     let vc = UIActivityViewController(
         activityItems: [],
-        applicationActivities: [AHAAllihoopaSDK.activity(forPiece: piece, delegate: self)])
+        applicationActivities: [AHAAllihoopaSDK.shared().activity(forPiece: piece, delegate: self)])
     vc.modalPresentationStyle = .popover
 
     self.present(vc, animated: true, completion: nil)
@@ -378,43 +388,6 @@ func openPiece(fromAllihoopa piece: AHAPiece?, error: Error?) {
     }
 }
 ```
-
-## Authenticating users
-
-```swift
-AHAAllihoopaSDK.authenticate { (successful) in
-    if successful {
-        // The user is now logged in
-    }
-    else {
-        // The user canceled log in/sign up
-    }
-}
-```
-
-```objective-c
-[AHAAllihoopaSDK authenticate:^(BOOL successful) {
-    if (successful) {
-        // The user is now logged in
-    }
-    else {
-        // The user canceled log in/sign up
-    }
-}];
-```
-
-This opens a login/signup dialog where the user can authenticate with Allihoopa.
-You should not *really* have to call this method yourself: the SDK will
-automatically show a login screen before dropping, for example.
-
-It uses `SFSafariViewController`, which lets the user avoid entering
-username/password into the app if they are already signed into allihoopa.com in
-their browser.
-
-NOTE: If you call this method, the view controller appears and you manage to
-login, but the callback isn't invoked, please check the configuration and
-application delegate: *both* the URL scheme *and* the `handleOpenURL` call must
-be in place for this to work.
 
 
 [Allihoopa]: https://allihoopa.com
