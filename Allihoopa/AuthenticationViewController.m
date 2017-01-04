@@ -1,9 +1,11 @@
 #import <SafariServices/SafariServices.h>
 
+#import <AllihoopaCore/AllihoopaCore.h>
+#import "AllihoopaSDK.h"
+
 #import "AuthenticationViewController.h"
 
 #import "Allihoopa+Internal.h"
-#import "Configuration.h"
 
 
 @interface AHAAuthenticationViewController () <SFSafariViewControllerDelegate> {
@@ -29,11 +31,9 @@
 }
 
 - (void)viewDidLoad {
-	NSString* url = [NSString
-					 stringWithFormat:(WEB_BASE_URL @"/account/login?response_type=token&client_id=%@&allow_popups=false"),
-					 _configuration.applicationIdentifier];
+	NSURL* url = [[AHAAllihoopaSDK sharedInstance] authenticationURLAllowingPopups:NO];
 
-	SFSafariViewController* safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url]];
+	SFSafariViewController* safari = [[SFSafariViewController alloc] initWithURL:url];
 	[self addChildViewController:safari];
 	[self.view addSubview:safari.view];
 
@@ -70,7 +70,6 @@
 		_safari = nil;
 
 		[safari dismissViewControllerAnimated:YES completion:^{
-			[self parseAndSaveCredentials:url];
 			callback(YES);
 		}];
 	}
@@ -94,24 +93,6 @@
 }
 
 #pragma mark - Private methods (Access token saving)
-
-- (void)parseAndSaveCredentials:(NSURL* _Nonnull)url {
-	NSAssert(url != nil, @"Must provide url");
-
-	NSURLComponents* components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
-	NSString* accessToken;
-
-	for (NSURLQueryItem* item in components.queryItems) {
-		if ([item.name isEqualToString:@"access_token"]) {
-			accessToken = item.value;
-		}
-	}
-
-	NSAssert(accessToken != nil, @"No access_token parameter was supplied");
-
-	_configuration.accessToken = accessToken;
-
-}
 
 - (void)clearSavedCredentials {
 	_configuration.accessToken = nil;

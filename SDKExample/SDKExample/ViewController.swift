@@ -12,7 +12,7 @@ import Allihoopa
 class ViewController: UIViewController {
 
 	@IBAction func authenticate() {
-		AHAAllihoopaSDK.authenticate { (successful) in
+		AHAAllihoopaSDK.shared().authenticate { (successful) in
 			let alert = UIAlertController(title: "Auth done", message: "Successful: \(successful)", preferredStyle: .alert)
 			alert.addAction(UIAlertAction(title: "Alright", style: .default, handler: nil))
 
@@ -28,7 +28,7 @@ class ViewController: UIViewController {
 		                                  timeSignature: AHATimeSignature(upper: 8, lower: 4),
 		                                  basedOn: [])
 
-		let vc = AHAAllihoopaSDK.dropViewController(forPiece: piece, delegate: self)
+		let vc = AHAAllihoopaSDK.shared().dropViewController(forPiece: piece, delegate: self)
 
 		self.present(vc, animated: true, completion: nil)
 	}
@@ -43,7 +43,7 @@ class ViewController: UIViewController {
 
 		let vc = UIActivityViewController(
 			activityItems: [],
-			applicationActivities: [AHAAllihoopaSDK.activity(forPiece: piece, delegate: self)])
+			applicationActivities: [AHAAllihoopaSDK.shared().activity(forPiece: piece, delegate: self)])
 		vc.modalPresentationStyle = .popover
 
 		self.present(vc, animated: true, completion: nil)

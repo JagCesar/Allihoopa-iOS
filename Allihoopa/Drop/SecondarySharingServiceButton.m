@@ -1,5 +1,7 @@
 #import "SecondarySharingServiceButton.h"
 
+#import <AllihoopaCore/AllihoopaCore.h>
+
 static NSString* const kFacebook = @"FACEBOOK";
 static NSString* const kTwitter = @"TWITTER";
 
@@ -48,13 +50,13 @@ static NSString* const kTwitter = @"TWITTER";
 	UIImage* image;
 
 	if ([_accountType isEqualToString:kFacebook]) {
-		image = [UIImage imageNamed:@"SocialIconFacebook"
-						   inBundle:[NSBundle bundleForClass:[self class]]
+		image = [UIImage imageNamed:@"AHASocialIconFacebook"
+						   inBundle:[NSBundle bundleForClass:[AHABaseAllihoopaSDK class]]
 	  compatibleWithTraitCollection:nil];
 	}
 	else if ([_accountType isEqualToString:kTwitter]) {
-		image = [UIImage imageNamed:@"SocialIconTwitter"
-						   inBundle:[NSBundle bundleForClass:[self class]]
+		image = [UIImage imageNamed:@"AHASocialIconTwitter"
+						   inBundle:[NSBundle bundleForClass:[AHABaseAllihoopaSDK class]]
 	  compatibleWithTraitCollection:nil];
 	}
 	else {

@@ -6,9 +6,10 @@ FOUNDATION_EXPORT double AllihoopaVersionNumber;
 //! Project version string for Allihoopa.
 FOUNDATION_EXPORT const unsigned char AllihoopaVersionString[];
 
-#import "DataBundle.h"
-#import "DropPieceData.h"
-#import "DropDelegate.h"
+#import <AllihoopaCore/DataBundle.h>
+#import <AllihoopaCore/DropPieceData.h>
+#import <AllihoopaCore/Errors.h>
+#import <AllihoopaCore/Piece.h>
+
 #import "AllihoopaSDK.h"
-#import "Errors.h"
-#import "Piece.h"
+#import "DropDelegate.h"

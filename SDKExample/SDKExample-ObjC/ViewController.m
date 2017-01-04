@@ -17,7 +17,7 @@
 @implementation ViewController
 
 - (IBAction)authenticate {
-	[AHAAllihoopaSDK authenticate:^(BOOL successful) {
+	[[AHAAllihoopaSDK sharedInstance] authenticate:^(BOOL successful) {
 		UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Auth done"
 																	   message:[NSString stringWithFormat:@"Successful: %i", successful]
 																preferredStyle:UIAlertControllerStyleAlert];
@@ -44,7 +44,7 @@
 		[self presentViewController:alert animated:YES completion:nil];
 	}
 	else {
-		UIViewController* vc = [AHAAllihoopaSDK dropViewControllerForPiece:piece delegate:self];
+		UIViewController* vc = [[AHAAllihoopaSDK sharedInstance] dropViewControllerForPiece:piece delegate:self];
 		[self presentViewController:vc animated:YES completion:nil];
 	}
 }
@@ -67,7 +67,7 @@
 		[self presentViewController:alert animated:YES completion:nil];
 	}
 	else {
-		UIActivity* activity = [AHAAllihoopaSDK activityForPiece:piece delegate:self];
+		UIActivity* activity = [[AHAAllihoopaSDK sharedInstance] activityForPiece:piece delegate:self];
 
 		UIActivityViewController* vc = [[UIActivityViewController alloc] initWithActivityItems:@[] applicationActivities:@[ activity ]];
 		vc.modalPresentationStyle = UIModalPresentationPopover;

@@ -1,12 +1,10 @@
 #import "DropInfoViewController.h"
 
 #import <Accounts/Accounts.h>
+#import <AllihoopaCore/AllihoopaCore.h>
 
 #import "../Allihoopa+Internal.h"
-#import "../Configuration.h"
-#import "../Errors.h"
 
-#import "DropCoordinator.h"
 #import "DropProgressViewController.h"
 #import "ModalEditor.h"
 

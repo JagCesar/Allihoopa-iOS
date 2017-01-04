@@ -18,6 +18,10 @@
 		FA3527281D9E8A9600D2F91B /* drop.wav in Resources */ = {isa = PBXBuildFile; fileRef = FA3527271D9E8A9600D2F91B /* drop.wav */; };
 		FA6D28451DF598B800FA2899 /* Allihoopa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF400601D955C2A00610853 /* Allihoopa.framework */; };
 		FA6D28461DF598B800FA2899 /* Allihoopa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FAF400601D955C2A00610853 /* Allihoopa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FAA548C21E1C02F200BA1957 /* AllihoopaCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FAEAF3B91E1BFD7B001F42FA /* AllihoopaCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FAA548C31E1C02F900BA1957 /* AllihoopaCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEAF3B91E1BFD7B001F42FA /* AllihoopaCore.framework */; };
+		FAA548C51E1C02FC00BA1957 /* AllihoopaCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FAEAF3B91E1BFD7B001F42FA /* AllihoopaCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FAEAF3BA1E1BFD7B001F42FA /* AllihoopaCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEAF3B91E1BFD7B001F42FA /* AllihoopaCore.framework */; };
 		FAF400611D955C2A00610853 /* Allihoopa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF400601D955C2A00610853 /* Allihoopa.framework */; };
 		FAF400621D955C2A00610853 /* Allihoopa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FAF400601D955C2A00610853 /* Allihoopa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FAF525D41D9531E7002CE6BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF525D31D9531E7002CE6BF /* AppDelegate.swift */; };
@@ -35,6 +39,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				FA6D28461DF598B800FA2899 /* Allihoopa.framework in Embed Frameworks */,
+				FAA548C21E1C02F200BA1957 /* AllihoopaCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -46,6 +51,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				FAF400621D955C2A00610853 /* Allihoopa.framework in Embed Frameworks */,
+				FAA548C51E1C02FC00BA1957 /* AllihoopaCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -67,6 +73,7 @@
 		FA1314061DE5CA2100378FDE /* Allihoopa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Allihoopa.framework; path = "../../../../Library/Developer/Xcode/DerivedData/SDKExample-axxaqietonuxqkeoaadthprdbwcn/Build/Products/Debug-iphonesimulator/Allihoopa.framework"; sourceTree = "<group>"; };
 		FA2108AA1D99177C00AE23AD /* Credentials.template.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Credentials.template.xcconfig; sourceTree = "<group>"; };
 		FA3527271D9E8A9600D2F91B /* drop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = drop.wav; sourceTree = "<group>"; };
+		FAEAF3B91E1BFD7B001F42FA /* AllihoopaCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AllihoopaCore.framework; path = ../Carthage/Build/iOS/AllihoopaCore.framework; sourceTree = "<group>"; };
 		FAF400601D955C2A00610853 /* Allihoopa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Allihoopa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAF400641D99145A00610853 /* Credentials.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Credentials.xcconfig; sourceTree = "<group>"; };
 		FAF525D01D9531E7002CE6BF /* SDKExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SDKExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +92,7 @@
 			files = (
 				FA6D28451DF598B800FA2899 /* Allihoopa.framework in Frameworks */,
 				FA1314051DE5C90500378FDE /* UIKit.framework in Frameworks */,
+				FAA548C31E1C02F900BA1957 /* AllihoopaCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +101,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAF400611D955C2A00610853 /* Allihoopa.framework in Frameworks */,
+				FAEAF3BA1E1BFD7B001F42FA /* AllihoopaCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				FAF400601D955C2A00610853 /* Allihoopa.framework */,
+				FAEAF3B91E1BFD7B001F42FA /* AllihoopaCore.framework */,
 				FAF525D21D9531E7002CE6BF /* SDKExample */,
 				FA1313ED1DE5A90000378FDE /* SDKExample-ObjC */,
 				FAF525D11D9531E7002CE6BF /* Products */,
@@ -393,6 +403,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/iOS";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -407,6 +418,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -445,6 +457,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/iOS";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -453,6 +466,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;

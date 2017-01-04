@@ -29,11 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			config[.facebookAppID] = facebookAppID
 		}
 
-		AHAAllihoopaSDK.setup(config)
+		AHAAllihoopaSDK.shared().setup(config)
 	}
 
 	func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-		if AHAAllihoopaSDK.handleOpen(url) {
+		if AHAAllihoopaSDK.shared().handleOpen(url) {
 			return true
 		}
 

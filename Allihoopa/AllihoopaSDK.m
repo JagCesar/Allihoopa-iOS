@@ -1,71 +1,20 @@
 #import "AllihoopaSDK.h"
 
+#import <AllihoopaCore/AllihoopaCore.h>
+
 #import "Allihoopa+Internal.h"
-#import "Configuration.h"
 #import "AuthenticationViewController.h"
 #import "Drop/DropViewController.h"
 #import "Activity.h"
-#import "Errors.h"
-#import "APICommunication.h"
-#import "Piece.h"
-#import "Import.h"
-
-AHAConfigKey const AHAConfigKeyApplicationIdentifier = @"ApplicationIdentifier";
-AHAConfigKey const AHAConfigKeyAPIKey = @"APIKey";
-AHAConfigKey const AHAConfigKeySDKDelegate = @"SDKDelegate";
-AHAConfigKey const AHAConfigKeyFacebookAppID = @"FacebookAppID";
-
-
-static NSString* const kInfoPlistAppKey = @"AllihoopaSDKAppKey";
-static NSString* const kInfoPlistAppSecret = @"AllihoopaSDKAppSecret";
-
-static NSString* const kMeGraphQLQuery = @"\
-{\
-  me {\
-    profileUrl\
-  }\
-}";
 
 @interface AHAAllihoopaSDK ()
 @end
 
 @implementation AHAAllihoopaSDK {
 	AHAAuthenticationViewController* _currentAuthViewController;
-
-	AHAConfiguration* _configuration;
-
-	__weak id<AHAAllihoopaSDKDelegate> _delegate;
 }
 
 #pragma mark - Static interface
-
-+ (void)setupWithApplicationIdentifier:(NSString*)applicationIdentifier
-								apiKey:(NSString*)apiKey
-							  delegate:(id<AHAAllihoopaSDKDelegate> _Nonnull)delegate {
-	[[self sharedInstance] setupWithApplicationIdentifier:applicationIdentifier
-												   apiKey:apiKey
-												 delegate:delegate];
-}
-
-+ (void)setupWithConfiguration:(NSDictionary<AHAConfigKey,id> *)configuration {
-	[[self sharedInstance] setupWithConfiguration:configuration];
-}
-
-+ (void)authenticate:(void (^)(BOOL))completion {
-	[[self sharedInstance] authenticate:completion];
-}
-
-+ (BOOL)handleOpenURL:(NSURL *)url {
-	return [[self sharedInstance] handleOpenURL:url];
-}
-
-+ (UIViewController *)dropViewControllerForPiece:(AHADropPieceData *)dropPieceData delegate:(id<AHADropDelegate>)delegate {
-	return [[self sharedInstance] dropViewControllerForPiece:dropPieceData delegate:delegate];
-}
-
-+ (UIActivity *)activityForPiece:(AHADropPieceData *)dropPieceData delegate:(id<AHADropDelegate>)delegate {
-	return [[self sharedInstance] activityForPiece:dropPieceData delegate:delegate];
-}
 
 + (instancetype)sharedInstance {
 	static AHAAllihoopaSDK* instance = nil;
@@ -80,93 +29,10 @@ static NSString* const kMeGraphQLQuery = @"\
 	return instance;
 }
 
-#pragma mark - Initialization
-
-- (instancetype)init {
-	if ((self = [super init])) {
-		_configuration = [[AHAConfiguration alloc] init];
-	}
-
-	return self;
-}
-
-#pragma mark - Private methods (non-static counterparts)
-
-
-- (void)setupWithApplicationIdentifier:(NSString*)applicationIdentifier
-								apiKey:(NSString*)apiKey
-							  delegate:(id<AHAAllihoopaSDKDelegate>)delegate {
-	if (applicationIdentifier == nil || applicationIdentifier.length == 0) {
-		AHARaiseInvalidUsageException(@"No application identifier provided");
-	}
-
-	if (apiKey == nil || apiKey.length == 0) {
-		AHARaiseInvalidUsageException(@"No API key provided");
-	}
-
-	NSMutableDictionary* config = [@{
-									 AHAConfigKeyApplicationIdentifier: applicationIdentifier,
-									 AHAConfigKeyAPIKey: apiKey,
-									 } mutableCopy];
-
-	if (delegate) {
-		[config setObject:delegate forKey:AHAConfigKeySDKDelegate];
-	}
-
-	[self setupWithConfiguration:config];
-
-}
-
-- (void)setupWithConfiguration:(NSDictionary<AHAConfigKey,id> *)configuration {
-	if (configuration == nil) {
-		AHARaiseInvalidUsageException(@"No configuration dictionary provided");
-	}
-
-	NSString* applicationIdentifier = configuration[AHAConfigKeyApplicationIdentifier];
-	NSString* apiKey = configuration[AHAConfigKeyAPIKey];
-	id<AHAAllihoopaSDKDelegate> delegate = configuration[AHAConfigKeySDKDelegate];
-	NSString* facebookAppID = configuration[AHAConfigKeyFacebookAppID];
-
-
-	// `applicationIdentifier` must be set to a NSString instance.
-	if (applicationIdentifier != nil && ![applicationIdentifier isKindOfClass:[NSString class]]) {
-		AHARaiseInvalidUsageException(@"Invalid application identifier provided; must provide a string");
-	}
-	else if (applicationIdentifier == nil || applicationIdentifier.length == 0) {
-		AHARaiseInvalidUsageException(@"No application identifier provided");
-	}
-
-	// `apiKey` must be set to a NSString instance.
-	if (apiKey != nil && ![apiKey isKindOfClass:[NSString class]]) {
-		AHARaiseInvalidUsageException(@"Invalid API key provided; must provide a string");
-	}
-	else if (apiKey == nil || apiKey.length == 0) {
-		AHARaiseInvalidUsageException(@"No API key provided");
-	}
-
-	// If `delegate` is set, it must conform to the `AHAAllihoopaSDKDelegate` protocol.
-	if (delegate != nil && ![delegate conformsToProtocol:@protocol(AHAAllihoopaSDKDelegate)]) {
-		AHARaiseInvalidUsageException(@"Delegate instance does not conform to AHAAllihoopaSDKDelegate protocol");
-	}
-
-	// If the `facebookAppID` is set, it must be a NSString instance.
-	if (facebookAppID != nil && ![facebookAppID isKindOfClass:[NSString class]]) {
-		AHARaiseInvalidUsageException(@"Invalid Facebook App ID provided; must provide a string");
-	}
-
-	_delegate = delegate;
-
-	[_configuration setupApplicationIdentifier:applicationIdentifier
-										apiKey:apiKey
-								 facebookAppID:facebookAppID];
-
-	[self validateURLSchemeSetup];
-
-}
 
 - (void)validateURLSchemeSetup {
 	NSBundle* bundle = [NSBundle mainBundle];
-	NSString* expectedURLScheme = [NSString stringWithFormat:@"ah-%@", _configuration.applicationIdentifier];
+	NSString* expectedURLScheme = [NSString stringWithFormat:@"ah-%@", self.currentConfiguration.applicationIdentifier];
 
 	NSDictionary<NSString*,id>* bundleURLTypes = [bundle objectForInfoDictionaryKey:@"CFBundleURLTypes"];
 	BOOL foundScheme = NO;
@@ -192,50 +58,39 @@ static NSString* const kMeGraphQLQuery = @"\
 
 	NSAssert(_currentAuthViewController == nil, @"Only one auth session can be active");
 
-	if (_configuration.accessToken) {
-		AHALog(@"Found access token, checking if it's still valid");
+	[((AHABaseAllihoopaSDK*)self) validateStoredAccessToken:^(BOOL successful) {
+		if (successful) {
+			completion(YES);
+		}
+		else {
+			AHALog(@"No access token found, showing auth view controller");
+			AHAAuthenticationViewController* authController = [[AHAAuthenticationViewController alloc]
+															   initWithConfiguration:self.currentConfiguration
+															   completionHandler:^(BOOL innerSuccessful) {
+																   self->_currentAuthViewController = nil;
+																   completion(innerSuccessful);
+															   }];
 
-		// We can let the following blocks take a strong reference to self since this is a
-		// singleton instance anyway.
-		[AHAGraphQLQuery(_configuration, kMeGraphQLQuery, @{}) onComplete:^(NSDictionary *value, __unused NSError *error) {
-			if (value && value[@"me"]) {
-				AHALog(@"Access token valid, skipping auth view controller");
-				completion(YES);
-			}
-			else {
-				AHALog(@"Access token invalid, clearing and recursing");
-				self->_configuration.accessToken = nil;
-				[self authenticate:completion];
-			}
-		}];
-	}
-	else {
-		AHALog(@"No access token found, showing auth view controller");
-		AHAAuthenticationViewController* authController = [[AHAAuthenticationViewController alloc]
-														   initWithConfiguration:_configuration
-														   completionHandler:^(BOOL successful) {
-															   self->_currentAuthViewController = nil;
-															   completion(successful);
-														   }];
+			authController.modalPresentationStyle = UIModalPresentationFormSheet;
 
-		authController.modalPresentationStyle = UIModalPresentationFormSheet;
+			UIWindow* newWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+			newWindow.rootViewController = [[UIViewController alloc] init];
+			[newWindow makeKeyAndVisible];
+			[newWindow.rootViewController presentViewController:authController animated:YES completion:nil];
 
-		UIWindow* newWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-		newWindow.rootViewController = [[UIViewController alloc] init];
-		[newWindow makeKeyAndVisible];
-		[newWindow.rootViewController presentViewController:authController animated:YES completion:nil];
-
-		_currentAuthViewController = authController;
-	}
+			self->_currentAuthViewController = authController;
+		}
+	}];
 }
 
 - (BOOL)handleOpenURL:(NSURL* _Nonnull)url {
-	NSString* command = url.host;
+	if ([super handleOpenURL:url]) {
+		NSString* command = url.host;
 
-	if ([command isEqualToString:@"authorize"]) {
-		return [_currentAuthViewController handleOpenURL:url];
-	} else if ([command isEqualToString:@"open"]) {
-		[self handleImportFromURL:url];
+		if ([command isEqualToString:@"authorize"]) {
+			[_currentAuthViewController handleOpenURL:url];
+		}
+
 		return YES;
 	} else {
 		NSLog(@"[AllihoopaSDK] WARNING: Can not handle requested URL %@", url);
@@ -263,7 +118,7 @@ static NSString* const kMeGraphQLQuery = @"\
 	AHADropViewController* dropFlow = [storyboard instantiateInitialViewController];
 	NSAssert(dropFlow && [dropFlow isKindOfClass:[AHADropViewController class]],
 			 @"DropFlow storyboard must have an AHADropViewController as its initial view controller");
-	dropFlow.configuration = _configuration;
+	dropFlow.configuration = self.currentConfiguration;
 	dropFlow.dropDelegate = delegate;
 	dropFlow.dropPieceData = dropPieceData;
 	dropFlow.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -275,29 +130,6 @@ static NSString* const kMeGraphQLQuery = @"\
 - (UIActivity *)activityForPiece:(AHADropPieceData *)dropPieceData
 						delegate:(id<AHADropDelegate>)delegate {
 	return [[AHAActivity alloc] initWithPiece:dropPieceData delegate:delegate];
-}
-
-#pragma mark - Private methods (Importing)
-
-- (void)handleImportFromURL:(NSURL* _Nonnull)url {
-	NSURLComponents* components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
-	NSString* pieceId;
-
-	for (NSURLQueryItem* item in components.queryItems) {
-		if ([item.name isEqualToString:@"uuid"]) {
-			pieceId = item.value;
-		}
-	}
-
-	NSAssert(pieceId != nil, @"No uuid parameter was supplied");
-
-	[AHAFetchPieceInfo(_configuration, pieceId) onComplete:^(AHAPiece *piece, NSError *error) {
-		id<AHAAllihoopaSDKDelegate> delegate = self->_delegate;
-
-		if ([delegate respondsToSelector:@selector(openPieceFromAllihoopa:error:)]) {
-			[delegate openPieceFromAllihoopa:piece error:error];
-		}
-	}];
 }
 
 @end

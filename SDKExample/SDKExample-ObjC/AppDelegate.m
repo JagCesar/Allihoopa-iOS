@@ -33,11 +33,11 @@
 		[config setObject:facebookAppID forKey:AHAConfigKeyFacebookAppID];
 	}
 
-	[AHAAllihoopaSDK setupWithConfiguration:config];
+	[[AHAAllihoopaSDK sharedInstance] setupWithConfiguration:config];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-	if ([AHAAllihoopaSDK handleOpenURL:url]) {
+	if ([[AHAAllihoopaSDK sharedInstance] handleOpenURL:url]) {
 		return YES;
 	}
 

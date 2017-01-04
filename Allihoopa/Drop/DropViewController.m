@@ -2,21 +2,15 @@
 
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
+#import <AllihoopaCore/AllihoopaCore.h>
 
 #import "../AllihoopaSDK.h"
 #import "../Allihoopa+Internal.h"
-
 #import "../DropDelegate.h"
-#import "../Configuration.h"
-#import "../APICommunication.h"
-#import "../Errors.h"
-#import "../Promise.h"
 
 #import "DropInfoViewController.h"
 #import "DropProgressViewController.h"
 #import "DropDoneViewController.h"
-#import "AssetUpload.h"
-#import "DropCoordinator.h"
 
 @interface AHADropViewController ()
 <AHADropInfoViewControllerDelegate, AHADropProgressViewControllerDelegate, AHADropCoordinatorDelegate>
@@ -66,7 +60,7 @@
 		_hasBeenPresented = YES;
 
 		__weak AHADropViewController* weakSelf = self;
-		[AHAAllihoopaSDK authenticate:^(BOOL successful) {
+		[[AHAAllihoopaSDK sharedInstance] authenticate:^(BOOL successful) {
 			AHADropViewController* strongSelf = weakSelf;
 
 			if (strongSelf) {
@@ -98,9 +92,8 @@
 
 - (IBAction)cancelDropUnwind:(__unused UIStoryboardSegue*)segue {
 	id<AHADropDelegate> delegate = _dropDelegate;
-	if ([delegate respondsToSelector:@selector(dropViewControllerForPieceWillClose:afterSuccessfulDrop:)]) {
-		[delegate dropViewControllerForPieceWillClose:_dropPieceData
-								  afterSuccessfulDrop:_dropSuccessful];
+	if ([delegate respondsToSelector:@selector(dropViewController:forPieceWillClose:afterSuccessfulDrop:)]) {
+		[delegate dropViewController:self forPieceWillClose:_dropPieceData afterSuccessfulDrop:_dropSuccessful];
 	}
 
 	if (_dismissWhenCloseTapped) {

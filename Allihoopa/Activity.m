@@ -48,8 +48,8 @@
 	[[UIColor whiteColor] setFill];
 	[[UIBezierPath bezierPathWithRect:CGRectMake(0, 0, 240, 240)] fill];
 
-	UIImage* logoMark = [UIImage imageNamed:@"LogoMarkColor"
-								   inBundle:[NSBundle bundleForClass:[self class]]
+	UIImage* logoMark = [UIImage imageNamed:@"AHALogoMarkColor"
+								   inBundle:[NSBundle bundleForClass:[AHABaseAllihoopaSDK class]]
 			  compatibleWithTraitCollection:nil];
 	NSAssert(logoMark != nil, @"Missing LogoMarkColor image");
 
@@ -68,8 +68,8 @@
 }
 
 - (UIViewController *)activityViewController {
-	UIViewController* controller = [AHAAllihoopaSDK dropViewControllerForPiece:_dropPieceData
-																	  delegate:_dropDelegate];
+	UIViewController* controller = [[AHAAllihoopaSDK sharedInstance] dropViewControllerForPiece:_dropPieceData
+																					   delegate:_dropDelegate];
 
 	NSAssert([controller isKindOfClass:[AHADropViewController class]],
 			 @"Expected AHADropViewController");
@@ -128,12 +128,11 @@
 	}
 }
 
-- (void)dropViewControllerForPieceWillClose:(AHADropPieceData* _Nonnull)piece
-						afterSuccessfulDrop:(BOOL)successfulDrop {
+- (void)dropViewController:(UIViewController *)sender forPieceWillClose:(AHADropPieceData *)piece afterSuccessfulDrop:(BOOL)successfulDrop {
 	[_activity activityDidFinish:successfulDrop];
 
-	if ([_innerDelegate respondsToSelector:@selector(dropViewControllerForPieceWillClose:afterSuccessfulDrop:)]) {
-		[_innerDelegate dropViewControllerForPieceWillClose:piece afterSuccessfulDrop:successfulDrop];
+	if ([_innerDelegate respondsToSelector:@selector(dropViewController:forPieceWillClose:afterSuccessfulDrop:)]) {
+		[_innerDelegate dropViewController:sender forPieceWillClose:piece afterSuccessfulDrop:successfulDrop];
 	}
 }
 

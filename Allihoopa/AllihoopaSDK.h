@@ -1,52 +1,10 @@
-#import <UIKit/UIKit.h>
+#import <AllihoopaCore/BaseAllihoopaSDK.h>
 
-@class AHAPiece;
+@protocol AHADropDelegate;
 
-typedef void (^AHAAuthenticationCallback)(BOOL successful);
+@interface AHAAllihoopaSDK : AHABaseAllihoopaSDK
 
-typedef NSString* _Nonnull AHAConfigKey NS_STRING_ENUM;
-
-extern AHAConfigKey const AHAConfigKeyApplicationIdentifier;
-extern AHAConfigKey const AHAConfigKeyAPIKey;
-extern AHAConfigKey const AHAConfigKeySDKDelegate;
-extern AHAConfigKey const AHAConfigKeyFacebookAppID;
-
-#import "DropPieceData.h"
-#import "DropDelegate.h"
-
-@protocol AHAAllihoopaSDKDelegate <NSObject>
-
-- (void)openPieceFromAllihoopa:(AHAPiece* _Nullable)piece error:(NSError* _Nullable)error;
-
-@end
-
-@interface AHAAllihoopaSDK : NSObject
-
-/**
- Old SDK initialization method. Please use setupWithConfiguration instead.
- 
- @throws AHAInvalidUsageException When the application is incorrectly configured.
- */
-+ (void)setupWithApplicationIdentifier:(NSString* _Nonnull)applicationIdentifier
-								apiKey:(NSString* _Nonnull)apiKey
-							  delegate:(id<AHAAllihoopaSDKDelegate> _Nonnull)delegate NS_SWIFT_NAME(setup(applicationIdentifier:apiKey:delegate:));
-
-/**
- Initialize the SDK and perform some basic sanity checking
-
- It also requires that the `ah-{applicationIdentifier}` URL scheme has been
- registered. will throw an exception if any of these conditions have not been
- met.
- 
- The configuration dictionary *must* contain the keys AHAConfigKeyApplicationIdentifier
- and AHAConfigKeyAPIKey and they *must* be set to NSStrings.
- 
- If the AHAConfigKeyFacebookAppID key is present, sharing to Facebook is presented
- as an option to the user when dropping.
-
- @throws AHAInvalidUsageException When the application is incorrectly configured
- */
-+ (void)setupWithConfiguration:(NSDictionary<AHAConfigKey,id>* _Nonnull)configuration NS_SWIFT_NAME(setup(_:));
++ (AHAAllihoopaSDK* _Nonnull)sharedInstance NS_SWIFT_NAME(shared());
 
 /**
  Ensure that the user is authenticated
@@ -58,15 +16,7 @@ extern AHAConfigKey const AHAConfigKeyFacebookAppID;
  You *probably* don't need to call this method directly - it is automatically
  called before a user can drop.
  */
-+ (void)authenticate:(AHAAuthenticationCallback _Nonnull)completion;
-
-/**
- Handle an open URL request from `UIApplicationDelegate`
-
- This *must* be called from your app delegate's `application:openURL:options`
- method for log in and sign up to work.
- */
-+ (BOOL)handleOpenURL:(NSURL* _Nonnull)url;
+- (void)authenticate:(AHAAuthenticationCallback _Nonnull)completion;
 
 /**
  Create a view controller to drop a piece
@@ -75,7 +25,7 @@ extern AHAConfigKey const AHAConfigKeyFacebookAppID;
  asked to log in if they haven't already. Both arguments are required. The
  delegate will be notified when the drop process is complete.
  */
-+ (UIViewController* _Nonnull)dropViewControllerForPiece:(AHADropPieceData* _Nonnull)dropPieceData
+- (UIViewController* _Nonnull)dropViewControllerForPiece:(AHADropPieceData* _Nonnull)dropPieceData
 												delegate:(id<AHADropDelegate> _Nonnull)delegate;
 
 /**
@@ -85,7 +35,7 @@ extern AHAConfigKey const AHAConfigKeyFacebookAppID;
  share screen that includes Allihoopa. It has the same requirements as
  `dropViewControllerForPiece:delegate:`.
  */
-+ (UIActivity* _Nonnull)activityForPiece:(AHADropPieceData* _Nonnull)dropPieceData
+- (UIActivity* _Nonnull)activityForPiece:(AHADropPieceData* _Nonnull)dropPieceData
 								delegate:(id<AHADropDelegate> _Nonnull)delegate;
 
 @end

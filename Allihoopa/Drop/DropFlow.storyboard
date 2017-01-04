@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="5HE-VI-Lbw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="5HE-VI-Lbw">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -84,7 +84,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8k7-lX-QZO" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="wg3-eg-0AR" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1618" y="132"/>
+            <point key="canvasLocation" x="1617.5999999999999" y="131.33433283358323"/>
         </scene>
         <!--Drop Error View Controller-->
         <scene sceneID="c69-AV-VD2">
@@ -142,29 +142,38 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Yay, you dropped your piece BOP IT" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="esY-88-vvV">
-                                <rect key="frame" x="23.5" y="136" width="273.5" height="20.5"/>
+                                <rect key="frame" x="23.5" y="111" width="273.5" height="20.5"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" image="Checkmark" translatesAutoresizingMaskIntoConstraints="NO" id="mWl-PI-raJ">
-                                <rect key="frame" x="139.5" y="72" width="41" height="41"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="mWl-PI-raJ" customClass="AHAFrameworkImageView">
+                                <rect key="frame" x="152" y="72" width="16" height="16"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="imageName" value="AHACheckmark"/>
+                                </userDefinedRuntimeAttributes>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RecordSleeveShadow" translatesAutoresizingMaskIntoConstraints="NO" id="NSj-Va-aaF">
-                                <rect key="frame" x="24" y="361" width="272" height="76"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NSj-Va-aaF" customClass="AHAFrameworkImageView">
+                                <rect key="frame" x="131" y="218.5" width="58" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="NSj-Va-aaF" secondAttribute="height" multiplier="1036:290" id="CII-VS-w1M"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="imageName" value="AHARecordSleeveShadow"/>
+                                </userDefinedRuntimeAttributes>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RecordPattern" translatesAutoresizingMaskIntoConstraints="NO" id="xbW-j3-0Sg">
-                                <rect key="frame" x="66.5" y="176.5" width="187.5" height="187.5"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xbW-j3-0Sg" customClass="AHAFrameworkImageView">
+                                <rect key="frame" x="140" y="151.5" width="40.5" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="300" id="GAd-iz-y6h"/>
                                     <constraint firstAttribute="width" secondItem="xbW-j3-0Sg" secondAttribute="height" multiplier="1:1" id="iOp-r2-CRe"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="imageName" value="AHARecordPattern"/>
+                                </userDefinedRuntimeAttributes>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="grp-EH-RzH">
-                                <rect key="frame" x="66.5" y="216.5" width="187.5" height="187.5"/>
+                                <rect key="frame" x="140" y="191.5" width="40.5" height="40"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nKJ-W7-FvY">
                                 <rect key="frame" x="16" y="434" width="288" height="50"/>
@@ -349,17 +358,20 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gcb-L3-sfm" userLabel="Content View">
-                                <rect key="frame" x="0.0" y="0.0" width="400" height="856.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="400" height="687.5"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PlaceholderCoverImage" translatesAutoresizingMaskIntoConstraints="NO" id="Yhc-oy-qAj">
-                                        <rect key="frame" x="56" y="126.5" width="288" height="288"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yhc-oy-qAj" customClass="AHAFrameworkImageView">
+                                        <rect key="frame" x="140.5" y="126.5" width="119" height="119"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="300" id="AKZ-p3-IKV"/>
                                             <constraint firstAttribute="width" secondItem="Yhc-oy-qAj" secondAttribute="height" id="vJA-dh-DEG"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="imageName" value="AHAPlaceholderCoverImage"/>
+                                        </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fzP-I5-Eyk">
-                                        <rect key="frame" x="72" y="368.5" width="256" height="30"/>
+                                        <rect key="frame" x="156.5" y="199.5" width="87" height="30"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.30207688737623761" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                         <state key="normal" title="EDIT COVER">
@@ -377,12 +389,15 @@
                                             <action selector="editCoverImage:" destination="1Kq-4t-IlT" eventType="touchUpInside" id="M0R-Ey-76l"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoMarkColor" translatesAutoresizingMaskIntoConstraints="NO" id="JyC-AR-XaQ">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JyC-AR-XaQ" customClass="AHAFrameworkImageView">
                                         <rect key="frame" x="182.5" y="20" width="35" height="35"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="35" id="9WD-mD-FqO"/>
                                             <constraint firstAttribute="width" secondItem="JyC-AR-XaQ" secondAttribute="height" multiplier="1:1" id="JNd-SJ-HB9"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="imageName" value="AHALogoMarkColor"/>
+                                        </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drop to Allihoopa" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Gc-5s-R77">
                                         <rect key="frame" x="96" y="63" width="208" height="33.5"/>
@@ -391,13 +406,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="El5-gh-hSV">
-                                        <rect key="frame" x="24" y="447" width="25" height="14.5"/>
+                                        <rect key="frame" x="24" y="278" width="25" height="14.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                         <color key="textColor" red="0.78431372549019607" green="0.78431372549019607" blue="0.78431372549019607" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title of piece ansoteuh snoatehuotnneotuhntoehuneothuheusnoeuhtn eosnt uh" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mvx-4U-ftl">
-                                        <rect key="frame" x="24" y="469" width="352" height="64.5"/>
+                                        <rect key="frame" x="24" y="300" width="352" height="64.5"/>
                                         <gestureRecognizers/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                         <nil key="textColor"/>
@@ -407,13 +422,13 @@
                                         </connections>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description and tags" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gWl-Lf-xT9">
-                                        <rect key="frame" x="24" y="563.5" width="117.5" height="14.5"/>
+                                        <rect key="frame" x="24" y="394.5" width="117.5" height="14.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                         <color key="textColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sample description" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iQZ-63-vJ7">
-                                        <rect key="frame" x="24" y="586" width="352" height="18"/>
+                                        <rect key="frame" x="24" y="417" width="352" height="18"/>
                                         <gestureRecognizers/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                         <nil key="textColor"/>
@@ -423,7 +438,7 @@
                                         </connections>
                                     </label>
                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vNX-Vg-9eT">
-                                        <rect key="frame" x="52" y="586" width="324" height="18"/>
+                                        <rect key="frame" x="52" y="417" width="324" height="18"/>
                                         <gestureRecognizers/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                         <nil key="textColor"/>
@@ -432,44 +447,47 @@
                                             <outletCollection property="gestureRecognizers" destination="uYr-CT-lDx" appends="YES" id="Owf-G5-Kg3"/>
                                         </connections>
                                     </label>
-                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AddCircleOutline" translatesAutoresizingMaskIntoConstraints="NO" id="PXd-YU-D9t">
-                                        <rect key="frame" x="24" y="586" width="20" height="20"/>
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PXd-YU-D9t" customClass="AHAFrameworkImageView">
+                                        <rect key="frame" x="24" y="417" width="20" height="20"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="Nhz-z8-Quu"/>
                                             <constraint firstAttribute="height" constant="20" id="wNS-Rq-L6z"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="imageName" value="AHAAddCircleOutline"/>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="NLA-P9-Uoa" appends="YES" id="WzF-fO-hO6"/>
                                         </connections>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jtM-rJ-vfa">
-                                        <rect key="frame" x="12" y="623.5" width="376" height="1"/>
+                                        <rect key="frame" x="12" y="454.5" width="376" height="1"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.076655321782178223" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="vuV-OP-JtB"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visibility" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ayA-yj-bDU">
-                                        <rect key="frame" x="24" y="648.5" width="47.5" height="14.5"/>
+                                        <rect key="frame" x="24" y="479.5" width="47.5" height="14.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                         <color key="textColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ovl-O2-jVh">
-                                        <rect key="frame" x="24" y="671" width="51" height="31"/>
+                                        <rect key="frame" x="24" y="502" width="51" height="31"/>
                                         <connections>
                                             <action selector="onListedChange:" destination="1Kq-4t-IlT" eventType="valueChanged" id="2a7-VM-I8C"/>
                                         </connections>
                                     </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anyone can see this" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PDP-cr-JaF">
-                                        <rect key="frame" x="81" y="679.5" width="295" height="14.5"/>
+                                        <rect key="frame" x="81" y="510.5" width="295" height="14.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                         <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ooH-Fj-lgV">
-                                        <rect key="frame" x="0.0" y="806.5" width="400" height="50"/>
+                                        <rect key="frame" x="0.0" y="637.5" width="400" height="50"/>
                                         <color key="backgroundColor" red="1" green="0.15294118230000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="lN6-nX-Vgy"/>
@@ -482,13 +500,13 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Also share to" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cVG-G6-sIN">
-                                        <rect key="frame" x="24" y="726" width="74" height="14.5"/>
+                                        <rect key="frame" x="24" y="557" width="74" height="14.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                         <color key="textColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="IqX-Ia-mvd">
-                                        <rect key="frame" x="24" y="748.5" width="74" height="32"/>
+                                        <rect key="frame" x="24" y="579.5" width="74" height="32"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gzr-c4-8O4" customClass="AHASecondarySharingServiceButton">
                                                 <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
@@ -630,13 +648,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="AddCircleOutline" width="20" height="20"/>
-        <image name="Checkmark" width="41" height="41"/>
-        <image name="LogoMarkColor" width="111" height="111"/>
         <image name="LogoMarkWhite" width="81" height="81"/>
-        <image name="PlaceholderCoverImage" width="288" height="288"/>
-        <image name="RecordPattern" width="1024" height="1024"/>
-        <image name="RecordSleeveShadow" width="1036" height="290"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="gTD-Rc-wfL"/>
