@@ -17,6 +17,9 @@
 		FA5FD39B1D90180F0010E978 /* Allihoopa.h in Headers */ = {isa = PBXBuildFile; fileRef = FA5FD38D1D90180F0010E978 /* Allihoopa.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA6D283B1DF1AA6900FA2899 /* SecondarySharingServiceButton.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6D283A1DF1AA6900FA2899 /* SecondarySharingServiceButton.m */; };
 		FA77A9871E1CED4D00BF0619 /* FrameworkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA77A9861E1CED4D00BF0619 /* FrameworkImageView.m */; };
+		FA77A9891E1CFD3600BF0619 /* AllihoopaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA77A9881E1CFD3600BF0619 /* AllihoopaTests.m */; };
+		FA77A98A1E1CFD6000BF0619 /* AllihoopaCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEAF3B71E1BFD6C001F42FA /* AllihoopaCore.framework */; };
+		FA77A98C1E1CFDEA00BF0619 /* AllihoopaCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FAEAF3B71E1BFD6C001F42FA /* AllihoopaCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FA7AADE81DB74BE500935F67 /* AppledocSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA7AADE71DB74BE500935F67 /* AppledocSettings.plist */; };
 		FAA548C61E1C038000BA1957 /* DropDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FAA548C01E1BFEF100BA1957 /* DropDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FABAB31A1DB12278000E1A0D /* ModalEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = FABAB3191DB12278000E1A0D /* ModalEditor.m */; };
@@ -38,6 +41,19 @@
 			remoteInfo = Allihoopa;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FA77A98B1E1CFDE700BF0619 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				FA77A98C1E1CFDEA00BF0619 /* AllihoopaCore.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		FA00277F1D9AC7DB00ED3405 /* DropFlow.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DropFlow.storyboard; sourceTree = "<group>"; };
@@ -61,6 +77,7 @@
 		FA6D283A1DF1AA6900FA2899 /* SecondarySharingServiceButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondarySharingServiceButton.m; sourceTree = "<group>"; };
 		FA77A9831E1CED0A00BF0619 /* FrameworkImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrameworkImageView.h; sourceTree = "<group>"; };
 		FA77A9861E1CED4D00BF0619 /* FrameworkImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameworkImageView.m; sourceTree = "<group>"; };
+		FA77A9881E1CFD3600BF0619 /* AllihoopaTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllihoopaTests.m; sourceTree = "<group>"; };
 		FA7AADE71DB74BE500935F67 /* AppledocSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppledocSettings.plist; sourceTree = "<group>"; };
 		FAA548C01E1BFEF100BA1957 /* DropDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DropDelegate.h; sourceTree = "<group>"; };
 		FAA548C11E1BFF1E00BA1957 /* Allihoopa+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Allihoopa+Internal.h"; sourceTree = "<group>"; };
@@ -99,6 +116,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA5FD3941D90180F0010E978 /* Allihoopa.framework in Frameworks */,
+				FA77A98A1E1CFD6000BF0619 /* AllihoopaCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				FA5FD39A1D90180F0010E978 /* Info.plist */,
+				FA77A9881E1CFD3600BF0619 /* AllihoopaTests.m */,
 			);
 			path = AllihoopaTests;
 			sourceTree = "<group>";
@@ -227,6 +246,7 @@
 				FA5FD38F1D90180F0010E978 /* Sources */,
 				FA5FD3901D90180F0010E978 /* Frameworks */,
 				FA5FD3911D90180F0010E978 /* Resources */,
+				FA77A98B1E1CFDE700BF0619 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -322,6 +342,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA77A9891E1CFD3600BF0619 /* AllihoopaTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -527,6 +548,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = KJD2GM57WH;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = AllihoopaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.allihoopa.AllihoopaTests;
@@ -538,6 +563,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = KJD2GM57WH;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = AllihoopaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.allihoopa.AllihoopaTests;
