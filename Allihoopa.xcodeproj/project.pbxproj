@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA0027801D9AC7DB00ED3405 /* DropFlow.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA00277F1D9AC7DB00ED3405 /* DropFlow.storyboard */; };
+		6382C2FB1E2430420021D363 /* DropFlow.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6382C2FD1E2430420021D363 /* DropFlow.storyboard */; };
 		FA35271D1D9D562800D2F91B /* Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = FA35271C1D9D562800D2F91B /* Activity.m */; };
 		FA45CB831D9C1C4C0082846C /* DropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA45CB821D9C1C4C0082846C /* DropViewController.m */; };
 		FA45CB881D9C1DF00082846C /* DropProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA45CB871D9C1DF00082846C /* DropProgressViewController.m */; };
@@ -56,7 +56,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		FA00277F1D9AC7DB00ED3405 /* DropFlow.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DropFlow.storyboard; sourceTree = "<group>"; };
+		6382C2FC1E2430420021D363 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/DropFlow.storyboard; sourceTree = "<group>"; };
+		6382C2FE1E2430F00021D363 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ja; path = ja.lproj/DropFlow.storyboard; sourceTree = "<group>"; };
 		FA35271A1D9D556500D2F91B /* Activity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Activity.h; sourceTree = "<group>"; };
 		FA35271C1D9D562800D2F91B /* Activity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Activity.m; sourceTree = "<group>"; };
 		FA45CB821D9C1C4C0082846C /* DropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropViewController.m; sourceTree = "<group>"; };
@@ -130,7 +131,7 @@
 				FA45CB8A1D9C1E810082846C /* DropDoneViewController.m */,
 				FAC2119D1DAFBE520066FFA9 /* DropErrorViewController.h */,
 				FAC2119E1DAFBEB80066FFA9 /* DropErrorViewController.m */,
-				FA00277F1D9AC7DB00ED3405 /* DropFlow.storyboard */,
+				6382C2FD1E2430420021D363 /* DropFlow.storyboard */,
 				FA45CB851D9C1D870082846C /* DropInfoViewController.h */,
 				FA45CB8C1D9C1EF50082846C /* DropInfoViewController.m */,
 				FA45CB861D9C1DB90082846C /* DropProgressViewController.h */,
@@ -286,6 +287,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ja,
 			);
 			mainGroup = FA5FD3801D90180E0010E978;
 			productRefGroup = FA5FD38B1D90180F0010E978 /* Products */;
@@ -304,7 +306,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA7AADE81DB74BE500935F67 /* AppledocSettings.plist in Resources */,
-				FA0027801D9AC7DB00ED3405 /* DropFlow.storyboard in Resources */,
+				6382C2FB1E2430420021D363 /* DropFlow.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,11 +358,24 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		6382C2FD1E2430420021D363 /* DropFlow.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6382C2FC1E2430420021D363 /* en */,
+				6382C2FE1E2430F00021D363 /* ja */,
+			);
+			name = DropFlow.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		FA5FD39C1D90180F0010E978 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -436,6 +451,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";

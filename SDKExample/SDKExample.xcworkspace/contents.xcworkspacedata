@@ -4,7 +4,4 @@
    <FileRef
       location = "container:SDKExample.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:../Allihoopa.xcodeproj">
-   </FileRef>
 </Workspace>
