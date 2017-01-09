@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6382C2FF1E2442E90021D363 /* Allihoopa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1314061DE5CA2100378FDE /* Allihoopa.framework */; };
-		6382C3001E2442E90021D363 /* Allihoopa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FA1314061DE5CA2100378FDE /* Allihoopa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FA1313F01DE5A90000378FDE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1313EF1DE5A90000378FDE /* main.m */; };
 		FA1313F31DE5A90000378FDE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1313F21DE5A90000378FDE /* AppDelegate.m */; };
 		FA1313F61DE5A90000378FDE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1313F51DE5A90000378FDE /* ViewController.m */; };
@@ -36,7 +34,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6382C3001E2442E90021D363 /* Allihoopa.framework in Embed Frameworks */,
 				FAA548C21E1C02F200BA1957 /* AllihoopaCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -67,7 +64,6 @@
 		FA1313FD1DE5A90100378FDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA1313FF1DE5A90100378FDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA1314041DE5C90500378FDE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		FA1314061DE5CA2100378FDE /* Allihoopa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Allihoopa.framework; path = "../../../../Library/Developer/Xcode/DerivedData/SDKExample-axxaqietonuxqkeoaadthprdbwcn/Build/Products/Debug-iphonesimulator/Allihoopa.framework"; sourceTree = "<group>"; };
 		FA2108AA1D99177C00AE23AD /* Credentials.template.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Credentials.template.xcconfig; sourceTree = "<group>"; };
 		FA3527271D9E8A9600D2F91B /* drop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = drop.wav; sourceTree = "<group>"; };
 		FAEAF3B91E1BFD7B001F42FA /* AllihoopaCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AllihoopaCore.framework; path = ../Carthage/Build/iOS/AllihoopaCore.framework; sourceTree = "<group>"; };
@@ -86,7 +82,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6382C2FF1E2442E90021D363 /* Allihoopa.framework in Frameworks */,
 				FA1314051DE5C90500378FDE /* UIKit.framework in Frameworks */,
 				FAA548C31E1C02F900BA1957 /* AllihoopaCore.framework in Frameworks */,
 			);
@@ -130,7 +125,6 @@
 		FA1314031DE5C90500378FDE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FA1314061DE5CA2100378FDE /* Allihoopa.framework */,
 				FA1314041DE5C90500378FDE /* UIKit.framework */,
 			);
 			name = Frameworks;

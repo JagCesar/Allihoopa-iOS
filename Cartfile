@@ -1,1 +1,2 @@
 github "allihoopa/AllihoopaCore-ObjC" ~> 0.2.7
+github "allihoopa/Allihoopa-iOS" "localize"
