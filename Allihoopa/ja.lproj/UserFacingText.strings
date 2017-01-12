@@ -1,0 +1,13 @@
+/* 
+  UserFacingText.strings
+  Allihoopa
+
+  Created by David Ventura on 1/12/17.
+  Copyright © 2017 Allihoopa. All rights reserved.
+*/
+
+"Anyone can see this" = "公開する";
+"Only people with a link can see this" = "公開しない";
+"Description and tags" = "曲の説明とタグ";
+"Title of your piece" = "曲名";
+"You dropped your piece:\n" = "アップロード完了\n";

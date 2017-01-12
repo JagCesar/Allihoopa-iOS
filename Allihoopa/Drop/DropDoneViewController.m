@@ -1,5 +1,7 @@
 #import "DropDoneViewController.h"
 
+extern NSBundle* getResourceBundle();
+
 @interface AHADropDoneViewController ()
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *recordPatternImage;
@@ -31,7 +33,7 @@
 
 	[title appendAttributedString:
 	 [[NSAttributedString alloc]
-	  initWithString:@"Yay, you dropped your piece "
+	  initWithString:NSLocalizedStringFromTableInBundle( @"You dropped your piece:\n", @"UserFacingText", getResourceBundle(), nil )
 	  attributes:@{ NSFontAttributeName: titleFont }]];
 
 	[title appendAttributedString:

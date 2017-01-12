@@ -7,6 +7,16 @@
 #import "Drop/DropViewController.h"
 #import "Activity.h"
 
+NSBundle* getResourceBundle()
+{
+	NSString* mainBundlePath = [[NSBundle mainBundle] resourcePath];
+	NSString* frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:@"Frameworks/Allihoopa.framework"];
+	NSBundle* bundle = [NSBundle bundleWithPath:frameworkBundlePath];
+	NSCAssert( mainBundlePath && frameworkBundlePath && bundle, @"Could not find Allihoopa.framework. Is it included properly?" );
+	
+	return bundle;
+}
+
 @interface AHAAllihoopaSDK ()
 @end
 

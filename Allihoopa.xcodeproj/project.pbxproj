@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6354B0511E281A6A003F9801 /* UserFacingText.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6354B0531E281A6A003F9801 /* UserFacingText.strings */; };
 		6382C2FB1E2430420021D363 /* DropFlow.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6382C2FD1E2430420021D363 /* DropFlow.storyboard */; };
 		FA35271D1D9D562800D2F91B /* Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = FA35271C1D9D562800D2F91B /* Activity.m */; };
 		FA45CB831D9C1C4C0082846C /* DropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA45CB821D9C1C4C0082846C /* DropViewController.m */; };
@@ -56,7 +57,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6382C2FC1E2430420021D363 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/DropFlow.storyboard; sourceTree = "<group>"; };
+		6354B0521E281A6A003F9801 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/UserFacingText.strings; sourceTree = "<group>"; };
+		6354B0561E281C2E003F9801 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/DropFlow.storyboard; sourceTree = "<group>"; };
+		6354B0571E281C3A003F9801 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/UserFacingText.strings; sourceTree = "<group>"; };
 		6382C2FE1E2430F00021D363 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ja; path = ja.lproj/DropFlow.storyboard; sourceTree = "<group>"; };
 		FA35271A1D9D556500D2F91B /* Activity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Activity.h; sourceTree = "<group>"; };
 		FA35271C1D9D562800D2F91B /* Activity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Activity.m; sourceTree = "<group>"; };
@@ -193,6 +196,7 @@
 				FA5FD38E1D90180F0010E978 /* Info.plist */,
 				FAA548C01E1BFEF100BA1957 /* DropDelegate.h */,
 				FAA548C11E1BFF1E00BA1957 /* Allihoopa+Internal.h */,
+				6354B0531E281A6A003F9801 /* UserFacingText.strings */,
 			);
 			path = Allihoopa;
 			sourceTree = "<group>";
@@ -288,6 +292,7 @@
 			knownRegions = (
 				en,
 				ja,
+				Base,
 			);
 			mainGroup = FA5FD3801D90180E0010E978;
 			productRefGroup = FA5FD38B1D90180F0010E978 /* Products */;
@@ -305,6 +310,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6354B0511E281A6A003F9801 /* UserFacingText.strings in Resources */,
 				FA7AADE81DB74BE500935F67 /* AppledocSettings.plist in Resources */,
 				6382C2FB1E2430420021D363 /* DropFlow.storyboard in Resources */,
 			);
@@ -359,11 +365,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		6354B0531E281A6A003F9801 /* UserFacingText.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6354B0521E281A6A003F9801 /* ja */,
+				6354B0571E281C3A003F9801 /* Base */,
+			);
+			name = UserFacingText.strings;
+			sourceTree = "<group>";
+		};
 		6382C2FD1E2430420021D363 /* DropFlow.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6382C2FC1E2430420021D363 /* en */,
 				6382C2FE1E2430F00021D363 /* ja */,
+				6354B0561E281C2E003F9801 /* Base */,
 			);
 			name = DropFlow.storyboard;
 			sourceTree = "<group>";
