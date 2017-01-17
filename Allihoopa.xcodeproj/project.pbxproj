@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6354B0511E281A6A003F9801 /* UserFacingText.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6354B0531E281A6A003F9801 /* UserFacingText.strings */; };
 		6382C2FB1E2430420021D363 /* DropFlow.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6382C2FD1E2430420021D363 /* DropFlow.storyboard */; };
+		63FCFD9C1E2E6A91009D256E /* Allihoopa+Internal.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FCFD9B1E2E6A91009D256E /* Allihoopa+Internal.m */; };
 		FA35271D1D9D562800D2F91B /* Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = FA35271C1D9D562800D2F91B /* Activity.m */; };
 		FA45CB831D9C1C4C0082846C /* DropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA45CB821D9C1C4C0082846C /* DropViewController.m */; };
 		FA45CB881D9C1DF00082846C /* DropProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA45CB871D9C1DF00082846C /* DropProgressViewController.m */; };
@@ -61,6 +62,7 @@
 		6354B0561E281C2E003F9801 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/DropFlow.storyboard; sourceTree = "<group>"; };
 		6354B0571E281C3A003F9801 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/UserFacingText.strings; sourceTree = "<group>"; };
 		6382C2FE1E2430F00021D363 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ja; path = ja.lproj/DropFlow.storyboard; sourceTree = "<group>"; };
+		63FCFD9B1E2E6A91009D256E /* Allihoopa+Internal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Allihoopa+Internal.m"; sourceTree = "<group>"; };
 		FA35271A1D9D556500D2F91B /* Activity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Activity.h; sourceTree = "<group>"; };
 		FA35271C1D9D562800D2F91B /* Activity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Activity.m; sourceTree = "<group>"; };
 		FA45CB821D9C1C4C0082846C /* DropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropViewController.m; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				FA5FD38E1D90180F0010E978 /* Info.plist */,
 				FAA548C01E1BFEF100BA1957 /* DropDelegate.h */,
 				FAA548C11E1BFF1E00BA1957 /* Allihoopa+Internal.h */,
+				63FCFD9B1E2E6A91009D256E /* Allihoopa+Internal.m */,
 				6354B0531E281A6A003F9801 /* UserFacingText.strings */,
 			);
 			path = Allihoopa;
@@ -340,6 +343,7 @@
 				FA45CB8B1D9C1E810082846C /* DropDoneViewController.m in Sources */,
 				FABAB31A1DB12278000E1A0D /* ModalEditor.m in Sources */,
 				FA77A9871E1CED4D00BF0619 /* FrameworkImageView.m in Sources */,
+				63FCFD9C1E2E6A91009D256E /* Allihoopa+Internal.m in Sources */,
 				FA45CB8D1D9C1EF50082846C /* DropInfoViewController.m in Sources */,
 				FA45CB881D9C1DF00082846C /* DropProgressViewController.m in Sources */,
 				FAC211A21DAFBF850066FFA9 /* DropSegues.m in Sources */,

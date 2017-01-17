@@ -8,8 +8,6 @@
 #import "DropProgressViewController.h"
 #import "ModalEditor.h"
 
-extern NSBundle* getResourceBundle();
-
 
 typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 	AHAModalEditModeNone,
@@ -157,7 +155,7 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 				 @"Must segue to modal editor for editTitle");
 
 		_modalEditMode = AHAModalEditModeTitle;
-		[editor setTitle:NSLocalizedStringFromTableInBundle( @"Title of your piece", @"UserFacingText", getResourceBundle(), nil )
+		[editor setTitle:NSLocalizedStringFromTableInBundle( @"Title of your piece", @"UserFacingText", AHAGetResourceBundle(), nil )
 			   maxLength:50
 					text:_titleLabel.text
 				   style:_titleLabel.font];
@@ -171,7 +169,7 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 				 @"Must segue to modal editor for editDescription");
 
 		_modalEditMode = AHAModalEditModeDescription;
-		[editor setTitle:NSLocalizedStringFromTableInBundle( @"Description and tags", @"UserFacingText", getResourceBundle(), nil )
+		[editor setTitle:NSLocalizedStringFromTableInBundle( @"Description and tags", @"UserFacingText", AHAGetResourceBundle(), nil )
 			   maxLength:140
 					text:_descriptionLabel.text
 				   style:_descriptionLabel.font];
@@ -185,10 +183,10 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 	[UIView transitionWithView:_listedCaption duration:0.25 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
 		
 		if (sender.on) {
-			self->_listedCaption.text = NSLocalizedStringFromTableInBundle( @"Anyone can see this", @"UserFacingText", getResourceBundle(), nil );
+			self->_listedCaption.text = NSLocalizedStringFromTableInBundle( @"Anyone can see this", @"UserFacingText", AHAGetResourceBundle(), nil );
 		}
 		else {
-			self->_listedCaption.text = NSLocalizedStringFromTableInBundle( @"Only people with a link can see this", @"UserFacingText", getResourceBundle(), nil );
+			self->_listedCaption.text = NSLocalizedStringFromTableInBundle( @"Only people with a link can see this", @"UserFacingText", AHAGetResourceBundle(), nil );
 		}
 	} completion:nil];
 
