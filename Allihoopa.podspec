@@ -34,7 +34,7 @@ DESC
 
   s.source_files  = "Allihoopa", "Allihoopa/Drop"
   s.resource_bundles = {
-    "Allihoopa" => ["Allihoopa/Drop/*.storyboard"]
+    "Allihoopa" => ["Allihoopa/Drop/Base.lproj/*.*","Allihoopa/Drop/ja.lproj/*.*"]
   }
 
   s.dependency 'AllihoopaCore', '~> 0.2.7'
