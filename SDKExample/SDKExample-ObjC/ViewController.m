@@ -34,6 +34,7 @@
 																 loopMarkers:[[AHALoopMarkers alloc] initWithStartMicroseconds:12 endMicroseconds:34]
 															   timeSignature:[[AHATimeSignature alloc] initWithUpper:8 lower:4]
 															 basedOnPieceIDs:@[]
+																	tonality:[AHATonality tonalityWithTonalData:AHAGetMajorScale(0) root:0]
 																	   error:&error];
 
 	if (error) {
@@ -57,6 +58,7 @@
 																 loopMarkers:[[AHALoopMarkers alloc] initWithStartMicroseconds:12 endMicroseconds:34]
 															   timeSignature:[[AHATimeSignature alloc] initWithUpper:8 lower:4]
 															 basedOnPieceIDs:@[]
+																	tonality:[AHATonality tonalityWithTonalData:AHAGetMajorScale(0) root:0]
 																	   error:&error];
 
 	if (error) {

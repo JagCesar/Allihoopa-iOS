@@ -26,7 +26,8 @@ class ViewController: UIViewController {
 		                                  tempo: AHAFixedTempo(fixedTempo: 123),
 		                                  loopMarkers: AHALoopMarkers(startMicroseconds: 12, endMicroseconds: 34),
 		                                  timeSignature: AHATimeSignature(upper: 8, lower: 4),
-		                                  basedOn: [])
+		                                  basedOn: [],
+		                                  tonality: AHATonality(tonalScale: AHAGetMajorScale(0), root: 0))
 
 		let vc = AHAAllihoopaSDK.shared().dropViewController(forPiece: piece, delegate: self)
 
@@ -39,7 +40,8 @@ class ViewController: UIViewController {
 		                                  tempo: AHAFixedTempo(fixedTempo: 123),
 		                                  loopMarkers: AHALoopMarkers(startMicroseconds: 12, endMicroseconds: 34),
 		                                  timeSignature: AHATimeSignature(upper: 8, lower: 4),
-		                                  basedOn: [])
+		                                  basedOn: [],
+		                                  tonality: AHATonality(tonalScale: AHAGetMajorScale(0), root: 0))
 
 		let vc = UIActivityViewController(
 			activityItems: [],

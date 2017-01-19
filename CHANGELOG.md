@@ -2,6 +2,15 @@
 Change log
 ==========
 
+## [1.1.0] — 2017-01-19
+
+Updated AllihoopaCore dependency to 1.0.0.
+
+### Added
+
+* Japanese localization support in drop flow
+* Tonality support when dropping and importing pieces (from AllihoopaCore)
+
 ## [1.0.0] — 2017-01-04
 
 ### Breaking changes
@@ -91,6 +100,7 @@ Change log
 
 Empty release
 
+[1.1.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/0.4.2...1.0.0
 [0.4.2]: https://github.com/allihoopa/Allihoopa-iOS/compare/0.4.1...0.4.2
 [0.4.1]: https://github.com/allihoopa/Allihoopa-iOS/compare/0.4.0...0.4.1
