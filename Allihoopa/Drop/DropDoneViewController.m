@@ -1,4 +1,5 @@
 #import "DropDoneViewController.h"
+#import "../Allihoopa+Internal.h"
 
 @interface AHADropDoneViewController ()
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
@@ -31,7 +32,7 @@
 
 	[title appendAttributedString:
 	 [[NSAttributedString alloc]
-	  initWithString:@"Yay, you dropped your piece "
+	  initWithString:NSLocalizedStringFromTableInBundle( @"You dropped your piece:\n", @"UserFacingText", AHAGetResourceBundle(), nil )
 	  attributes:@{ NSFontAttributeName: titleFont }]];
 
 	[title appendAttributedString:

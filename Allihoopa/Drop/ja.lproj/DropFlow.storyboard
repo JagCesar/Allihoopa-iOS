@@ -24,17 +24,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="400" height="1100"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dropping your piece to Allihoopa..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xer-ag-sDb">
-                                <rect key="frame" x="74.5" y="516.5" width="251.5" height="67.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xer-ag-sDb">
+                                <rect key="frame" x="91" y="516.5" width="219.5" height="67.5"/>
+                                <string key="text">Allihoopaへ
+アップロード中…</string>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qAg-kq-XAh">
-                                <rect key="frame" x="57.5" y="1033.5" width="285" height="46.5"/>
+                                <rect key="frame" x="87.5" y="1046.5" width="226.5" height="33.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't close this screen or you can kiss your piece bye bye" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0u6-LC-DH9">
-                                        <rect key="frame" x="40" y="10" width="205" height="26.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="画面を閉じないでください。" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0u6-LC-DH9">
+                                        <rect key="frame" x="40" y="10" width="146.5" height="13.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
                                         <color key="textColor" red="0.29019609089999998" green="0.29019609089999998" blue="0.29019609089999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -70,7 +72,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="2W8-Hk-PTU">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="d3B-e7-mlK">
+                        <barButtonItem key="leftBarButtonItem" title="キャンセル" id="d3B-e7-mlK">
                             <connections>
                                 <segue destination="wg3-eg-0AR" kind="unwind" unwindAction="cancelDropUnwind:" id="fn5-Kd-0Xm"/>
                             </connections>
@@ -84,7 +86,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8k7-lX-QZO" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="wg3-eg-0AR" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1617.5999999999999" y="131.33433283358323"/>
+            <point key="canvasLocation" x="2093" y="175"/>
         </scene>
         <!--Drop Error View Controller-->
         <scene sceneID="c69-AV-VD2">
@@ -98,11 +100,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oops! Something went wrong. Please try again later." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ma7-hc-m8i">
-                                <rect key="frame" x="47.5" y="283" width="280.5" height="101.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ma7-hc-m8i">
+                                <rect key="frame" x="45.5" y="300.5" width="284" height="67.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="300" id="8Pi-GX-HwO"/>
                                 </constraints>
+                                <string key="text">アップロード失敗、
+後で試してください。</string>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -116,7 +120,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="xVD-1n-nvX">
-                        <barButtonItem key="leftBarButtonItem" title="Close" id="eaB-m6-sjq">
+                        <barButtonItem key="leftBarButtonItem" title="閉じる" id="eaB-m6-sjq">
                             <connections>
                                 <segue destination="TmN-ON-0u8" kind="unwind" unwindAction="cancelDropUnwind:" id="fmV-xw-7z1"/>
                             </connections>
@@ -141,19 +145,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="500"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Yay, you dropped your piece BOP IT" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="esY-88-vvV">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" ambiguous="YES" misplaced="YES" text="Yay, you dropped your piece BOP IT" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="esY-88-vvV">
                                 <rect key="frame" x="23.5" y="111" width="273.5" height="20.5"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="mWl-PI-raJ" customClass="AHAFrameworkImageView">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mWl-PI-raJ" customClass="AHAFrameworkImageView">
                                 <rect key="frame" x="152" y="72" width="16" height="16"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="imageName" value="AHACheckmark"/>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NSj-Va-aaF" customClass="AHAFrameworkImageView">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NSj-Va-aaF" customClass="AHAFrameworkImageView">
                                 <rect key="frame" x="131" y="218.5" width="58" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="NSj-Va-aaF" secondAttribute="height" multiplier="1036:290" id="CII-VS-w1M"/>
@@ -162,7 +166,7 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="imageName" value="AHARecordSleeveShadow"/>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xbW-j3-0Sg" customClass="AHAFrameworkImageView">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xbW-j3-0Sg" customClass="AHAFrameworkImageView">
                                 <rect key="frame" x="140" y="151.5" width="40.5" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="300" id="GAd-iz-y6h"/>
@@ -172,7 +176,7 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="imageName" value="AHARecordPattern"/>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="grp-EH-RzH">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="grp-EH-RzH">
                                 <rect key="frame" x="140" y="191.5" width="40.5" height="40"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nKJ-W7-FvY">
@@ -181,7 +185,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="cEa-aL-Ba1"/>
                                 </constraints>
-                                <state key="normal" title="VIEW ON ALLIHOOPA">
+                                <state key="normal" title="ALLIHOOPAで見る">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -213,7 +217,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="8Ez-wl-rS9">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="cvG-UW-kda">
+                        <barButtonItem key="rightBarButtonItem" title="完了" id="cvG-UW-kda">
                             <connections>
                                 <segue destination="n82-10-kum" kind="unwind" unwindAction="cancelDropUnwind:" id="kIo-Ag-K6E"/>
                             </connections>
@@ -264,7 +268,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title placeholder" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L3g-mq-z5g">
-                                <rect key="frame" x="16" y="36" width="343" height="14.5"/>
+                                <rect key="frame" x="16" y="36" width="343" height="15"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                 <color key="textColor" red="0.78431372549019607" green="0.78431372549019607" blue="0.78431372549019607" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -273,8 +277,8 @@
                                 <rect key="frame" x="0.0" y="617" width="375" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="usU-ZI-Gch">
-                                        <rect key="frame" x="325" y="10" width="42" height="30"/>
-                                        <state key="normal" title="DONE">
+                                        <rect key="frame" x="336" y="10" width="31" height="30"/>
+                                        <state key="normal" title="完了">
                                             <color key="titleColor" red="1" green="0.15294118230000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -282,7 +286,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6rt-iQ-H1a">
-                                        <rect key="frame" x="8" y="19" width="31" height="14.5"/>
+                                        <rect key="frame" x="8" y="19" width="31" height="15"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                         <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -306,7 +310,7 @@
                                 </constraints>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hCy-JZ-rdX">
-                                <rect key="frame" x="16" y="58.5" width="343" height="550.5"/>
+                                <rect key="frame" x="16" y="59" width="343" height="550"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -358,10 +362,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gcb-L3-sfm" userLabel="Content View">
-                                <rect key="frame" x="0.0" y="0.0" width="400" height="687.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="400" height="678"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yhc-oy-qAj" customClass="AHAFrameworkImageView">
-                                        <rect key="frame" x="140.5" y="126.5" width="119" height="119"/>
+                                        <rect key="frame" x="146" y="126.5" width="109" height="109"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="300" id="AKZ-p3-IKV"/>
                                             <constraint firstAttribute="width" secondItem="Yhc-oy-qAj" secondAttribute="height" id="vJA-dh-DEG"/>
@@ -371,10 +375,10 @@
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fzP-I5-Eyk">
-                                        <rect key="frame" x="156.5" y="199.5" width="87" height="30"/>
+                                        <rect key="frame" x="162" y="189.5" width="77" height="30"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.30207688737623761" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                        <state key="normal" title="EDIT COVER">
+                                        <state key="normal" title="画像を設定する">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
@@ -390,7 +394,7 @@
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JyC-AR-XaQ" customClass="AHAFrameworkImageView">
-                                        <rect key="frame" x="182.5" y="20" width="35" height="35"/>
+                                        <rect key="frame" x="183" y="20" width="35" height="35"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="35" id="9WD-mD-FqO"/>
                                             <constraint firstAttribute="width" secondItem="JyC-AR-XaQ" secondAttribute="height" multiplier="1:1" id="JNd-SJ-HB9"/>
@@ -405,14 +409,14 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="El5-gh-hSV">
-                                        <rect key="frame" x="24" y="278" width="25" height="14.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="曲名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="El5-gh-hSV">
+                                        <rect key="frame" x="24" y="268.5" width="25" height="14.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                         <color key="textColor" red="0.78431372549019607" green="0.78431372549019607" blue="0.78431372549019607" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title of piece ansoteuh snoatehuotnneotuhntoehuneothuheusnoeuhtn eosnt uh" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mvx-4U-ftl">
-                                        <rect key="frame" x="24" y="300" width="352" height="64.5"/>
+                                        <rect key="frame" x="24" y="290" width="352" height="64.5"/>
                                         <gestureRecognizers/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                         <nil key="textColor"/>
@@ -421,14 +425,14 @@
                                             <outletCollection property="gestureRecognizers" destination="qGT-9I-nAZ" appends="YES" id="A1d-Wm-QqI"/>
                                         </connections>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description and tags" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gWl-Lf-xT9">
-                                        <rect key="frame" x="24" y="394.5" width="117.5" height="14.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="曲の説明とタグ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gWl-Lf-xT9">
+                                        <rect key="frame" x="24" y="384.5" width="86" height="14.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                         <color key="textColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sample description" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iQZ-63-vJ7">
-                                        <rect key="frame" x="24" y="417" width="352" height="18"/>
+                                        <rect key="frame" x="24" y="407" width="352" height="18"/>
                                         <gestureRecognizers/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                         <nil key="textColor"/>
@@ -437,8 +441,8 @@
                                             <outletCollection property="gestureRecognizers" destination="19w-hh-zIr" appends="YES" id="HgE-bG-9Rn"/>
                                         </connections>
                                     </label>
-                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vNX-Vg-9eT">
-                                        <rect key="frame" x="52" y="417" width="324" height="18"/>
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="追加する" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vNX-Vg-9eT">
+                                        <rect key="frame" x="52" y="407" width="324" height="18"/>
                                         <gestureRecognizers/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                         <nil key="textColor"/>
@@ -448,7 +452,7 @@
                                         </connections>
                                     </label>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PXd-YU-D9t" customClass="AHAFrameworkImageView">
-                                        <rect key="frame" x="24" y="417" width="20" height="20"/>
+                                        <rect key="frame" x="24" y="407" width="20" height="20"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="Nhz-z8-Quu"/>
@@ -462,32 +466,32 @@
                                         </connections>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jtM-rJ-vfa">
-                                        <rect key="frame" x="12" y="454.5" width="376" height="1"/>
+                                        <rect key="frame" x="12" y="445" width="376" height="1"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.076655321782178223" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="vuV-OP-JtB"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visibility" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ayA-yj-bDU">
-                                        <rect key="frame" x="24" y="479.5" width="47.5" height="14.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="公開設定" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ayA-yj-bDU">
+                                        <rect key="frame" x="24" y="470" width="49.5" height="14.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                         <color key="textColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ovl-O2-jVh">
-                                        <rect key="frame" x="24" y="502" width="51" height="31"/>
+                                        <rect key="frame" x="24" y="492.5" width="51" height="31"/>
                                         <connections>
                                             <action selector="onListedChange:" destination="1Kq-4t-IlT" eventType="valueChanged" id="2a7-VM-I8C"/>
                                         </connections>
                                     </switch>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anyone can see this" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PDP-cr-JaF">
-                                        <rect key="frame" x="81" y="510.5" width="295" height="14.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="公開する" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PDP-cr-JaF">
+                                        <rect key="frame" x="81" y="501" width="295" height="14.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                         <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ooH-Fj-lgV">
-                                        <rect key="frame" x="0.0" y="637.5" width="400" height="50"/>
+                                        <rect key="frame" x="0.0" y="628" width="400" height="50"/>
                                         <color key="backgroundColor" red="1" green="0.15294118230000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="lN6-nX-Vgy"/>
@@ -499,14 +503,14 @@
                                             <action selector="commitEditor" destination="1Kq-4t-IlT" eventType="touchUpInside" id="Amq-Cn-6gf"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Also share to" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cVG-G6-sIN">
-                                        <rect key="frame" x="24" y="557" width="74" height="14.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="シェア" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cVG-G6-sIN">
+                                        <rect key="frame" x="24" y="547.5" width="37" height="14.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                         <color key="textColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="IqX-Ia-mvd">
-                                        <rect key="frame" x="24" y="579.5" width="74" height="32"/>
+                                        <rect key="frame" x="24" y="570" width="74" height="32"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gzr-c4-8O4" customClass="AHASecondarySharingServiceButton">
                                                 <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
@@ -599,7 +603,7 @@
                         </constraints>
                     </scrollView>
                     <navigationItem key="navigationItem" id="pEc-21-3WM">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="bXf-zq-rpE">
+                        <barButtonItem key="leftBarButtonItem" title="キャンセル" id="bXf-zq-rpE">
                             <connections>
                                 <segue destination="leU-cz-sMw" kind="unwind" identifier="" unwindAction="cancelDropUnwind:" id="vEO-Hz-U9L"/>
                             </connections>

@@ -155,7 +155,7 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 				 @"Must segue to modal editor for editTitle");
 
 		_modalEditMode = AHAModalEditModeTitle;
-		[editor setTitle:@"Title of your piece"
+		[editor setTitle:NSLocalizedStringFromTableInBundle( @"Title of your piece", @"UserFacingText", AHAGetResourceBundle(), nil )
 			   maxLength:50
 					text:_titleLabel.text
 				   style:_titleLabel.font];
@@ -169,7 +169,7 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 				 @"Must segue to modal editor for editDescription");
 
 		_modalEditMode = AHAModalEditModeDescription;
-		[editor setTitle:@"Description and tags"
+		[editor setTitle:NSLocalizedStringFromTableInBundle( @"Description and tags", @"UserFacingText", AHAGetResourceBundle(), nil )
 			   maxLength:140
 					text:_descriptionLabel.text
 				   style:_descriptionLabel.font];
@@ -181,11 +181,12 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 
 - (IBAction)onListedChange:(UISwitch *)sender {
 	[UIView transitionWithView:_listedCaption duration:0.25 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+		
 		if (sender.on) {
-			self->_listedCaption.text = @"Anyone can see this";
+			self->_listedCaption.text = NSLocalizedStringFromTableInBundle( @"Anyone can see this", @"UserFacingText", AHAGetResourceBundle(), nil );
 		}
 		else {
-			self->_listedCaption.text = @"Only people with a link can see this";
+			self->_listedCaption.text = NSLocalizedStringFromTableInBundle( @"Only people with a link can see this", @"UserFacingText", AHAGetResourceBundle(), nil );
 		}
 	} completion:nil];
 
