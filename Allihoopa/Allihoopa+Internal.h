@@ -10,4 +10,4 @@
 
 #endif
 
-NSBundle* AHAGetResourceBundle();
+NSBundle* AHAGetResourceBundle(void);

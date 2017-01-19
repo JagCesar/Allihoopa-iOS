@@ -9,7 +9,7 @@
 #import "Allihoopa+Internal.h"
 #import "AllihoopaSDK.h"
 
-NSBundle* AHAGetResourceBundle()
+NSBundle* AHAGetResourceBundle(void)
 {
 	NSURL* cocoaPodsBundleURL = [[NSBundle bundleForClass:[AHAAllihoopaSDK class]] URLForResource:@"Allihoopa" withExtension:@"bundle"];
 	NSBundle* assetBundle;
