@@ -26,3 +26,21 @@ NSBundle* AHAGetResourceBundle(void)
 	
 	return assetBundle;
 }
+
+NSBundle* AHAGetCoreResourceBundle(void)
+{
+	NSURL* cocoaPodsBundleURL = [[NSBundle bundleForClass:[AHABaseAllihoopaSDK class]] URLForResource:@"AllihoopaCore" withExtension:@"bundle"];
+	NSBundle* assetBundle;
+
+	if (cocoaPodsBundleURL) {
+		assetBundle = [NSBundle bundleWithURL:cocoaPodsBundleURL];
+	}
+
+	if (!assetBundle) {
+		assetBundle = [NSBundle bundleForClass:[AHABaseAllihoopaSDK class]];
+	}
+
+	NSCAssert( assetBundle, @"Could not find AllihoopaCore resource bundle. Is it included properly?" );
+
+	return assetBundle;
+}

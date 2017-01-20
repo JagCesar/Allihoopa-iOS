@@ -492,7 +492,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="lN6-nX-Vgy"/>
                                         </constraints>
-                                        <state key="normal" title="DROP" image="LogoMarkWhite">
+                                        <state key="normal" title="DROP" image="AHALogoMarkWhite">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -648,7 +648,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LogoMarkWhite" width="81" height="81"/>
+        <image name="AHALogoMarkWhite" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="gTD-Rc-wfL"/>

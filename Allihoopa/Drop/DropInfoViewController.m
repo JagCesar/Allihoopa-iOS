@@ -69,6 +69,10 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 	_descriptionLabel.text = @"";
 	_dropButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
 	_dropButton.titleEdgeInsets = UIEdgeInsetsMake(0, -50, 0, 0);
+	[_dropButton setImage:[UIImage imageNamed:@"AHALogoMarkWhite"
+									 inBundle:AHAGetCoreResourceBundle()
+				compatibleWithTraitCollection:nil]
+				 forState:UIControlStateNormal];
 
 	if (_configuration.facebookAppID == nil) {
 		_facebookPostingButton.hidden = YES;

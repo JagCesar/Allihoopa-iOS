@@ -11,3 +11,4 @@
 #endif
 
 NSBundle* AHAGetResourceBundle(void);
+NSBundle* AHAGetCoreResourceBundle(void);
