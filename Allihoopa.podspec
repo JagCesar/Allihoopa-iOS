@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "Allihoopa"
-  s.version      = "1.0.0"
+  s.version      = "1.1.0"
   s.summary      = "SDK to drop and import pieces to and from Allihoopa."
 
   # This description is used to generate tags and improve search results.
@@ -37,6 +37,6 @@ DESC
     "Allihoopa" => ["Allihoopa/Drop/Base.lproj/*.*","Allihoopa/Drop/ja.lproj/*.*"]
   }
 
-  s.dependency 'AllihoopaCore', '~> 0.2.7'
+  s.dependency 'AllihoopaCore', '~> 1.0.0'
  
 end

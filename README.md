@@ -18,7 +18,7 @@ If you use [CocoaPods], you can simply add this SDK to your `Podfile`:
 
 ```ruby
 target 'TargetName' do
-  pod 'Allihoopa', '~> 1.0.0'
+  pod 'Allihoopa', '~> 1.1.0'
 end
 ```
 
@@ -31,7 +31,7 @@ pod install
 If you use [Carthage], you instead add this SDK to your `Cartfile`:
 
 ```
-github "Allihoopa/Allihoopa-iOS" ~> 1.0.0
+github "Allihoopa/Allihoopa-iOS" ~> 1.1.0
 ```
 
 After this, you run `carthage update` to build the framework, and then drag the
@@ -270,7 +270,14 @@ let piece = try! AHADropPieceData(
 
     // If the piece is based on other pieces, provide a list of the IDs of those
     // pieces here.
-    basedOn: [])
+    basedOn: [],
+
+    // If the piece has a known tonality, provide the scale and root here.
+    // Other values are AHATonality.unknown() (default if omitted), and
+    // AHATonality.atonal() for pieces that contain audio that doesn't have a
+    // tonality, e.g. drum loops.
+    tonality: AHATonality(tonalScale: AHAGetMajorScale(4), root: 4)
+)
 ```
 
 ```swift
@@ -342,6 +349,63 @@ If you are already using `UIActivityViewController` to present a share popover
 to your users, you can use `activityForPiece:delegate:` to create a
 `UIActivity`. It has the same interface as for creating the drop view controller
 above, and uses the same delegate protocol.
+
+### Some notes on tonality
+
+#### Representation
+
+In Allihoopa, a piece's tonality can be in one of three different states:
+
+* _Unknown_, used when the application can't determine the tonal content of the
+  piece when dropping.
+* _Atonal_, used when the application knows that the piece does not contain
+  tonal content. This is true in e.g. drum loops.
+* _Tonal_, used when the application knows about the tonal content of the piece.
+
+For pieces with known tonal content, tonality is represented by two values: a
+_scale_ and a _root_. The scale consists of twelve boolean values each
+representing whether that pitch class is a member of the tonality. The root
+indicates on which index in the array the tonality begins.
+
+This can be a bit confusing, but a simple example might help. C major is
+represented by "all white keys" in the scale:
+
+```
+        C  C#   D  D#   E   F  F#   G  G#   A  A#   B
+Scale: [1,  0,  1,  0,  1,  1,  0,  1,  0,  1,  0,  1]
+Root:   0
+```
+
+If we instead look at A minor; the parallel minor scale of C major, we can see
+that the scale array is the same, but the root has been shifted:
+
+```
+        C  C#   D  D#   E   F  F#   G  G#   A  A#   B
+Scale: [1,  0,  1,  0,  1,  1,  0,  1,  0,  1,  0,  1]
+Root:                                       9
+```
+
+#### Application
+
+How to deal with the tonality metadata of a piece is very dependent on the type
+of app. Generally, if your app contains a tonality field in its document format
+it _should_ be used both when importing and dropping. For a more in-depth
+integration you can look at [Take], our vocal recording app:
+
+* If a known and defined tonality is available, it is used to set up the auto-
+  tuning system to only tune to pitches that are in the song's key.
+* The user can adjust which key they want to sing in. The imported piece is
+  pitch shifted to accomodate for the new key, _unless_ it's an atonal piece in
+  which case pitch shifting makes no sense.
+
+#### Display
+
+Since there are 12 * 2^12 possible values for the tonality field, we make no
+attempt at displaying the _name_ of the tonality correctly. The Allihoopa
+website is currently very naive: it completely ignores the root value and shows
+the name of the matching major scale. If no matching major scale can be found,
+the website will instead display "Exotic". Both examples above would be labeled
+"C".
 
 ## Importing pieces
 

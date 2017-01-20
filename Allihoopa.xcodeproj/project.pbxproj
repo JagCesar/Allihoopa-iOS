@@ -22,7 +22,6 @@
 		FA77A9891E1CFD3600BF0619 /* AllihoopaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA77A9881E1CFD3600BF0619 /* AllihoopaTests.m */; };
 		FA77A98A1E1CFD6000BF0619 /* AllihoopaCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEAF3B71E1BFD6C001F42FA /* AllihoopaCore.framework */; };
 		FA77A98C1E1CFDEA00BF0619 /* AllihoopaCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FAEAF3B71E1BFD6C001F42FA /* AllihoopaCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		FA7AADE81DB74BE500935F67 /* AppledocSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA7AADE71DB74BE500935F67 /* AppledocSettings.plist */; };
 		FAA548C61E1C038000BA1957 /* DropDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FAA548C01E1BFEF100BA1957 /* DropDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FABAB31A1DB12278000E1A0D /* ModalEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = FABAB3191DB12278000E1A0D /* ModalEditor.m */; };
 		FAC2119F1DAFBEB80066FFA9 /* DropErrorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC2119E1DAFBEB80066FFA9 /* DropErrorViewController.m */; };
@@ -63,6 +62,7 @@
 		6354B0571E281C3A003F9801 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/UserFacingText.strings; sourceTree = "<group>"; };
 		6382C2FE1E2430F00021D363 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ja; path = ja.lproj/DropFlow.storyboard; sourceTree = "<group>"; };
 		63FCFD9B1E2E6A91009D256E /* Allihoopa+Internal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Allihoopa+Internal.m"; sourceTree = "<group>"; };
+		FA1E34E01E3183DD00CDEB53 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		FA35271A1D9D556500D2F91B /* Activity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Activity.h; sourceTree = "<group>"; };
 		FA35271C1D9D562800D2F91B /* Activity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Activity.m; sourceTree = "<group>"; };
 		FA45CB821D9C1C4C0082846C /* DropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropViewController.m; sourceTree = "<group>"; };
@@ -169,6 +169,7 @@
 				FA7AADE71DB74BE500935F67 /* AppledocSettings.plist */,
 				FAF525921D940185002CE6BF /* Cartfile */,
 				FAF525941D9401B3002CE6BF /* Cartfile.resolved */,
+				FA1E34E01E3183DD00CDEB53 /* CHANGELOG.md */,
 				FAF525901D940015002CE6BF /* LICENSE */,
 				FAF5259C1D9409AC002CE6BF /* README.md */,
 				FA5FD38B1D90180F0010E978 /* Products */,
@@ -314,7 +315,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6354B0511E281A6A003F9801 /* UserFacingText.strings in Resources */,
-				FA7AADE81DB74BE500935F67 /* AppledocSettings.plist in Resources */,
 				6382C2FB1E2430420021D363 /* DropFlow.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
