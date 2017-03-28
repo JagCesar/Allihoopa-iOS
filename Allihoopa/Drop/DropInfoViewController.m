@@ -92,11 +92,19 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 	[self performSegueWithIdentifier:@"startDrop" sender:nil];
 }
 
+- (void)setDefaultCoverImage:(UIImage *)defaultImage {
+	_defaultCoverImage = defaultImage;
+
+	if (_coverImageView && !_coverImageOverridden) {
+		_coverImageView.image = defaultImage;
+	}
+}
+
 - (IBAction)commitEditor {
 	id<AHADropInfoViewControllerDelegate> delegate = _dropInfoDelegate;
 	NSAssert(delegate != nil, @"Drop info delegate must be alive when dropping");
 
-	UIImage* coverImage = _coverImageOverridden ? _coverImageView.image : nil;
+	UIImage* coverImage = _coverImageOverridden ? _coverImageView.image : _defaultCoverImage;
 
 	AHADropInfo* info = [[AHADropInfo alloc] initWithTitle:_titleLabel.text
 										  pieceDescription:_descriptionLabel.text
