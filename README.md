@@ -18,7 +18,7 @@ If you use [CocoaPods], you can simply add this SDK to your `Podfile`:
 
 ```ruby
 target 'TargetName' do
-  pod 'Allihoopa', '~> 1.1.0'
+  pod 'Allihoopa', '~> 1.2.0'
 end
 ```
 
@@ -31,7 +31,7 @@ pod install
 If you use [Carthage], you instead add this SDK to your `Cartfile`:
 
 ```
-github "Allihoopa/Allihoopa-iOS" ~> 1.1.0
+github "Allihoopa/Allihoopa-iOS" ~> 1.2.0
 ```
 
 After this, you run `carthage update` to build the framework, and then drag the
@@ -421,8 +421,9 @@ func openPiece(fromAllihoopa piece: AHAPiece?, error: Error?) {
     if let piece = piece {
         // The user wanted to open a piece
 
-        // Download the mix stem audio in Ogg format. You can also use .wave
-        piece.downloadMixStem(format: .oggVorbis, completion: { (data, error) in
+        // Download the mix stem audio in AAC/M4A format. You can also use .wave
+        // and .oggVorbis
+        piece.downloadMixStem(format: .AACM4A, completion: { (data, error) in
             if let data = data {
                 // Data downloaded successfully
             }
@@ -441,7 +442,7 @@ func openPiece(fromAllihoopa piece: AHAPiece?, error: Error?) {
 - (void)openPieceFromAllihoopa:(AHAPiece*)piece error:(NSError*)error {
     if (piece != nil) {
         // The user wanted to open a piece
-        [piece downloadMixStemWithFormat:AHAAudioFormatOggVorbis completion:^(NSData* data, NSError* error) {
+        [piece downloadMixStemWithFormat:AHAAudioFormatAACM4A completion:^(NSData* data, NSError* error) {
             if (data != nil) {
                 // Data downloaded successfully
             }

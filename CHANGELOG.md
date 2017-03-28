@@ -2,6 +2,15 @@
 Change log
 ==========
 
+## [1.2.0] — 2017-03-28
+
+Updated AllihoopaCore dependency to 1.1.0.
+
+### Bugfixes
+
+* Providing a cover image through the drop delegate did not work
+* A Storyboard asset warning was silenced
+
 ## [1.1.0] — 2017-01-19
 
 Updated AllihoopaCore dependency to 1.0.0.
@@ -100,6 +109,7 @@ Updated AllihoopaCore dependency to 1.0.0.
 
 Empty release
 
+[1.2.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/0.4.2...1.0.0
 [0.4.2]: https://github.com/allihoopa/Allihoopa-iOS/compare/0.4.1...0.4.2
