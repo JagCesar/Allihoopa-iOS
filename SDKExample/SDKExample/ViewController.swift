@@ -22,7 +22,7 @@ class ViewController: UIViewController {
 
 	@IBAction func drop() {
 		let piece = try! AHADropPieceData(defaultTitle: "Test title",
-		                                  lengthMicroseconds: 50000,
+		                                  lengthMicroseconds: 10000000,
 		                                  tempo: AHAFixedTempo(fixedTempo: 123),
 		                                  loopMarkers: AHALoopMarkers(startMicroseconds: 12, endMicroseconds: 34),
 		                                  timeSignature: AHATimeSignature(upper: 8, lower: 4),
@@ -36,7 +36,7 @@ class ViewController: UIViewController {
 
 	@IBAction func share(_ sender: UIView?) {
 		let piece = try! AHADropPieceData(defaultTitle: "Test title",
-		                                  lengthMicroseconds: 50000,
+		                                  lengthMicroseconds: 10000000,
 		                                  tempo: AHAFixedTempo(fixedTempo: 123),
 		                                  loopMarkers: AHALoopMarkers(startMicroseconds: 12, endMicroseconds: 34),
 		                                  timeSignature: AHATimeSignature(upper: 8, lower: 4),

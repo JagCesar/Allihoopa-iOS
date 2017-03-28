@@ -29,7 +29,7 @@
 - (IBAction)drop {
 	NSError* error;
 	AHADropPieceData* piece = [[AHADropPieceData alloc] initWithDefaultTitle:@"Test title"
-														  lengthMicroseconds:50000
+														  lengthMicroseconds:10000000
 																	   tempo:[[AHAFixedTempo alloc] initWithFixedTempo:123]
 																 loopMarkers:[[AHALoopMarkers alloc] initWithStartMicroseconds:12 endMicroseconds:34]
 															   timeSignature:[[AHATimeSignature alloc] initWithUpper:8 lower:4]
@@ -53,7 +53,7 @@
 - (IBAction)share:(UIView*)sender {
 	NSError* error;
 	AHADropPieceData* piece = [[AHADropPieceData alloc] initWithDefaultTitle:@"Test title"
-														  lengthMicroseconds:50000
+														  lengthMicroseconds:10000000
 																	   tempo:[[AHAFixedTempo alloc] initWithFixedTempo:123]
 																 loopMarkers:[[AHALoopMarkers alloc] initWithStartMicroseconds:12 endMicroseconds:34]
 															   timeSignature:[[AHATimeSignature alloc] initWithUpper:8 lower:4]
