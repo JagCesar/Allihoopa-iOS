@@ -37,6 +37,6 @@ DESC
     "Allihoopa" => ["Allihoopa/Drop/Base.lproj/*.*","Allihoopa/Drop/ja.lproj/*.*"]
   }
 
-  s.dependency 'AllihoopaCore', '~> 1.0.0'
+  s.dependency 'AllihoopaCore', '~> 1.1.0'
  
 end
