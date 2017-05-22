@@ -108,4 +108,8 @@
 	completion(nil);
 }
 
+- (void)renderAttachmentForPiece:(AHADropPieceData *)piece completion:(void (^)(AHAAttachmentBundle * _Nullable, NSError * _Nullable))completion {
+	completion(nil, nil)
+}
+
 @end

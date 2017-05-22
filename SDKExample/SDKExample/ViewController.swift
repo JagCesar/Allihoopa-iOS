@@ -78,4 +78,8 @@ extension ViewController : AHADropDelegate {
 	func renderCoverImage(forPiece piece: AHADropPieceData, completion: @escaping (UIImage?) -> Void) {
 		completion(nil)
 	}
+
+	func renderAttachment(forPiece piece: AHADropPieceData, completion: @escaping (AHAAttachmentBundle?, Error?) -> Void) {
+		completion(nil, nil)
+	}
 }
