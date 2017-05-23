@@ -288,13 +288,23 @@ extension ViewController : AHADropDelegate {
     //
     // The mix stem is mandatory.
     func renderMixStem(forPiece piece: AHADropPieceData, completion: @escaping (AHAAudioDataBundle?, Error?) -> Void) {
+		...
     }
 
     // You can supply a default cover image that the user can upload or change.
     // Call the completion handler with an image of size 640x640 px, or nil.
     func renderCoverImage(forPiece piece: AHADropPieceData, completion: @escaping (UIImage?) -> Void) {
-        completion(nil)
+		...
     }
+
+	// You can supply a file as an attachment to the piece. The file can be of 
+	// any format. This file can be read back by clients when fetching a piece.
+	// Attachment max size is 30mb.
+	// Call the completion handler with a data bundle instance on the main queue 
+	// when data is available.
+	renderAttachment(forPiece piece: AHADropPieceData, completion: @escaping (AHAAttachmentBundle?, Error?) -> Void) {
+		...
+	}
 
     // If the audio to be placed on the timeline is different from what users
     // should listen to, use this delegate method to provide a "preview"
