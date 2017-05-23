@@ -25,7 +25,7 @@ changes in this project. To do that, build the Core library through Carthage and
 ```
 # In the AllihoopaCore-ObjC checkout
 carthage build --no-skip-current --platform ios --configuration Debug
-cp -r Carthage ../Allihoopa-iosOS
+cp -r Carthage ../Allihoopa-iOS
 ```
 
 This also has the upside of producing a logging debug build with optimizations
