@@ -80,6 +80,20 @@ extension ViewController : AHADropDelegate {
 	}
 
 	func renderAttachment(forPiece piece: AHADropPieceData, completion: @escaping (AHAAttachmentBundle?, Error?) -> Void) {
-		completion(nil, nil)
+		DispatchQueue.global().async {
+			do {
+				let data = try Data(contentsOf: Bundle.main.url(forResource: "drop", withExtension: "wav")!)
+				let bundle = AHAAttachmentBundle(mimeType: "application/reason", data: data)
+
+				DispatchQueue.main.async {
+					completion(bundle, nil)
+				}
+			}
+			catch let error {
+				DispatchQueue.main.async {
+					completion(nil, error)
+				}
+			}
+		}
 	}
 }
