@@ -109,7 +109,22 @@
 }
 
 - (void)renderAttachmentForPiece:(AHADropPieceData *)piece completion:(void (^)(AHAAttachmentBundle * _Nullable, NSError * _Nullable))completion {
-	completion(nil, nil)
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		NSError* error;
+		NSData* data = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"drop" withExtension:@"wav"] options:0 error:&error];
+
+		if (data) {
+			AHAAttachmentBundle* bundle = [[AHAAttachmentBundle alloc] initWithMimeType:@"application/reason" data:data];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				completion(bundle, nil);
+			});
+		}
+		else {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				completion(nil, error);
+			});
+		}
+	});
 }
 
 @end
