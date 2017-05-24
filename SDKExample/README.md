@@ -31,6 +31,8 @@ cp -r Carthage ../Allihoopa-iOS
 This also has the upside of producing a logging debug build with optimizations
 disabled for easier debugging.
 
+Keep in mind to clear cached code in Xcode if there appears to be older lingering
+versions of the codebase: Xcode -> Preferences -> Locations -> Derived Data.
 
 [Carthage]: https://github.com/carthage/carthage
 [Homebrew]: http://brew.sh
