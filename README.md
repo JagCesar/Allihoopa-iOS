@@ -81,7 +81,7 @@ Look in the [SDKExample] folder for instructions how to work on this SDK.
 
 # API documentation
 
-Generated API documentation for the latest release can be found on 
+Generated API documentation for the latest release can be found on
 [http://cocoadocs.org/docsets/Allihoopa](http://cocoadocs.org/docsets/Allihoopa).
 
 ## Setting up the SDK
@@ -256,7 +256,7 @@ let piece = try! AHADropPieceData(
     defaultTitle: "Default title",
     lengthMicroseconds: 100000000,
     // The fixed tempo in BPM. Allowed range: 1 - 999.999 BPM
-    tempo: AHAFixedTempo(fixedTempo: 128), 
+    tempo: AHAFixedTempo(fixedTempo: 128),
 
     // If the piece is a loop, you can provide the loop markers.
     loopMarkers: AHALoopMarkers(startMicroseconds: 0, endMicroseconds: 500000),
@@ -288,12 +288,22 @@ extension ViewController : AHADropDelegate {
     //
     // The mix stem is mandatory.
     func renderMixStem(forPiece piece: AHADropPieceData, completion: @escaping (AHAAudioDataBundle?, Error?) -> Void) {
+		...
     }
 
     // You can supply a default cover image that the user can upload or change.
     // Call the completion handler with an image of size 640x640 px, or nil.
     func renderCoverImage(forPiece piece: AHADropPieceData, completion: @escaping (UIImage?) -> Void) {
-        completion(nil)
+		...
+    }
+
+    // You can supply a file as an attachment to the piece. The file can be of
+    // any format. This file can be read back by clients when fetching a piece.
+    // Attachment max size is 30mb.
+    // Call the completion handler with a data bundle instance on the main queue
+    // when data is available.
+    renderAttachment(forPiece piece: AHADropPieceData, completion: @escaping (AHAAttachmentBundle?, Error?) -> Void) {
+        ...
     }
 
     // If the audio to be placed on the timeline is different from what users

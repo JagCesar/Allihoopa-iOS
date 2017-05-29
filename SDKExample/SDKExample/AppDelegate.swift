@@ -58,6 +58,10 @@ extension AppDelegate: AHAAllihoopaSDKDelegate {
 			piece.downloadCoverImage(completion: { (image, error) in
 				print("Got cover image \(image)")
 			})
+
+			piece.downloadAttachment(mimeType: "application/figure", completion: { (data, error) in
+				print("Got attachment data \(data)")
+			})
 		} else {
 			print("Error: \(error!)")
 		}

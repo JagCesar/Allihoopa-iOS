@@ -78,4 +78,22 @@ extension ViewController : AHADropDelegate {
 	func renderCoverImage(forPiece piece: AHADropPieceData, completion: @escaping (UIImage?) -> Void) {
 		completion(nil)
 	}
+
+	func renderAttachment(forPiece piece: AHADropPieceData, completion: @escaping (AHAAttachmentBundle?, Error?) -> Void) {
+		DispatchQueue.global().async {
+			do {
+				let data = try Data(contentsOf: Bundle.main.url(forResource: "drop", withExtension: "figure")!)
+				let bundle = AHAAttachmentBundle(mimeType: "application/figure", data: data)
+
+				DispatchQueue.main.async {
+					completion(bundle, nil)
+				}
+			}
+			catch let error {
+				DispatchQueue.main.async {
+					completion(nil, error)
+				}
+			}
+		}
+	}
 }

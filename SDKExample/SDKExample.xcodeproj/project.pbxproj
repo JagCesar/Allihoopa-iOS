@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F67D9831ED47C1200A91693 /* drop.figure in Resources */ = {isa = PBXBuildFile; fileRef = 3F67D9821ED47C1200A91693 /* drop.figure */; };
+		3F67D9841ED47C1200A91693 /* drop.figure in Resources */ = {isa = PBXBuildFile; fileRef = 3F67D9821ED47C1200A91693 /* drop.figure */; };
 		FA1313F01DE5A90000378FDE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1313EF1DE5A90000378FDE /* main.m */; };
 		FA1313F31DE5A90000378FDE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1313F21DE5A90000378FDE /* AppDelegate.m */; };
 		FA1313F61DE5A90000378FDE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1313F51DE5A90000378FDE /* ViewController.m */; };
@@ -59,6 +61,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3F67D9821ED47C1200A91693 /* drop.figure */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = drop.figure; sourceTree = "<group>"; };
 		FA1313EC1DE5A90000378FDE /* SDKExample-ObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SDKExample-ObjC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA1313EF1DE5A90000378FDE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FA1313F11DE5A90000378FDE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -144,6 +147,7 @@
 		FA3527261D9E8A7F00D2F91B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3F67D9821ED47C1200A91693 /* drop.figure */,
 				FA3527271D9E8A9600D2F91B /* drop.wav */,
 			);
 			path = Resources;
@@ -272,6 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA1313FE1DE5A90100378FDE /* LaunchScreen.storyboard in Resources */,
+				3F67D9841ED47C1200A91693 /* drop.figure in Resources */,
 				FA1314081DE5CC4800378FDE /* drop.wav in Resources */,
 				FA1313FB1DE5A90100378FDE /* Assets.xcassets in Resources */,
 				FA1313F91DE5A90100378FDE /* Main.storyboard in Resources */,
@@ -283,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA3527281D9E8A9600D2F91B /* drop.wav in Resources */,
+				3F67D9831ED47C1200A91693 /* drop.figure in Resources */,
 				FAF525DE1D9531E7002CE6BF /* LaunchScreen.storyboard in Resources */,
 				FAF525DB1D9531E7002CE6BF /* Assets.xcassets in Resources */,
 				FAF525D91D9531E7002CE6BF /* Main.storyboard in Resources */,

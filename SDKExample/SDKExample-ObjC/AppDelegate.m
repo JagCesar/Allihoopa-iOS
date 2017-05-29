@@ -62,6 +62,10 @@
 		[piece downloadCoverImage:^(UIImage * _Nullable image, NSError * _Nullable error) {
 			NSLog(@"Got cover image %@", image);
 		}];
+
+		[piece downloadAttachment:@"application/figure" completion:^(NSData * _Nullable data, NSError * _Nullable error) {
+			NSLog(@"Got attachment data %@", data);
+		}];
 	}
 }
 
