@@ -9,6 +9,7 @@
 @property (strong, nonatomic) IBOutlet UIView* buttonPlaceholder;
 @property (strong, nonatomic) IBOutlet UILabel* characterCountLabel;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint* bottomConstraint;
+@property (strong, nonatomic) IBOutlet UIButton* doneButton;
 
 @end
 
@@ -18,6 +19,7 @@
 	NSString* _title;
 	NSString* _initialText;
 	UIFont* _textFont;
+    BOOL _notEmpty;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -77,7 +79,7 @@
 	return _textEditor.text;
 }
 
-- (void)setTitle:(NSString *)title maxLength:(NSInteger)maxLength text:(NSString *)text style:(UIFont *)font {
+- (void)setTitle:(NSString *)title maxLength:(NSInteger)maxLength text:(NSString *)text style:(UIFont *)font notEmpty:(BOOL)notEmpty {
 	NSAssert(title != nil, @"Title must be set");
 	NSAssert(text != nil, @"Text must be set");
 	NSAssert(maxLength > 0, @"Max length must be positive");
@@ -87,6 +89,7 @@
 	_title = title;
 	_maxLength = maxLength;
 	_textFont = font;
+    _notEmpty = notEmpty;
 }
 
 #pragma mark - Private API
@@ -133,6 +136,9 @@
 #pragma mark - UITextViewDelegate
 
 - (void)textViewDidChange:(__unused UITextView *)textView {
+    if (_notEmpty) {
+        _doneButton.enabled = textView.text.length > 0;
+    }
 	[self updateCharacterCountLabel];
 }
 

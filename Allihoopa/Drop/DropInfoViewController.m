@@ -170,7 +170,8 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 		[editor setTitle:NSLocalizedStringFromTableInBundle( @"Title of your piece", @"UserFacingText", AHAGetResourceBundle(), nil )
 			   maxLength:50
 					text:_titleLabel.text
-				   style:_titleLabel.font];
+				   style:_titleLabel.font
+                notEmpty:YES];
 	}
 	else if ([segue.identifier isEqualToString:@"editDescription"]) {
 		NSAssert(_modalEditMode == AHAModalEditModeNone,
@@ -184,7 +185,8 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 		[editor setTitle:NSLocalizedStringFromTableInBundle( @"Description and tags", @"UserFacingText", AHAGetResourceBundle(), nil )
 			   maxLength:140
 					text:_descriptionLabel.text
-				   style:_descriptionLabel.font];
+				   style:_descriptionLabel.font
+                notEmpty:NO];
 	}
 	else {
 		AHALog(@"Prepare for segue: %@", segue);
