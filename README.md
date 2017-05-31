@@ -41,12 +41,12 @@ resulting `Allihoopa.framework` _and_ `AllihoopaCore.framework` from the
 
 ### Manual build
 
-If you want, you can include the `Allihoopa-macOS` project as a sub-project
+If you want, you can include the `Allihoopa-iOS` project as a sub-project
 to your application and build the the framework as a dependency. In this case,
 you will need to include
 [AllihoopaCore-ObjC](https://github.com/allihoopa/AllihoopaCore-ObjC) too as a
 dependency since this project share a lot of code and functionality with the
-macOS SDK.
+iOS SDK.
 
 If you use one of the methods described above, this dependency is managed
 automatically for you.
