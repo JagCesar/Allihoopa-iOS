@@ -19,7 +19,7 @@
 	NSString* _title;
 	NSString* _initialText;
 	UIFont* _textFont;
-    BOOL _notEmpty;
+	BOOL _notEmpty;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -89,7 +89,7 @@
 	_title = title;
 	_maxLength = maxLength;
 	_textFont = font;
-    _notEmpty = notEmpty;
+	_notEmpty = notEmpty;
 }
 
 #pragma mark - Private API
