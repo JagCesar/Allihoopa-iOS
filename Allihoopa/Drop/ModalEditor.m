@@ -137,7 +137,8 @@
 
 - (void)textViewDidChange:(__unused UITextView *)textView {
     if (_notEmpty) {
-        _doneButton.enabled = textView.text.length > 0;
+        NSString* trimmed = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        _doneButton.enabled = trimmed.length > 0;
     }
 	[self updateCharacterCountLabel];
 }
