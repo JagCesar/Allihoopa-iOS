@@ -136,7 +136,7 @@
 
 #pragma mark - UITextViewDelegate
 
-- (void)textViewDidChange:(__unused UITextView *)textView {
+- (void)textViewDidChange:(UITextView *)textView {
     if (_requiresNonEmptyText) {
         NSString* trimmed = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         _doneButton.enabled = trimmed.length > 0;
