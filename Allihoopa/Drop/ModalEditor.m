@@ -10,7 +10,6 @@
 @property (strong, nonatomic) IBOutlet UILabel* characterCountLabel;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint* bottomConstraint;
 @property (strong, nonatomic) IBOutlet UIButton* doneButton;
-@property (strong, nonatomic) IBOutlet UIButton* cancelButton;
 
 @end
 
