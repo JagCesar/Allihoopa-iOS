@@ -281,7 +281,7 @@
                                             <color key="titleColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="Pom-gG-ray" kind="unwind" identifier="endModalEditor" unwindAction="unwindFromModalEditor:" id="rK5-Zt-G6c"/>
+                                            <segue destination="Pom-gG-ray" kind="unwind" unwindAction="unwindFromModalEditor:" id="Pb9-DV-aS6"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6rt-iQ-H1a">
@@ -297,15 +297,27 @@
                                             <constraint firstAttribute="height" constant="1" id="7jB-i3-ppj"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="35Q-Bc-hRY">
+                                        <rect key="frame" x="249" y="10" width="59" height="30"/>
+                                        <state key="normal" title="CANCEL">
+                                            <color key="titleColor" red="1" green="0.15294118230000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="Pom-gG-ray" kind="unwind" unwindAction="cancelFromModalEditor:" id="zyM-aS-jZ2"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="s0S-UX-hQy" firstAttribute="top" secondItem="fS1-G8-kfx" secondAttribute="top" id="13f-V2-EpS"/>
                                     <constraint firstAttribute="trailing" secondItem="s0S-UX-hQy" secondAttribute="trailing" id="HWN-so-Ds6"/>
+                                    <constraint firstItem="35Q-Bc-hRY" firstAttribute="centerY" secondItem="usU-ZI-Gch" secondAttribute="centerY" id="Rkq-CZ-pPl"/>
                                     <constraint firstItem="usU-ZI-Gch" firstAttribute="centerY" secondItem="fS1-G8-kfx" secondAttribute="centerY" id="UMh-Jr-9sX"/>
                                     <constraint firstItem="6rt-iQ-H1a" firstAttribute="baseline" secondItem="usU-ZI-Gch" secondAttribute="baseline" id="bPa-P3-tAU"/>
                                     <constraint firstAttribute="height" constant="50" id="dlW-3A-CJH"/>
                                     <constraint firstItem="s0S-UX-hQy" firstAttribute="leading" secondItem="fS1-G8-kfx" secondAttribute="leading" id="h9p-WM-Mb1"/>
+                                    <constraint firstItem="usU-ZI-Gch" firstAttribute="leading" secondItem="35Q-Bc-hRY" secondAttribute="trailing" constant="8" symbolic="YES" id="jVL-zD-R0e"/>
+                                    <constraint firstItem="usU-ZI-Gch" firstAttribute="leading" secondItem="35Q-Bc-hRY" secondAttribute="trailing" constant="17" id="kLS-TV-C1i"/>
                                 </constraints>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hCy-JZ-rdX">
@@ -338,6 +350,7 @@
                     <connections>
                         <outlet property="bottomConstraint" destination="hrS-bA-FoG" id="OoY-D0-7GF"/>
                         <outlet property="buttonPlaceholder" destination="fS1-G8-kfx" id="kol-kY-al0"/>
+                        <outlet property="cancelButton" destination="35Q-Bc-hRY" id="hTV-C4-ULk"/>
                         <outlet property="characterCountLabel" destination="6rt-iQ-H1a" id="v4V-Jn-hEQ"/>
                         <outlet property="doneButton" destination="usU-ZI-Gch" id="uxy-mc-n8i"/>
                         <outlet property="textEditor" destination="hCy-JZ-rdX" id="zez-eT-br9"/>

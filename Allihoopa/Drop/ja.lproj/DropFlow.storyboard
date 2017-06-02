@@ -282,7 +282,16 @@
                                             <color key="titleColor" red="1" green="0.15294118230000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="Pom-gG-ray" kind="unwind" identifier="endModalEditor" unwindAction="unwindFromModalEditor:" id="rK5-Zt-G6c"/>
+                                            <segue destination="Pom-gG-ray" kind="unwind" unwindAction="unwindFromModalEditor:" id="KHL-h9-YcH"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BdE-dK-HL4">
+                                        <rect key="frame" x="251" y="10" width="77" height="30"/>
+                                        <state key="normal" title="キャンセル">
+                                            <color key="titleColor" red="1" green="0.15294118230000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="Pom-gG-ray" kind="unwind" unwindAction="cancelFromModalEditor:" id="hKX-DV-9S9"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6rt-iQ-H1a">
@@ -303,6 +312,7 @@
                                 <constraints>
                                     <constraint firstItem="s0S-UX-hQy" firstAttribute="top" secondItem="fS1-G8-kfx" secondAttribute="top" id="13f-V2-EpS"/>
                                     <constraint firstAttribute="trailing" secondItem="s0S-UX-hQy" secondAttribute="trailing" id="HWN-so-Ds6"/>
+                                    <constraint firstItem="usU-ZI-Gch" firstAttribute="leading" secondItem="BdE-dK-HL4" secondAttribute="trailing" constant="8" symbolic="YES" id="U1P-MO-kBR"/>
                                     <constraint firstItem="usU-ZI-Gch" firstAttribute="centerY" secondItem="fS1-G8-kfx" secondAttribute="centerY" id="UMh-Jr-9sX"/>
                                     <constraint firstItem="6rt-iQ-H1a" firstAttribute="baseline" secondItem="usU-ZI-Gch" secondAttribute="baseline" id="bPa-P3-tAU"/>
                                     <constraint firstAttribute="height" constant="50" id="dlW-3A-CJH"/>
@@ -339,6 +349,7 @@
                     <connections>
                         <outlet property="bottomConstraint" destination="hrS-bA-FoG" id="OoY-D0-7GF"/>
                         <outlet property="buttonPlaceholder" destination="fS1-G8-kfx" id="kol-kY-al0"/>
+                        <outlet property="cancelButton" destination="BdE-dK-HL4" id="wf6-vr-Uo2"/>
                         <outlet property="characterCountLabel" destination="6rt-iQ-H1a" id="v4V-Jn-hEQ"/>
                         <outlet property="textEditor" destination="hCy-JZ-rdX" id="zez-eT-br9"/>
                         <outlet property="titleLabel" destination="L3g-mq-z5g" id="1Em-gl-Ut4"/>

@@ -147,6 +147,18 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 	_modalEditMode = AHAModalEditModeNone;
 }
 
+- (IBAction)cancelFromModalEditor:(UIStoryboardSegue*)segue {
+	AHAModalEditor* editor = segue.sourceViewController;
+	NSAssert([editor isKindOfClass:[AHAModalEditor class]],
+			 @"endModalEditor unwind must originate from ModalEditor");
+	NSAssert(_modalEditMode != AHAModalEditModeNone,
+			 @"Must be in modal editing mode when unwinding");
+	
+	[self.view setNeedsLayout];
+	
+	_modalEditMode = AHAModalEditModeNone;
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(__unused id)sender {
 	if ([segue.identifier isEqualToString:@"startDrop"]) {
 		id<AHADropInfoViewControllerDelegate> delegate = _dropInfoDelegate;
