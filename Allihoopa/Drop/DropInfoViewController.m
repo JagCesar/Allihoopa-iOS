@@ -183,7 +183,7 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 			   maxLength:50
 					text:_titleLabel.text
 				   style:_titleLabel.font
-                notEmpty:YES];
+    requiresNonEmptyText:YES];
 	}
 	else if ([segue.identifier isEqualToString:@"editDescription"]) {
 		NSAssert(_modalEditMode == AHAModalEditModeNone,
@@ -198,7 +198,7 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 			   maxLength:140
 					text:_descriptionLabel.text
 				   style:_descriptionLabel.font
-                notEmpty:NO];
+    requiresNonEmptyText:NO];
 	}
 	else {
 		AHALog(@"Prepare for segue: %@", segue);

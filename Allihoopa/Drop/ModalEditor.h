@@ -8,7 +8,7 @@
 	   maxLength:(NSInteger)maxLength
 			text:(NSString*)text
 		   style:(UIFont*)font
-        notEmpty:(BOOL)notEmpty;
+requiresNonEmptyText:(BOOL)requiresNonEmptyText;
 
 
 @end

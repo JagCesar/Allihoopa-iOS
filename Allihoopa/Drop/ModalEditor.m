@@ -20,7 +20,7 @@
 	NSString* _title;
 	NSString* _initialText;
 	UIFont* _textFont;
-	BOOL _notEmpty;
+	BOOL _requiresNonEmptyText;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -80,7 +80,7 @@
 	return _textEditor.text;
 }
 
-- (void)setTitle:(NSString *)title maxLength:(NSInteger)maxLength text:(NSString *)text style:(UIFont *)font notEmpty:(BOOL)notEmpty {
+- (void)setTitle:(NSString *)title maxLength:(NSInteger)maxLength text:(NSString *)text style:(UIFont *)font requiresNonEmptyText:(BOOL)requiresNonEmptyText {
 	NSAssert(title != nil, @"Title must be set");
 	NSAssert(text != nil, @"Text must be set");
 	NSAssert(maxLength > 0, @"Max length must be positive");
@@ -90,7 +90,7 @@
 	_title = title;
 	_maxLength = maxLength;
 	_textFont = font;
-	_notEmpty = notEmpty;
+	_requiresNonEmptyText = requiresNonEmptyText;
 }
 
 #pragma mark - Private API
@@ -137,7 +137,7 @@
 #pragma mark - UITextViewDelegate
 
 - (void)textViewDidChange:(__unused UITextView *)textView {
-    if (_notEmpty) {
+    if (_requiresNonEmptyText) {
         NSString* trimmed = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         _doneButton.enabled = trimmed.length > 0;
     }
