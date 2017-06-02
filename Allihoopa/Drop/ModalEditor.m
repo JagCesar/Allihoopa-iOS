@@ -61,6 +61,11 @@
 	_textEditor.text = _initialText;
 	_textEditor.font = _textFont;
 
+    if (_requiresNonEmptyText) {
+        NSString* trimmed = [_textEditor.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        _doneButton.enabled = trimmed.length > 0;
+    }
+    
 	[self updateCharacterCountLabel];
 }
 
