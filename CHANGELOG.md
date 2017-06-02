@@ -2,6 +2,14 @@
 Change log
 ==========
 
+## [1.3.1] — 2017-06-02
+
+Removed the Cancel button from the Drop progress view.
+
+### Added
+
+* Support for uploading and fetching piece attachments
+
 ## [1.3.0] — 2017-05-29
 
 Updated AllihoopaCore dependency to 1.2.0.
