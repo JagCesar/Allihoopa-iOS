@@ -164,6 +164,7 @@
 				FA1314031DE5C90500378FDE /* Frameworks */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 1;
 		};
 		FAF525D11D9531E7002CE6BF /* Products */ = {
 			isa = PBXGroup;
