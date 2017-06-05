@@ -54,6 +54,24 @@ class ViewController: UIViewController {
 		pop.sourceView = sender
 		pop.sourceRect = sender!.bounds
 	}
+
+    @IBAction func signIn() {
+        AHAAllihoopaSDK.shared().authenticate(using: AHAAuthenticationTypeSignIn) { successful in
+            let alert = UIAlertController(title: "Auth done", message: "Successful: \(successful)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Alright", style: .default, handler: nil))
+
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+
+    @IBAction func signUp() {
+        AHAAllihoopaSDK.shared().authenticate(using: AHAAuthenticationTypeSignUp) { successful in
+            let alert = UIAlertController(title: "Auth done", message: "Successful: \(successful)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Alright", style: .default, handler: nil))
+
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
 }
 
 extension ViewController : AHADropDelegate {

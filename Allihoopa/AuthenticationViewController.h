@@ -7,6 +7,7 @@ typedef void (^AHAAuthenticationControllerCallback)(BOOL successful);
 @interface AHAAuthenticationViewController : UIViewController
 
 - (instancetype)initWithConfiguration:(AHAConfiguration*)configuration
+                   authenticationType:(AHAAuthenticationType)authenticationType
 					completionHandler:(AHAAuthenticationControllerCallback)completionHandler;
 
 - (BOOL)handleOpenURL:(NSURL*)url;

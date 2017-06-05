@@ -13,6 +13,7 @@
 	AHAConfiguration* _configuration;
 	SFSafariViewController* _safari;
 }
+@property (nonatomic) AHAAuthenticationType authenticationType;
 @end
 
 
@@ -20,18 +21,20 @@
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithConfiguration:(AHAConfiguration *)configuration
-					completionHandler:(AHAAuthenticationControllerCallback)completionHandler {
+- (instancetype)initWithConfiguration:(AHAConfiguration*)configuration
+                   authenticationType:(AHAAuthenticationType)authenticationType
+                    completionHandler:(AHAAuthenticationControllerCallback)completionHandler {
 	if ((self = [super init])) {
 		_completionHandler = completionHandler;
 		_configuration = configuration;
+        [self setAuthenticationType:authenticationType];
 	}
 
 	return self;
 }
 
 - (void)viewDidLoad {
-	NSURL* url = [[AHAAllihoopaSDK sharedInstance] authenticationURLAllowingPopups:NO];
+	NSURL* url = [[AHAAllihoopaSDK sharedInstance] authenticationURLAllowingPopups:NO authenticationType:_authenticationType];
 
 	SFSafariViewController* safari = [[SFSafariViewController alloc] initWithURL:url];
 	[self addChildViewController:safari];

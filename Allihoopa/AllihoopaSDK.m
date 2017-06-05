@@ -52,35 +52,41 @@
 }
 
 - (void)authenticate:(void (^)(BOOL))completion {
-	if (!completion) {
-		AHARaiseInvalidUsageException(@"You must provide a completion handler to the authenticate method");
-	}
+    [self authenticateUsingAuthenticationType:AHAAuthenticationTypeNone completion:completion];
+}
 
-	NSAssert(_currentAuthViewController == nil, @"Only one auth session can be active");
+- (void)authenticateUsingAuthenticationType:(AHAAuthenticationType)authenticationType
+                                 completion:(AHAAuthenticationCallback)completion {
+    if (!completion) {
+        AHARaiseInvalidUsageException(@"You must provide a completion handler to the authenticate method");
+    }
 
-	[((AHABaseAllihoopaSDK*)self) validateStoredAccessToken:^(BOOL successful) {
-		if (successful) {
-			completion(YES);
-		}
-		else {
-			AHALog(@"No access token found, showing auth view controller");
-			AHAAuthenticationViewController* authController = [[AHAAuthenticationViewController alloc]
-															   initWithConfiguration:self.currentConfiguration
-															   completionHandler:^(BOOL innerSuccessful) {
-																   self->_currentAuthViewController = nil;
-																   completion(innerSuccessful);
-															   }];
+    NSAssert(_currentAuthViewController == nil, @"Only one auth session can be active");
 
-			authController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [((AHABaseAllihoopaSDK*)self) validateStoredAccessToken:^(BOOL successful) {
+        if (successful) {
+            completion(YES);
+        }
+        else {
+            AHALog(@"No access token found, showing auth view controller");
+            AHAAuthenticationViewController* authController = [[AHAAuthenticationViewController alloc]
+                                                               initWithConfiguration:self.currentConfiguration
+                                                               authenticationType:authenticationType
+                                                               completionHandler:^(BOOL innerSuccessful) {
+                                                                   self->_currentAuthViewController = nil;
+                                                                   completion(innerSuccessful);
+                                                               }];
 
-			UIWindow* newWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-			newWindow.rootViewController = [[UIViewController alloc] init];
-			[newWindow makeKeyAndVisible];
-			[newWindow.rootViewController presentViewController:authController animated:YES completion:nil];
+            authController.modalPresentationStyle = UIModalPresentationFormSheet;
 
-			self->_currentAuthViewController = authController;
-		}
-	}];
+            UIWindow* newWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+            newWindow.rootViewController = [[UIViewController alloc] init];
+            [newWindow makeKeyAndVisible];
+            [newWindow.rootViewController presentViewController:authController animated:YES completion:nil];
+
+            self->_currentAuthViewController = authController;
+        }
+    }];
 }
 
 - (BOOL)handleOpenURL:(NSURL* _Nonnull)url {

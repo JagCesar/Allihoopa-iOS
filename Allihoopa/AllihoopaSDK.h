@@ -19,6 +19,19 @@
 - (void)authenticate:(AHAAuthenticationCallback _Nonnull)completion;
 
 /**
+ Opens up an authentication view if the user isn't already signed in. The
+ completion callback is called with a boolean that determines whether the user
+ actually signed in or not.
+
+ You can set the AuthenticationType argument to define if the user should go
+ to a sign in form, sign up form or a view where both are available. If you're
+ unsure of which authentication type to specify, use -authenticate: instead.
+ */
+
+- (void)authenticateUsingAuthenticationType:(AHAAuthenticationType)authenticationType
+                                completion:(AHAAuthenticationCallback _Nonnull)completion;
+
+/**
  Create a view controller to drop a piece
 
  Present this view controller modally to start the drop flow. The user will be
