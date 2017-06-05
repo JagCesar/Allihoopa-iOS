@@ -18,7 +18,7 @@ If you use [CocoaPods], you can simply add this SDK to your `Podfile`:
 
 ```ruby
 target 'TargetName' do
-  pod 'Allihoopa', '~> 1.3.0'
+  pod 'Allihoopa', '~> 1.3.1'
 end
 ```
 
@@ -31,7 +31,7 @@ pod install
 If you use [Carthage], you instead add this SDK to your `Cartfile`:
 
 ```
-github "Allihoopa/Allihoopa-iOS" ~> 1.3.0
+github "Allihoopa/Allihoopa-iOS" ~> 1.3.1
 ```
 
 After this, you run `carthage update` to build the framework, and then drag the
