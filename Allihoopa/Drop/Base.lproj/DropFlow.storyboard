@@ -69,22 +69,14 @@
                             <constraint firstItem="ksV-5J-Lps" firstAttribute="top" secondItem="qAg-kq-XAh" secondAttribute="bottom" constant="20" id="wpA-nD-jAC"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="2W8-Hk-PTU">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="d3B-e7-mlK">
-                            <connections>
-                                <segue destination="wg3-eg-0AR" kind="unwind" unwindAction="cancelDropUnwind:" id="fn5-Kd-0Xm"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <connections>
                         <outlet property="warningContainer" destination="qAg-kq-XAh" id="st1-yt-Q2n"/>
                         <segue destination="BcL-h0-hKF" kind="show" identifier="dropProgressDone" id="NSC-aC-6I1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8k7-lX-QZO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="wg3-eg-0AR" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1682" y="177"/>
+            <point key="canvasLocation" x="1674" y="276"/>
         </scene>
         <!--Drop Error View Controller-->
         <scene sceneID="c69-AV-VD2">

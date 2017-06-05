@@ -18,7 +18,7 @@ If you use [CocoaPods], you can simply add this SDK to your `Podfile`:
 
 ```ruby
 target 'TargetName' do
-  pod 'Allihoopa', '~> 1.3.0'
+  pod 'Allihoopa', '~> 1.3.1'
 end
 ```
 
@@ -31,7 +31,7 @@ pod install
 If you use [Carthage], you instead add this SDK to your `Cartfile`:
 
 ```
-github "Allihoopa/Allihoopa-iOS" ~> 1.3.0
+github "Allihoopa/Allihoopa-iOS" ~> 1.3.1
 ```
 
 After this, you run `carthage update` to build the framework, and then drag the
@@ -41,12 +41,12 @@ resulting `Allihoopa.framework` _and_ `AllihoopaCore.framework` from the
 
 ### Manual build
 
-If you want, you can include the `Allihoopa-macOS` project as a sub-project
+If you want, you can include the `Allihoopa-iOS` project as a sub-project
 to your application and build the the framework as a dependency. In this case,
 you will need to include
 [AllihoopaCore-ObjC](https://github.com/allihoopa/AllihoopaCore-ObjC) too as a
 dependency since this project share a lot of code and functionality with the
-macOS SDK.
+iOS SDK.
 
 If you use one of the methods described above, this dependency is managed
 automatically for you.

@@ -19,6 +19,8 @@
 
 	_warningContainer.layer.borderColor = [UIColor colorWithWhite:0 alpha:0.09f].CGColor;
 	_warningContainer.layer.borderWidth = 1;
+
+	self.navigationItem.hidesBackButton = YES;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(__unused id)sender {
