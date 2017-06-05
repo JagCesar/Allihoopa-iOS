@@ -31,6 +31,9 @@
 		FAEAF3B81E1BFD6C001F42FA /* AllihoopaCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEAF3B71E1BFD6C001F42FA /* AllihoopaCore.framework */; };
 		FAF525F31D95489E002CE6BF /* AllihoopaSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FAF525F11D95489E002CE6BF /* AllihoopaSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAF525F41D95489E002CE6BF /* AllihoopaSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF525F21D95489E002CE6BF /* AllihoopaSDK.m */; };
+		FC55C4731EDFE62A0043C7FB /* AllihoopaInstallerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC55C4711EDFE62A0043C7FB /* AllihoopaInstallerViewController.m */; };
+		FC55C4751EDFEE8B0043C7FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC55C4741EDFEE8B0043C7FB /* Assets.xcassets */; };
+		FC824DB51EDF142F00AAAFAF /* AllihoopaInstallerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC824DB41EDF142F00AAAFAF /* AllihoopaInstallerView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +109,10 @@
 		FAF5259E1D9409E9002CE6BF /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		FAF525F11D95489E002CE6BF /* AllihoopaSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllihoopaSDK.h; sourceTree = "<group>"; };
 		FAF525F21D95489E002CE6BF /* AllihoopaSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllihoopaSDK.m; sourceTree = "<group>"; };
+		FC55C4701EDFE62A0043C7FB /* AllihoopaInstallerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllihoopaInstallerViewController.h; sourceTree = "<group>"; };
+		FC55C4711EDFE62A0043C7FB /* AllihoopaInstallerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllihoopaInstallerViewController.m; sourceTree = "<group>"; };
+		FC55C4741EDFEE8B0043C7FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FC824DB41EDF142F00AAAFAF /* AllihoopaInstallerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AllihoopaInstallerView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,15 +199,17 @@
 				FA35271A1D9D556500D2F91B /* Activity.h */,
 				FA35271C1D9D562800D2F91B /* Activity.m */,
 				FA5FD38D1D90180F0010E978 /* Allihoopa.h */,
+				FAA548C11E1BFF1E00BA1957 /* Allihoopa+Internal.h */,
+				63FCFD9B1E2E6A91009D256E /* Allihoopa+Internal.m */,
+				FC824DB11EDF140500AAAFAF /* AllihoopaInstaller */,
 				FAF525F11D95489E002CE6BF /* AllihoopaSDK.h */,
 				FAF525F21D95489E002CE6BF /* AllihoopaSDK.m */,
+				FC55C4741EDFEE8B0043C7FB /* Assets.xcassets */,
 				FAE206621D9BE777006EFEE3 /* AuthenticationViewController.h */,
 				FAE206631D9BE83E006EFEE3 /* AuthenticationViewController.m */,
 				FA54F5B71D9C039F003C98F6 /* Drop */,
-				FA5FD38E1D90180F0010E978 /* Info.plist */,
 				FAA548C01E1BFEF100BA1957 /* DropDelegate.h */,
-				FAA548C11E1BFF1E00BA1957 /* Allihoopa+Internal.h */,
-				63FCFD9B1E2E6A91009D256E /* Allihoopa+Internal.m */,
+				FA5FD38E1D90180F0010E978 /* Info.plist */,
 				6354B0531E281A6A003F9801 /* UserFacingText.strings */,
 			);
 			path = Allihoopa;
@@ -213,6 +222,16 @@
 				FA77A9881E1CFD3600BF0619 /* AllihoopaTests.m */,
 			);
 			path = AllihoopaTests;
+			sourceTree = "<group>";
+		};
+		FC824DB11EDF140500AAAFAF /* AllihoopaInstaller */ = {
+			isa = PBXGroup;
+			children = (
+				FC55C4701EDFE62A0043C7FB /* AllihoopaInstallerViewController.h */,
+				FC55C4711EDFE62A0043C7FB /* AllihoopaInstallerViewController.m */,
+				FC824DB41EDF142F00AAAFAF /* AllihoopaInstallerView.xib */,
+			);
+			path = AllihoopaInstaller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,6 +336,8 @@
 			files = (
 				6354B0511E281A6A003F9801 /* UserFacingText.strings in Resources */,
 				6382C2FB1E2430420021D363 /* DropFlow.storyboard in Resources */,
+				FC55C4751EDFEE8B0043C7FB /* Assets.xcassets in Resources */,
+				FC824DB51EDF142F00AAAFAF /* AllihoopaInstallerView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +369,7 @@
 				FA45CB8D1D9C1EF50082846C /* DropInfoViewController.m in Sources */,
 				FA45CB881D9C1DF00082846C /* DropProgressViewController.m in Sources */,
 				FAC211A21DAFBF850066FFA9 /* DropSegues.m in Sources */,
+				FC55C4731EDFE62A0043C7FB /* AllihoopaInstallerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -134,15 +134,15 @@
 
 	_doneViewController = dropDoneViewController;
 
+    NSString *identifier = _createdPiece[@"shortId"];
 	NSString* title = _createdPiece[@"title"];
-	NSString* url = _createdPiece[@"url"];
 
+    NSAssert(identifier != nil && [identifier isKindOfClass:[NSString class]], @"Identifier expected in GraphQL response");
 	NSAssert(title != nil && [title isKindOfClass:[NSString class]], @"Title expected in GraphQL response");
-	NSAssert(url != nil && [url isKindOfClass:[NSString class]], @"URL expected in GraphQL response");
 
 	[_doneViewController setPieceTitle:title
-							 playerURL:[NSURL URLWithString:url]
-							coverImage:_downloadedCoverImage];
+							coverImage:_downloadedCoverImage
+                            identifier:identifier];
 }
 
 #pragma mark - AHADropCoordinatorDelegate

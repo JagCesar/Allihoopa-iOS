@@ -1,21 +1,22 @@
 #import "DropDoneViewController.h"
 #import "../Allihoopa+Internal.h"
+#import "../AllihoopaInstaller/AllihoopaInstallerViewController.h"
 
 @interface AHADropDoneViewController ()
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *recordPatternImage;
 @property (strong, nonatomic) IBOutlet UIImageView *coverImageView;
+@property (strong, nonatomic) NSString *pieceIdentifier;
 @end
 
 @implementation AHADropDoneViewController {
 	NSString* _pieceTitle;
-	NSURL* _playerURL;
 	UIImage* _coverImage;
 }
 
 - (void)viewDidLoad {
 	NSAssert(_pieceTitle != nil, @"Piece title must be set");
-	NSAssert(_playerURL != nil, @"Player URL must be set");
+	NSAssert(_pieceIdentifier!= nil, @"Piece identifier must be set");
 
 	NSAssert(_recordPatternImage != nil, @"Record pattern image must be set");
 	NSAssert(_titleLabel != nil, @"Title label must be set");
@@ -61,14 +62,19 @@
 	_recordPatternImage.layer.cornerRadius = CGRectGetWidth(_recordPatternImage.frame) / 2;
 }
 
-- (void)setPieceTitle:(NSString *)title playerURL:(NSURL *)url coverImage:(UIImage *)coverImage {
+- (void)setPieceTitle:(NSString *)title coverImage:(UIImage *)coverImage identifier:(NSString *)identifier {
 	_pieceTitle = [title copy];
-	_playerURL = [url copy];
 	_coverImage = coverImage;
+    [self setPieceIdentifier:identifier];
 }
 
 - (IBAction)viewOnAllihoopa {
-	[[UIApplication sharedApplication] openURL:_playerURL];
+    NSURL *pieceURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"ah-allihoopa://allihoopa.com/s/%@", _pieceIdentifier]];
+    if ([[UIApplication sharedApplication] openURL:pieceURL] == NO) {
+        AllihoopaInstallerViewController *allihoopaInstallerViewController = [[AllihoopaInstallerViewController alloc] initWithPieceIdentifier:_pieceIdentifier nibName:@"AllihoopaInstallerView" bundle:[NSBundle bundleForClass:[AllihoopaInstallerViewController class]]];
+        [allihoopaInstallerViewController setModalPresentationStyle:UIModalPresentationFormSheet];
+        [self presentViewController:allihoopaInstallerViewController animated:true completion:nil];
+    }
 }
 
 @end
