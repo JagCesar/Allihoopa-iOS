@@ -148,8 +148,7 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 }
 
 - (IBAction)cancelFromModalEditor:(UIStoryboardSegue*)segue {
-	AHAModalEditor* editor = segue.sourceViewController;
-	NSAssert([editor isKindOfClass:[AHAModalEditor class]],
+	NSAssert([segue.sourceViewController isKindOfClass:[AHAModalEditor class]],
 			 @"endModalEditor unwind must originate from ModalEditor");
 	NSAssert(_modalEditMode != AHAModalEditModeNone,
 			 @"Must be in modal editing mode when unwinding");
