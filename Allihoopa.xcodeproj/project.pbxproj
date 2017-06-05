@@ -175,6 +175,7 @@
 				FA5FD38B1D90180F0010E978 /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 1;
 		};
 		FA5FD38B1D90180F0010E978 /* Products */ = {
 			isa = PBXGroup;
