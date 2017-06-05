@@ -7,7 +7,8 @@
 - (void)setTitle:(NSString*)title
 	   maxLength:(NSInteger)maxLength
 			text:(NSString*)text
-		   style:(UIFont*)font;
+		   style:(UIFont*)font
+requiresNonEmptyText:(BOOL)requiresNonEmptyText;
 
 
 @end

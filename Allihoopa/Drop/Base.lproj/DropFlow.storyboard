@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="5HE-VI-Lbw">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="5HE-VI-Lbw">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -25,16 +25,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dropping to Allihoopa..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xer-ag-sDb">
-                                <rect key="frame" x="59.5" y="533.5" width="282.5" height="33.5"/>
+                                <rect key="frame" x="59" y="533" width="283" height="34"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qAg-kq-XAh">
-                                <rect key="frame" x="50.5" y="1046.5" width="300" height="33.5"/>
+                                <rect key="frame" x="58" y="1033.5" width="285" height="46.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't close this screen or you can kiss your piece bye bye" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0u6-LC-DH9">
-                                        <rect key="frame" x="40" y="10" width="220" height="13.5"/>
+                                        <rect key="frame" x="40" y="10" width="205" height="26.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
                                         <color key="textColor" red="0.29019609089999998" green="0.29019609089999998" blue="0.29019609089999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -50,7 +50,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MXq-Y2-Esn" customClass="AHAProgressSpinner">
-                                <rect key="frame" x="180" y="485.5" width="40" height="40"/>
+                                <rect key="frame" x="180" y="485" width="40" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="D4g-N1-gUR"/>
@@ -139,13 +139,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mWl-PI-raJ" customClass="AHAFrameworkImageView">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mWl-PI-raJ" customClass="AHAFrameworkImageView">
                                 <rect key="frame" x="152" y="72" width="16" height="16"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="imageName" value="AHACheckmark"/>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NSj-Va-aaF" customClass="AHAFrameworkImageView">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NSj-Va-aaF" customClass="AHAFrameworkImageView">
                                 <rect key="frame" x="131" y="218.5" width="58" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="NSj-Va-aaF" secondAttribute="height" multiplier="1036:290" id="CII-VS-w1M"/>
@@ -154,7 +154,7 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="imageName" value="AHARecordSleeveShadow"/>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xbW-j3-0Sg" customClass="AHAFrameworkImageView">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xbW-j3-0Sg" customClass="AHAFrameworkImageView">
                                 <rect key="frame" x="140" y="151.5" width="40.5" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="300" id="GAd-iz-y6h"/>
@@ -164,7 +164,7 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="imageName" value="AHARecordPattern"/>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="grp-EH-RzH">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="grp-EH-RzH">
                                 <rect key="frame" x="140" y="191.5" width="40.5" height="40"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nKJ-W7-FvY">
@@ -269,8 +269,11 @@
                                         <state key="normal" title="DONE">
                                             <color key="titleColor" red="1" green="0.15294118230000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <state key="disabled">
+                                            <color key="titleColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
-                                            <segue destination="Pom-gG-ray" kind="unwind" identifier="endModalEditor" unwindAction="unwindFromModalEditor:" id="rK5-Zt-G6c"/>
+                                            <segue destination="Pom-gG-ray" kind="unwind" unwindAction="unwindFromModalEditor:" id="Pb9-DV-aS6"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6rt-iQ-H1a">
@@ -286,15 +289,26 @@
                                             <constraint firstAttribute="height" constant="1" id="7jB-i3-ppj"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="35Q-Bc-hRY">
+                                        <rect key="frame" x="258" y="10" width="59" height="30"/>
+                                        <state key="normal" title="CANCEL">
+                                            <color key="titleColor" red="1" green="0.15294118230000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="Pom-gG-ray" kind="unwind" unwindAction="cancelFromModalEditor:" id="zyM-aS-jZ2"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="s0S-UX-hQy" firstAttribute="top" secondItem="fS1-G8-kfx" secondAttribute="top" id="13f-V2-EpS"/>
                                     <constraint firstAttribute="trailing" secondItem="s0S-UX-hQy" secondAttribute="trailing" id="HWN-so-Ds6"/>
+                                    <constraint firstItem="35Q-Bc-hRY" firstAttribute="centerY" secondItem="usU-ZI-Gch" secondAttribute="centerY" id="Rkq-CZ-pPl"/>
                                     <constraint firstItem="usU-ZI-Gch" firstAttribute="centerY" secondItem="fS1-G8-kfx" secondAttribute="centerY" id="UMh-Jr-9sX"/>
                                     <constraint firstItem="6rt-iQ-H1a" firstAttribute="baseline" secondItem="usU-ZI-Gch" secondAttribute="baseline" id="bPa-P3-tAU"/>
                                     <constraint firstAttribute="height" constant="50" id="dlW-3A-CJH"/>
                                     <constraint firstItem="s0S-UX-hQy" firstAttribute="leading" secondItem="fS1-G8-kfx" secondAttribute="leading" id="h9p-WM-Mb1"/>
+                                    <constraint firstItem="usU-ZI-Gch" firstAttribute="leading" secondItem="35Q-Bc-hRY" secondAttribute="trailing" constant="8" symbolic="YES" id="jVL-zD-R0e"/>
                                 </constraints>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hCy-JZ-rdX">
@@ -328,6 +342,7 @@
                         <outlet property="bottomConstraint" destination="hrS-bA-FoG" id="OoY-D0-7GF"/>
                         <outlet property="buttonPlaceholder" destination="fS1-G8-kfx" id="kol-kY-al0"/>
                         <outlet property="characterCountLabel" destination="6rt-iQ-H1a" id="v4V-Jn-hEQ"/>
+                        <outlet property="doneButton" destination="usU-ZI-Gch" id="uxy-mc-n8i"/>
                         <outlet property="textEditor" destination="hCy-JZ-rdX" id="zez-eT-br9"/>
                         <outlet property="titleLabel" destination="L3g-mq-z5g" id="1Em-gl-Ut4"/>
                     </connections>

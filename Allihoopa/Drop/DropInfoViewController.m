@@ -147,6 +147,17 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 	_modalEditMode = AHAModalEditModeNone;
 }
 
+- (IBAction)cancelFromModalEditor:(UIStoryboardSegue*)segue {
+	NSAssert([segue.sourceViewController isKindOfClass:[AHAModalEditor class]],
+			 @"endModalEditor unwind must originate from ModalEditor");
+	NSAssert(_modalEditMode != AHAModalEditModeNone,
+			 @"Must be in modal editing mode when unwinding");
+	
+	[self.view setNeedsLayout];
+	
+	_modalEditMode = AHAModalEditModeNone;
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(__unused id)sender {
 	if ([segue.identifier isEqualToString:@"startDrop"]) {
 		id<AHADropInfoViewControllerDelegate> delegate = _dropInfoDelegate;
@@ -170,7 +181,8 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 		[editor setTitle:NSLocalizedStringFromTableInBundle( @"Title of your piece", @"UserFacingText", AHAGetResourceBundle(), nil )
 			   maxLength:50
 					text:_titleLabel.text
-				   style:_titleLabel.font];
+				   style:_titleLabel.font
+    requiresNonEmptyText:YES];
 	}
 	else if ([segue.identifier isEqualToString:@"editDescription"]) {
 		NSAssert(_modalEditMode == AHAModalEditModeNone,
@@ -184,7 +196,8 @@ typedef NS_ENUM(NSInteger, AHAModalEditMode) {
 		[editor setTitle:NSLocalizedStringFromTableInBundle( @"Description and tags", @"UserFacingText", AHAGetResourceBundle(), nil )
 			   maxLength:140
 					text:_descriptionLabel.text
-				   style:_descriptionLabel.font];
+				   style:_descriptionLabel.font
+    requiresNonEmptyText:NO];
 	}
 	else {
 		AHALog(@"Prepare for segue: %@", segue);
