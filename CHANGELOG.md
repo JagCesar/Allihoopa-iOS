@@ -2,13 +2,18 @@
 Change log
 ==========
 
+## [1.3.2] — 2017-06-05
+
+### Bugfixes
+
+Prevent dropping pieces with empty titles. Also added cancel button to
+modal editor to discard changes.
+
 ## [1.3.1] — 2017-06-02
 
+### Bugfixes
+
 Removed the Cancel button from the Drop progress view.
-
-### Added
-
-* Support for uploading and fetching piece attachments
 
 ## [1.3.0] — 2017-05-29
 
@@ -125,6 +130,8 @@ Updated AllihoopaCore dependency to 1.0.0.
 
 Empty release
 
+[1.3.2]: https://github.com/allihoopa/Allihoopa-iOS/compare/1.3.1...1.3.2
+[1.3.1]: https://github.com/allihoopa/Allihoopa-iOS/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/1.0.0...1.1.0
