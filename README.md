@@ -64,7 +64,7 @@ Data App Rejection).
 Look in the [SDKExample] folder for instructions how to work on this SDK.
 
 
-# API documentation
+# SDK usage
 
 ## Setting up the SDK
 
