@@ -2,7 +2,6 @@ Allihoopa SDK for iOS
 =====================
 
 [![Travis](https://travis-ci.org/allihoopa/Allihoopa-iOS.svg?branch=master)](https://travis-ci.org/allihoopa/Allihoopa-iOS)
-[![CocoaPods](https://cocoapod-badges.herokuapp.com/v/Allihoopa/badge.svg)](https://cocoapods.org/pods/Allihoopa)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg)](https://github.com/Carthage/Carthage)
 
 ----
@@ -11,22 +10,8 @@ Allihoopa SDK for iOS
 
 # Installation
 
-There are multiple ways of installing the Allihoopa SDK depending on how your
+There are different ways of installing the Allihoopa SDK depending on how your
 setup looks like.
-
-If you use [CocoaPods], you can simply add this SDK to your `Podfile`:
-
-```ruby
-target 'TargetName' do
-  pod 'Allihoopa', '~> 1.3.2'
-end
-```
-
-And then running the following command to download the dependency:
-
-```bash
-pod install
-```
 
 If you use [Carthage], you instead add this SDK to your `Cartfile`:
 
@@ -80,9 +65,6 @@ Look in the [SDKExample] folder for instructions how to work on this SDK.
 
 
 # API documentation
-
-Generated API documentation for the latest release can be found on
-[http://cocoadocs.org/docsets/Allihoopa](http://cocoadocs.org/docsets/Allihoopa).
 
 ## Setting up the SDK
 
@@ -466,7 +448,6 @@ func openPiece(fromAllihoopa piece: AHAPiece?, error: Error?) {
 
 
 [Allihoopa]: https://allihoopa.com
-[CocoaPods]: https://cocoapods.org
 [Carthage]: https://github.com/carthage/carthage
 [Releases tab]: https://github.com/allihoopa/Allihoopa-iOS/releases
 [SDKExample]: SDKExample
