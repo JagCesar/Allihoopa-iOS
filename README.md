@@ -13,7 +13,7 @@ Allihoopa SDK for iOS
 There are different ways of installing the Allihoopa SDK depending on how your
 setup looks like.
 
-If you use [Carthage], you instead add this SDK to your `Cartfile`:
+If you use [Carthage], you can add this SDK to your `Cartfile`:
 
 ```
 github "Allihoopa/Allihoopa-iOS" ~> 1.3.2
