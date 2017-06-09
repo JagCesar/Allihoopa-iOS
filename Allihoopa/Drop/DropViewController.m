@@ -23,7 +23,6 @@
 	AHADropDoneViewController* _doneViewController;
 
 	BOOL _hasBeenPresented;
-	BOOL _dropSuccessful;
 
 	AHADropCoordinator* _dropCoordinator;
 
@@ -91,9 +90,14 @@
 #pragma mark - IBActions / Unwind segue actions
 
 - (IBAction)cancelDropUnwind:(__unused UIStoryboardSegue*)segue {
+	BOOL dropSuccessful = NO;
+	if ([segue.sourceViewController isKindOfClass:[AHADropDoneViewController class]]) {
+		dropSuccessful = YES;
+	}
+
 	id<AHADropDelegate> delegate = _dropDelegate;
 	if ([delegate respondsToSelector:@selector(dropViewController:forPieceWillClose:afterSuccessfulDrop:)]) {
-		[delegate dropViewController:self forPieceWillClose:_dropPieceData afterSuccessfulDrop:_dropSuccessful];
+		[delegate dropViewController:self forPieceWillClose:_dropPieceData afterSuccessfulDrop:dropSuccessful];
 	}
 
 	if (_dismissWhenCloseTapped) {
