@@ -86,11 +86,3 @@ deploy:
       tags: true
       branch: master
       condition: "$BUILD_LEADER == yes"
-
-  - provider: script
-    script: ./scripts/pod_deploy.sh
-    skip_cleanup: true
-    on:
-      tags: true
-      branch: master
-      condition: "$BUILD_LEADER == yes"
