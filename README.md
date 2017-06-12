@@ -16,7 +16,7 @@ setup looks like.
 If you use [Carthage], you can add this SDK to your `Cartfile`:
 
 ```
-github "Allihoopa/Allihoopa-iOS" ~> 1.3.2
+github "Allihoopa/Allihoopa-iOS" ~> 2.0.0
 ```
 
 After this, you run `carthage update` to build the framework, and then drag the

@@ -2,6 +2,24 @@
 Change log
 ==========
 
+## [2.0.0] — 2017-06-12
+
+### Breaking changes
+
+* The Allihoopa-iOS SDK now requires AllihoopaCore 2.1.1.
+* CocoaPods is no longer supported.
+
+### Bugfixes
+
+* Fixes an issue where the last argument to `-[AHADropDelegate
+  dropViewController:forPieceWillClose:afterSuccessfulDrop:]` was `NO` even if the
+  drop was successful.
+
+### Added
+
+* Adds support for showing the signup or login page immediately when asking the
+  SDK to authenticate, instead of making the user choose.
+
 ## [1.3.2] — 2017-06-05
 
 ### Bugfixes
@@ -130,6 +148,7 @@ Updated AllihoopaCore dependency to 1.0.0.
 
 Empty release
 
+[2.0.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/1.3.2...2.0.0
 [1.3.2]: https://github.com/allihoopa/Allihoopa-iOS/compare/1.3.1...1.3.2
 [1.3.1]: https://github.com/allihoopa/Allihoopa-iOS/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/allihoopa/Allihoopa-iOS/compare/1.2.0...1.3.0
