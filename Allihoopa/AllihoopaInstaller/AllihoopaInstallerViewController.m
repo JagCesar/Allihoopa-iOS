@@ -52,6 +52,8 @@
 @interface AllihoopaInstallerViewController () <SKStoreProductViewControllerDelegate>
 
 @property (copy, nonatomic) NSString *pieceIdentifier;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *closeTopConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *closeLeftConstraint;
 @property (strong, nonatomic) IBOutlet UIButton *closeButton;
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
@@ -87,6 +89,11 @@
     [super viewDidLayoutSubviews];
     [[self scrollView] setScrollEnabled:[self isScrollViewContentSizeHigherThanScrollViewFrame]];
     [[self shadowImageView] setHidden:![self isScrollViewContentSizeHigherThanScrollViewFrame]];
+
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+		[_closeLeftConstraint setConstant:20];
+		[_closeTopConstraint setConstant:8];
+	}
 }
 
 - (BOOL)isScrollViewContentSizeHigherThanScrollViewFrame {
