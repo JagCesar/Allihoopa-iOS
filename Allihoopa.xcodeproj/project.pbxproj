@@ -31,9 +31,9 @@
 		FAEAF3B81E1BFD6C001F42FA /* AllihoopaCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEAF3B71E1BFD6C001F42FA /* AllihoopaCore.framework */; };
 		FAF525F31D95489E002CE6BF /* AllihoopaSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FAF525F11D95489E002CE6BF /* AllihoopaSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAF525F41D95489E002CE6BF /* AllihoopaSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF525F21D95489E002CE6BF /* AllihoopaSDK.m */; };
+		FC15AD4A1EF12004008201E6 /* AllihoopaInstallerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC15AD4C1EF12004008201E6 /* AllihoopaInstallerView.xib */; };
 		FC55C4731EDFE62A0043C7FB /* AllihoopaInstallerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC55C4711EDFE62A0043C7FB /* AllihoopaInstallerViewController.m */; };
 		FC55C4751EDFEE8B0043C7FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC55C4741EDFEE8B0043C7FB /* Assets.xcassets */; };
-		FC824DB51EDF142F00AAAFAF /* AllihoopaInstallerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC824DB41EDF142F00AAAFAF /* AllihoopaInstallerView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,10 +109,11 @@
 		FAF5259E1D9409E9002CE6BF /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		FAF525F11D95489E002CE6BF /* AllihoopaSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllihoopaSDK.h; sourceTree = "<group>"; };
 		FAF525F21D95489E002CE6BF /* AllihoopaSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllihoopaSDK.m; sourceTree = "<group>"; };
+		FC15AD4B1EF12004008201E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AllihoopaInstallerView.xib; sourceTree = "<group>"; };
+		FC15AD501EF12012008201E6 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/AllihoopaInstallerView.strings; sourceTree = "<group>"; };
 		FC55C4701EDFE62A0043C7FB /* AllihoopaInstallerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllihoopaInstallerViewController.h; sourceTree = "<group>"; };
 		FC55C4711EDFE62A0043C7FB /* AllihoopaInstallerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllihoopaInstallerViewController.m; sourceTree = "<group>"; };
 		FC55C4741EDFEE8B0043C7FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		FC824DB41EDF142F00AAAFAF /* AllihoopaInstallerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AllihoopaInstallerView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,7 +230,7 @@
 			children = (
 				FC55C4701EDFE62A0043C7FB /* AllihoopaInstallerViewController.h */,
 				FC55C4711EDFE62A0043C7FB /* AllihoopaInstallerViewController.m */,
-				FC824DB41EDF142F00AAAFAF /* AllihoopaInstallerView.xib */,
+				FC15AD4C1EF12004008201E6 /* AllihoopaInstallerView.xib */,
 			);
 			path = AllihoopaInstaller;
 			sourceTree = "<group>";
@@ -337,7 +338,7 @@
 				6354B0511E281A6A003F9801 /* UserFacingText.strings in Resources */,
 				6382C2FB1E2430420021D363 /* DropFlow.storyboard in Resources */,
 				FC55C4751EDFEE8B0043C7FB /* Assets.xcassets in Resources */,
-				FC824DB51EDF142F00AAAFAF /* AllihoopaInstallerView.xib in Resources */,
+				FC15AD4A1EF12004008201E6 /* AllihoopaInstallerView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,6 +409,15 @@
 				6354B0561E281C2E003F9801 /* Base */,
 			);
 			name = DropFlow.storyboard;
+			sourceTree = "<group>";
+		};
+		FC15AD4C1EF12004008201E6 /* AllihoopaInstallerView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FC15AD4B1EF12004008201E6 /* Base */,
+				FC15AD501EF12012008201E6 /* ja */,
+			);
+			name = AllihoopaInstallerView.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
