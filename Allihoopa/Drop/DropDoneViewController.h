@@ -2,8 +2,8 @@
 
 @interface AHADropDoneViewController : UIViewController
 
-- (void)setPieceTitle:(NSString*)title
-			playerURL:(NSURL*)url
-		   coverImage:(UIImage*)coverImage;
+- (void)setPieceTitle:(NSString *)title
+           coverImage:(UIImage *)coverImage
+           identifier:(NSString *)identifier;
 
 @end

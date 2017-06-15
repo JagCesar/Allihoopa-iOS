@@ -1,0 +1,27 @@
+
+/* Class = "UIButton"; normalTitle = "Close"; ObjectID = "0xP-2v-aSj"; */
+"0xP-2v-aSj.normalTitle" = "閉じる";
+
+/* Class = "UILabel"; text = "Hear what others are making"; ObjectID = "FUq-KG-VwY"; */
+"FUq-KG-VwY.text" = "他のユーザーの作品を聞く";
+
+/* Class = "UIButton"; normalTitle = "INSTALL ALLIHOOPA"; ObjectID = "Qge-ec-JC8"; */
+"Qge-ec-JC8.normalTitle" = "Allihoopaをインストール";
+
+/* Class = "UILabel"; text = "Get the Allihoopa App"; ObjectID = "arF-p1-Qp7"; */
+"arF-p1-Qp7.text" = "Allihoopaアプリを入手";
+
+/* Class = "UILabel"; text = "Meet like-minded music doers on Allihoopa, and find music to build on!"; ObjectID = "gWU-pu-bWD"; */
+"gWU-pu-bWD.text" = "Allihoopaで音楽の好みの合うユーザーを探して あなたの音楽作成のベースとなる音楽を見つけよう";
+
+/* Class = "UILabel"; text = "Get feedback on your music"; ObjectID = "mV5-Mp-uQy"; */
+"mV5-Mp-uQy.text" = "作品への感想をもらう";
+
+/* Class = "UILabel"; text = "With Allihoopa you can"; ObjectID = "ok6-Uv-cCm"; */
+"ok6-Uv-cCm.text" = "Allihoopaでできること";
+
+/* Class = "UIButton"; normalTitle = "View in browser"; ObjectID = "zJ1-Lh-xBj"; */
+"zJ1-Lh-xBj.normalTitle" = "ブラウザーに表示";
+
+/* Class = "UILabel"; text = "Find pieces to build on"; ObjectID = "zdi-Gd-33r"; */
+"zdi-Gd-33r.text" = "ベースにする作品を見つける";
