@@ -12,23 +12,23 @@
 @implementation AllihoopaInstallerColors
 
 + (UIColor *)unripeAvocadoGreen {
-    return [UIColor colorWithRed:37.0/255.0 green:201.0/255.0 blue:37.0/255.0 alpha:1.0];
+    return [UIColor colorWithRed:37.0f/255.0f green:201.0f/255.0f blue:37.0f/255.0f alpha:1.0];
 }
 
 + (UIColor *)birkenstockGray {
-    return [UIColor colorWithWhite:74.0/255.0 alpha:1.0];
+    return [UIColor colorWithWhite:74.0f/255.0f alpha:1.0];
 }
 
 + (UIColor *)adamantiumGray {
-    return [UIColor colorWithWhite:155.0/255.0 alpha:1.0];
+    return [UIColor colorWithWhite:155.0f/255.0f alpha:1.0];
 }
 
 + (UIColor *)smokehouseGray {
-    return [UIColor colorWithWhite:195.0/255.0 alpha:1.0];
+    return [UIColor colorWithWhite:195.0f/255.0f alpha:1.0];
 }
 
 + (UIColor *)puppyNosePink {
-    return [UIColor colorWithRed:1.0 green:39/255.0 blue:1.0 alpha:1.0];
+    return [UIColor colorWithRed:1.0 green:39.f/255.0f blue:1.0 alpha:1.0];
 }
 
 @end
